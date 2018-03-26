@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Life2Code</class>
+ <widget class="QDialog" name="Life2Code">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,7 +26,7 @@
     <string>Exit</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="button">
+  <widget class="QPushButton" name="menu_button">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -39,23 +39,7 @@
     <string>Menu</string>
    </property>
   </widget>
-  <widget class="QFrame" name="game_frame">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>750</width>
-     <height>750</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label1">
+  <widget class="QLabel" name="time_label">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -66,6 +50,16 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="game" native="true">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>60</y>
+     <width>721</width>
+     <height>681</height>
+    </rect>
    </property>
   </widget>
  </widget>

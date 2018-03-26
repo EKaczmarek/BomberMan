@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtCore import pyqtSlot
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.uic import loadUi
 
@@ -9,14 +10,24 @@ class Life2Code(QDialog):
         super(Life2Code, self).__init__()
         loadUi('game.ui',self)
         self.setWindowTitle('BomberMAN')
-        self.pushButton.clicked.connect(self.on_pushButton_clicked)
+        self.menu_button.clicked.connect(self.menu_Button_clicked)
+        self.exit_button.clicked.connect(self.exit_Button_clicked)
+        self.game.setAutoFillBackground(True)
+        palette = self.game.palette()
+        palette.setColor(self.game.backgroundRole(), QtCore.Qt.darkGreen)
+        self.game.setPalette(palette)
 
     @pyqtSlot()
-    def on_pushButton_clicked(self):
-        self.label1.setText('Czas rozgrywki: ')
+    def menu_Button_clicked(self):
+        self.time_label.setText('Czas rozgrywki: ')
+
+    @pyqtSlot()
+    def exit_Button_clicked(self):
+        self.time_label.setText('Lol: ')
 
 
-app =QApplication(sys.argv)
+
+app = QApplication(sys.argv)
 widget = Life2Code()
 widget.show()
 sys.exit(app.exec_())
