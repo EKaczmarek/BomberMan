@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.uic import loadUi
+import pygame
 
 
 class Life2Code(QDialog):
@@ -12,10 +13,7 @@ class Life2Code(QDialog):
         self.setWindowTitle('BomberMAN')
         self.menu_button.clicked.connect(self.menu_Button_clicked)
         self.exit_button.clicked.connect(self.exit_Button_clicked)
-        self.game.setAutoFillBackground(True)
-        palette = self.game.palette()
-        palette.setColor(self.game.backgroundRole(), QtCore.Qt.darkGreen)
-        self.game.setPalette(palette)
+
 
     @pyqtSlot()
     def menu_Button_clicked(self):
