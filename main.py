@@ -3,7 +3,7 @@ import pygame
 
 class Player(object):
     def __init__(self):
-        self.rect = pygame.Rect(50, 50, 50, 50)
+        self.rect = pygame.Rect(500, 50, 50, 50)
 
     def move(self, dx, dy):
 
@@ -59,14 +59,16 @@ class Board(object):
     ]
 
     def __init__(self):
-        x = y = 0
+        x = 450
+        y = 0
         for row in self.level:
             for col in row:
                 if col == "W":
                     Wall((x, y))
                 x += 50
             y += 50
-            x = 0
+            x = 450
+
 
 walls = []  # List to hold the walls
 
@@ -75,7 +77,7 @@ def main():
     pygame.init()
 
     # Set up the display
-    screen = pygame.display.set_mode((750, 750))
+    screen = pygame.display.set_mode((1200, 750))
 
 
     clock = pygame.time.Clock()
@@ -105,10 +107,15 @@ def main():
             player.move(0, 2)
 
         # Wyświetlenie tła, ścian, zawodnika
-        screen.fill((0, 100, 0))
+        screen.fill((255, 255, 255))
         for wall in walls:
             pygame.draw.rect(screen, (0, 0, 0), wall.rect)
         pygame.draw.rect(screen, (255, 200, 0), player.rect)
+
+        pygame.draw.rect(screen, (0,255,0),(75,450,100,50))
+        pygame.draw.rect(screen, (255,0,0),(275,450,100,50))
+
+
         pygame.display.flip()
 
 

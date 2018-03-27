@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="exit_button">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>560</y>
-     <width>75</width>
-     <height>23</height>
+     <x>14</x>
+     <y>682</y>
+     <width>91</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QPushButton" name="menu_button">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>560</y>
-     <width>75</width>
-     <height>23</height>
+     <x>134</x>
+     <y>682</y>
+     <width>81</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
@@ -50,16 +50,6 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="game" native="true">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>60</y>
-     <width>721</width>
-     <height>681</height>
-    </rect>
    </property>
   </widget>
  </widget>
