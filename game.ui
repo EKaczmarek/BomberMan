@@ -52,6 +52,16 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>40</y>
+     <width>741</width>
+     <height>711</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

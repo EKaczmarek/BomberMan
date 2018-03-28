@@ -1,6 +1,5 @@
 import pygame
 
-
 class Player(object):
     def __init__(self):
         self.rect = pygame.Rect(500, 50, 50, 50)
@@ -72,7 +71,20 @@ class Board(object):
 
 walls = []  # List to hold the walls
 
+
+def Buttonify(Picture, coords, surface):
+    image = pygame.image.load(Picture)
+    imagerect = image.get_rect()
+    imagerect.topright = coords
+    surface.blit(image,imagerect)
+    return (image,imagerect)
+
+
 def main():
+
+    x_button_exit, y_button_exit = 200,600
+    x_button_menu, y_button_menu = 400,600
+
     # Initialise pygame
     pygame.init()
 
@@ -84,6 +96,8 @@ def main():
     player = Player()  # Create the player
     board = Board();
 
+    varial = False
+
     running = True
     while running:
 
@@ -94,6 +108,13 @@ def main():
                 running = False
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 running = False
+            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if y_button_exit<= mouse[1] <= y_button_exit+50 and x_button_exit-100<=mouse[0]<=x_button_exit:
+                    running = False
+                if y_button_menu<= mouse[1] <= y_button_menu+50 and x_button_menu-100<=mouse[0]<=x_button_menu:
+                    varial = True
+
 
         # Obsluga przyciskow
         key = pygame.key.get_pressed()
@@ -106,14 +127,18 @@ def main():
         if key[pygame.K_DOWN]:
             player.move(0, 2)
 
+
+
         # Wyświetlenie tła, ścian, zawodnika
         screen.fill((255, 255, 255))
         for wall in walls:
             pygame.draw.rect(screen, (0, 0, 0), wall.rect)
-        pygame.draw.rect(screen, (255, 200, 0), player.rect)
+            if(varial):
+                pygame.draw.rect(screen, (255, 200, 0), player.rect)
 
-        pygame.draw.rect(screen, (0,255,0),(75,450,100,50))
-        pygame.draw.rect(screen, (255,0,0),(275,450,100,50))
+        Image = Buttonify('exit.png', (x_button_exit,y_button_exit), screen)
+        Imagelol = Buttonify('menu.png', (x_button_menu,y_button_menu), screen)
+
 
 
         pygame.display.flip()
