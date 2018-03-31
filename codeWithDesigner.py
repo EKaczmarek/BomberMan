@@ -7,6 +7,18 @@ COLOR_ACTIVE = pygame.Color('black')
 FONT = pygame.font.Font(None, 32)
 
 
+class Label:
+    font = pygame.font.Font(None, 50)
+    t1 = font.render("Nickame", True, (0,0,0))
+    t_rect1 = t1.get_rect()
+
+    def __init__(self,x,y):
+        self.t_rect1.centerx, self.t_rect1.centery = x,y
+
+
+    def getData(self):
+        return self.t1, self.t_rect1
+
 class InputBox:
 
     def __init__(self, x, y, w, h, text=''):
@@ -57,7 +69,12 @@ def main():
     input_boxes = [input_box1, input_box2]
     done = False
 
+    label1 = Label(100, 115)
+    t1, t_rect1 = label1.getData()
+
+
     while not done:
+        screen.blit(t1, t_rect1)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -70,8 +87,10 @@ def main():
         screen.fill((255, 255, 255))
         for box in input_boxes:
             box.draw(screen)
+        screen.blit(t1, t_rect1)
 
         pygame.display.flip()
+
         clock.tick(30)
 
 
