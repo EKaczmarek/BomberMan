@@ -9,10 +9,10 @@ FONT = pygame.font.Font(None, 32)
 
 class Label:
     font = pygame.font.Font(None, 50)
-    t1 = font.render("Nickame", True, (0,0,0))
-    t_rect1 = t1.get_rect()
 
-    def __init__(self,x,y):
+    def __init__(self,x,y, text):
+        self.t1 = self.font.render(text, True, (0, 0, 0))
+        self.t_rect1 = self.t1.get_rect()
         self.t_rect1.centerx, self.t_rect1.centery = x,y
 
 
@@ -64,20 +64,33 @@ class InputBox:
 
 def main():
     clock = pygame.time.Clock()
-    input_box1 = InputBox(200, 100, 140, 32)
-    input_box2 = InputBox(200, 300, 140, 32)
+    input_box1 = InputBox(300, 100, 140, 32)
+    input_box2 = InputBox(300, 200, 140, 32)
     input_boxes = [input_box1, input_box2]
     done = False
 
-    label1 = Label(100, 115)
+    label1 = Label(200, 115, "Nickname")
     t1, t_rect1 = label1.getData()
 
+    label2 = Label(200, 215, "Password")
+    t2, t_rect2 = label2.getData()
+
+    x_button_exit, y_button_exit = 400,300
+    varial = False
 
     while not done:
         screen.blit(t1, t_rect1)
+        screen.blit(t2, t_rect2)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if y_button_exit<= mouse[1] <= y_button_exit+50 and x_button_exit-100<=mouse[0]<=x_button_exit:
+                    # dodanie akcji do przycisku - logowanie z bd, przejscie do ekranu kolejnego :)
+                    varial = True
+
             for box in input_boxes:
                 box.handle_event(event)
 
@@ -87,7 +100,11 @@ def main():
         screen.fill((255, 255, 255))
         for box in input_boxes:
             box.draw(screen)
+
         screen.blit(t1, t_rect1)
+        screen.blit(t2, t_rect2)
+
+        login = Buttonify('exit.png', (400, 300), screen)
 
         pygame.display.flip()
 
