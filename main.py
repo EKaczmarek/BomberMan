@@ -79,7 +79,6 @@ def Buttonify(Picture, coords, surface):
     surface.blit(image,imagerect)
     return (image,imagerect)
 
-
 def main():
 
     x_button_exit, y_button_exit = 200,600
