@@ -1,7 +1,10 @@
 from main import *
+from pymongo import MongoClient
+import pprint
+import hashlib
 
 pygame.init()
-screen = pygame.display.set_mode((640, 480))
+screen = pygame.display.set_mode((1200, 750))
 COLOR_INACTIVE = pygame.Color('antiquewhite4')
 COLOR_ACTIVE = pygame.Color('black')
 FONT = pygame.font.Font(None, 32)
@@ -61,21 +64,33 @@ class InputBox:
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
+    def checkWithMongo(self, nick, password):
+        client = MongoClient('localhost', 27017)
+        db = client['BomberMan']
+        collection = db['Players']
+
+        sha_signature = hashlib.sha256(password.encode()).hexdigest()
+        print(sha_signature)
+
+        if(pprint.pprint(collection.find({"login": nick, "password":sha_signature}).count())  == 1):
+            return 1
+        else:
+            return 0
 
 def main():
     clock = pygame.time.Clock()
-    input_box1 = InputBox(300, 100, 140, 32)
-    input_box2 = InputBox(300, 200, 140, 32)
+    input_box1 = InputBox(500, 200, 140, 32)
+    input_box2 = InputBox(500, 300, 140, 32)
     input_boxes = [input_box1, input_box2]
     done = False
 
-    label1 = Label(200, 115, "Nickname")
+    label1 = Label(400, 215, "Nickname")
     t1, t_rect1 = label1.getData()
 
-    label2 = Label(200, 215, "Password")
+    label2 = Label(400, 315, "Password")
     t2, t_rect2 = label2.getData()
 
-    x_button_exit, y_button_exit = 400,300
+    x_button_exit, y_button_exit = 600, 400
     varial = False
 
     while not done:
@@ -90,6 +105,9 @@ def main():
                 if y_button_exit<= mouse[1] <= y_button_exit+50 and x_button_exit-100<=mouse[0]<=x_button_exit:
                     # dodanie akcji do przycisku - logowanie z bd, przejscie do ekranu kolejnego :)
                     varial = True
+                    answer = input_box1.checkWithMongo(input_box1.text, input_box2.text)
+                    if(answer == 1):
+                        game()
 
             for box in input_boxes:
                 box.handle_event(event)
@@ -104,7 +122,7 @@ def main():
         screen.blit(t1, t_rect1)
         screen.blit(t2, t_rect2)
 
-        login = Buttonify('exit.png', (400, 300), screen)
+        login = Buttonify('exit.png', (x_button_exit, y_button_exit), screen)
 
         pygame.display.flip()
 

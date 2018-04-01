@@ -79,7 +79,7 @@ def Buttonify(Picture, coords, surface):
     surface.blit(image,imagerect)
     return (image,imagerect)
 
-def main():
+def game():
 
     x_button_exit, y_button_exit = 200,600
     x_button_menu, y_button_menu = 400,600
