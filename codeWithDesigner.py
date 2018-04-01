@@ -72,10 +72,10 @@ class InputBox:
         sha_signature = hashlib.sha256(password.encode()).hexdigest()
         print(sha_signature)
 
-        if(pprint.pprint(collection.find({"login": nick, "password":sha_signature}).count())  == 1):
-            return 1
-        else:
-            return 0
+        answer = (collection.find({"login": nick, "password": sha_signature}).count()) == 1
+
+        if(answer): return 1
+        else: return 0
 
 def main():
     clock = pygame.time.Clock()
