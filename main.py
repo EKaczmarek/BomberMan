@@ -19,6 +19,7 @@ class Player(object):
         self.rect.y += dy
 
         # If you collide with a wall, move out based on velocity
+        # zmienne z aktualna pozycja self.rect.x, self.rect.y
         for wall in walls:
             if self.rect.colliderect(wall.rect):
                 if dx > 0:  # Moving right; Hit the left side of the wall
@@ -29,7 +30,7 @@ class Player(object):
                     self.rect.bottom = wall.rect.top
                 if dy < 0:  # Moving up; Hit the bottom side of the wall
                     self.rect.top = wall.rect.bottom
-
+                
 
 class Wall(object):
 
@@ -127,7 +128,6 @@ def game():
             player.move(0, 2)
 
 
-
         # Wyświetlenie tła, ścian, zawodnika
         screen.fill((255, 255, 255))
         for wall in walls:
@@ -144,4 +144,4 @@ def game():
 
 
 if __name__ == "__main__":
-    main()
+    game()
