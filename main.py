@@ -12,6 +12,18 @@ class Player(object):
         if dy != 0:
             self.move_single_axis(0, dy)
 
+        if(dx == 0):
+            if(self.rect.x % 100 < 50):
+                self.move_single_axis(-2, 0)
+            else:
+                self.move_single_axis(2, 0)
+
+        if (dy == 0):
+            if (self.rect.y % 100 > 50):
+                self.move_single_axis(0, -2)
+            else:
+                self.move_single_axis(0, 2)
+
     def move_single_axis(self, dx, dy):
 
         # Move the rect
@@ -21,6 +33,7 @@ class Player(object):
         # If you collide with a wall, move out based on velocity
         # zmienne z aktualna pozycja self.rect.x, self.rect.y
         for wall in walls:
+            print(self.rect.x, '', self.rect.y)
             if self.rect.colliderect(wall.rect):
                 if dx > 0:  # Moving right; Hit the left side of the wall
                     self.rect.right = wall.rect.left
