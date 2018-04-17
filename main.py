@@ -4,6 +4,7 @@ class Player(object):
     def __init__(self):
         self.rect = pygame.Rect(500, 50, 50, 50)
 
+
     def move(self, dx, dy):
 
         # Move each axis separately. Note that this checks for collisions both times.
@@ -14,15 +15,19 @@ class Player(object):
 
         if(dx == 0):
             if(self.rect.x % 100 < 50):
-                self.move_single_axis(-2, 0)
+                self.move_single_axis(-10, 0)
             else:
-                self.move_single_axis(2, 0)
+                self.move_single_axis(10, 0)
 
         if (dy == 0):
             if (self.rect.y % 100 > 50):
-                self.move_single_axis(0, -2)
+                self.move_single_axis(0, -10)
             else:
-                self.move_single_axis(0, 2)
+                self.move_single_axis(0, 10)
+
+
+    def getPos(self):
+        return self.rect.x,self.rect.y;
 
     def move_single_axis(self, dx, dy):
 
@@ -57,7 +62,7 @@ class Board(object):
         "WWWWWWWWWWWWWWW",
         "W             W",
         "W W W W W W W W",
-        "W             W",
+        "WWWWW         W",
         "W W W W W W W W",
         "W             W",
         "W W W W W W W W",
@@ -132,13 +137,13 @@ def game():
         # Obsluga przyciskow
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
-            player.move(-2, 0)
+            player.move(-10, 0)
         if key[pygame.K_RIGHT]:
-            player.move(2, 0)
+            player.move(10, 0)
         if key[pygame.K_UP]:
-            player.move(0, -2)
+            player.move(0, -10)
         if key[pygame.K_DOWN]:
-            player.move(0, 2)
+            player.move(0, 10)
 
 
         # Wyświetlenie tła, ścian, zawodnika
