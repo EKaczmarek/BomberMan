@@ -1,37 +1,37 @@
-import pygame
+import random
 from pynput.keyboard import Key, Controller
+import pygame
+import os
+
+
+class Bomb(object):
+    def __init__(self, xx, yy):
+        self.rect = pygame.Rect(xx, yy, 30, 30)
+
 
 class Player(object):
-
-    def __init__(self, x, y, R, G, B):
-        self.R = R
-        self.G = G
-        self.B = B
+    def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 50, 50)
 
-
     def move(self, dx, dy):
+
         # Move each axis separately. Note that this checks for collisions both times.
         if dx != 0:
             self.move_single_axis(dx, 0)
-
         if dy != 0:
             self.move_single_axis(0, dy)
 
-        """
-        if(dx == 0):
+        '''if(dx == 0):
             if(self.rect.x % 100 < 50):
                 self.move_single_axis(-50, 0)
             else:
-                self.move_single_axis(10, 0)
+                self.move_single_axis(50, 0)
 
         if (dy == 0):
             if (self.rect.y % 100 > 50):
                 self.move_single_axis(0, -50)
             else:
-                self.move_single_axis(0, 10)"""
-
-
+                self.move_single_axis(0, 50)'''
     def move_single_axis(self, dx, dy):
 
         # Move the rect
@@ -41,6 +41,7 @@ class Player(object):
         # If you collide with a wall, move out based on velocity
         # zmienne z aktualna pozycja self.rect.x, self.rect.y
         for wall in walls:
+            #print(self.rect.x, '', self.rect.y)
             if self.rect.colliderect(wall.rect):
                 if dx > 0:  # Moving right; Hit the left side of the wall
                     self.rect.right = wall.rect.left
@@ -51,12 +52,31 @@ class Player(object):
                 if dy < 0:  # Moving up; Hit the bottom side of the wall
                     self.rect.top = wall.rect.bottom
 
-                
+        for brick in bricks:
+            #print(self.rect.x, '', self.rect.y)
+            if self.rect.colliderect(brick.rect):
+                if dx > 0:  # Moving right; Hit the left side of the wall
+                    self.rect.right = brick.rect.left
+                if dx < 0:  # Moving left; Hit the right side of the wall
+                    self.rect.left = brick.rect.right
+                if dy > 0:  # Moving down; Hit the top side of the wall
+                    self.rect.bottom = brick.rect.top
+                if dy < 0:  # Moving up; Hit the bottom side of the wall
+                    self.rect.top = brick.rect.bottom
+
+    def getPos(self):
+        return self.rect.x, self.rect.y
 
 class Wall(object):
 
     def __init__(self, pos):
         walls.append(self)
+        self.rect = pygame.Rect(pos[0], pos[1], 50, 50)
+
+
+class Brick(object):
+    def __init__(self, pos):
+        bricks.append(self)
         self.rect = pygame.Rect(pos[0], pos[1], 50, 50)
 
 
@@ -89,22 +109,35 @@ class Board(object):
                 x += 50
             y += 50
             x = 450
+        x2 = 450
+        y2 = 0
+        for row2 in self.level:
+            for col2 in row2:
+                if col2 != "W":
+                    if (row2 != 500 and col2 != 50):
+                        rand = random.randint(1, 100)
+                        if rand > 65:
+                            Brick((x2, y2))
+                x2 += 50
+            y2 += 50
+            x2 = 450
 
 
-walls = []  # List to hold the walls
+walls = []  # List to hold walls
+bricks = []  # List to hold bricks
 
 
 def Buttonify(Picture, coords, surface):
-    image = pygame.image.load(Picture)
+
+    mypath = os.path.dirname(os.path.realpath(__file__))
+    image = pygame.image.load(os.path.join(mypath, Picture))
     imagerect = image.get_rect()
     imagerect.topright = coords
-    surface.blit(image,imagerect)
-    return (image,imagerect)
-
+    surface.blit(image, imagerect)
+    return (image, imagerect)
 
 
 def game():
-
     x_button_exit, y_button_exit = 200, 600
     x_button_menu, y_button_menu = 400, 600
 
@@ -114,22 +147,21 @@ def game():
     # Set up the display
     screen = pygame.display.set_mode((1200, 750))
 
-
     clock = pygame.time.Clock()
-    player = Player(500, 50, 255, 0, 0)  # Create the player
 
-    player1 = Player(1100, 650, 255, 200, 0)
+    # Create the player
+    player = Player(500, 50)
+    player2 = Player(1100, 650)
+    board = Board()
 
-    board = Board();
 
     varial = False
 
     running = True
-
     while running:
 
-        #player.getPos();
         clock.tick(60)
+
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT:
@@ -146,37 +178,40 @@ def game():
                 running = False
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 mouse = pygame.mouse.get_pos()
-                if y_button_exit<= mouse[1] <= y_button_exit+50 and x_button_exit-100<=mouse[0]<=x_button_exit:
+                if y_button_exit <= mouse[1] <= y_button_exit + 50 and x_button_exit - 100 <= mouse[0] <= x_button_exit:
                     running = False
-                if y_button_menu<= mouse[1] <= y_button_menu+50 and x_button_menu-100<=mouse[0]<=x_button_menu:
+                if y_button_menu <= mouse[1] <= y_button_menu + 50 and x_button_menu - 100 <= mouse[0] <= x_button_menu:
                     varial = True
 
         key = pygame.key.get_pressed()
-        #TODO  czas ostatniego ruchu
-        # key[pygame.K_LEFT]:
 
-        """if key[pygame.K_RIGHT]:
+
+        '''# Obsluga przyciskow
+        key = pygame.key.get_pressed()
+        if key[pygame.K_LEFT]:
+            player.move(-50, 0)
+        if key[pygame.K_RIGHT]:
             player.move(50, 0)
         if key[pygame.K_UP]:
             player.move(0, -50)
         if key[pygame.K_DOWN]:
-            player.move(0, 50)"""
-
-
-
-
+            player.move(0, 50)'''
         # Wyświetlenie tła, ścian, zawodnika
         screen.fill((255, 255, 255))
+        for brick in bricks:
+            pygame.draw.rect(screen, (255, 100, 50), brick.rect)
         for wall in walls:
             pygame.draw.rect(screen, (0, 0, 0), wall.rect)
             if(varial):
-                pygame.draw.rect(screen, (player.R, player.G, player.B), player.rect)
-                pygame.draw.rect(screen, (player1.R, player1.G, player1.B), player1.rect)
+                pygame.draw.rect(screen, (255, 200, 0), player.rect)
+                if key[pygame.K_b]:
+                    xx, yy = player.getPos()
+                    print(xx, '', yy)
+                    bomb = Bomb(xx, yy)
+                    pygame.draw.rect(screen, (255, 0, 255), bomb.rect)
 
-
-        Image = Buttonify('exit.png', (x_button_exit,y_button_exit), screen)
-        Imagelol = Buttonify('menu.png', (x_button_menu,y_button_menu), screen)
-
+        Image = Buttonify("Pictures\exit.png", (x_button_exit,y_button_exit), screen)
+        Imagelol = Buttonify("Pictures\menu.png", (x_button_menu,y_button_menu), screen)
 
 
         pygame.display.flip()
