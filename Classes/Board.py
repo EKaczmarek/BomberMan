@@ -116,7 +116,9 @@ class Board(object):
         if(self.game[x_brick_4][y_brick_4] != 0):
             if (self.game[x_brick_4][y_brick_4].desc == "brick"):
                 print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_4, " ", y_brick_4)
-                to_destroy.append((x_brick_1, y_brick_1))
+                to_destroy.append((x_brick_4, y_brick_4))
                 #self.game[x_brick_4][y_brick_4] = 0
+
+        return to_destroy
 
 

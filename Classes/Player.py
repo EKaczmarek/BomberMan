@@ -64,7 +64,9 @@ class Player(object):
             if (seconds >= 1):
                 self.bomb.blow()
                 self.bomb_key = False
-                print(self.left_bombs)
+                print(self.to_destroy)
+                for i in self.to_destroy:
+                    self.board.game[i[0]][i[1]] = 0
 
     def display_all(self):
         # Display screen
@@ -99,8 +101,8 @@ class Player(object):
             self.bomb_key = True
 
             # Count which bricks explode
-            to_destroy = self.board.count(xx, yy)
-            print(to_destroy)
+            self.to_destroy = self.board.count(xx, yy)
+            #print(self.to_destroy)
 
     def move(self, dx, dy):
 
