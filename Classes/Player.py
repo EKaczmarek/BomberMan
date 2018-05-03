@@ -14,6 +14,7 @@ class Player(object):
 
         self.rect = pygame.Rect(x, y, 50, 50)
         self.board = board.Board(self.walls, self.bricks)
+        self.board.show_board()
 
         self.show_player = False
         self.exit_key = False
