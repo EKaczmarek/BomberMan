@@ -26,6 +26,9 @@ class Board(object):
 
     def __init__(self, walls, bricks):
 
+        # Set up the display
+        self.screen = pygame.display.set_mode((1200, 750))
+
         self.buttons()
         self.walls(walls)
         self.bricks(bricks)
@@ -65,3 +68,5 @@ class Board(object):
         # Create buttons
         self.exitBtn = btn.Button("Pictures\exit.png", (200, 600))
         self.menuBtn = btn.Button("Pictures\menu.png", (400, 600))
+
+

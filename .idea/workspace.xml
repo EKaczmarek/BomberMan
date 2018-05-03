@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="921fe68a-1d0e-41db-b372-36e7edc15de7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Board.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Bomb.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Brick.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Button.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Player.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Wall.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Board.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/Background.png" afterPath="$PROJECT_DIR$/Classes/Pictures/Background.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/czerwony.png" afterPath="$PROJECT_DIR$/Classes/Pictures/czerwony.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/exit.PNG" afterPath="$PROJECT_DIR$/Classes/Pictures/exit.PNG" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/klocek.png" afterPath="$PROJECT_DIR$/Classes/Pictures/klocek.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/menu.PNG" afterPath="$PROJECT_DIR$/Classes/Pictures/menu.PNG" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/muzyka.png" afterPath="$PROJECT_DIR$/Classes/Pictures/muzyka.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/nickname.png" afterPath="$PROJECT_DIR$/Classes/Pictures/nickname.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/obiekt.png" afterPath="$PROJECT_DIR$/Classes/Pictures/obiekt.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/ok.PNG" afterPath="$PROJECT_DIR$/Classes/Pictures/ok.PNG" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/password.png" afterPath="$PROJECT_DIR$/Classes/Pictures/password.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/registration.png" afterPath="$PROJECT_DIR$/Classes/Pictures/registration.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/sign_in.png" afterPath="$PROJECT_DIR$/Classes/Pictures/sign_in.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Pictures/skrzykna.png" afterPath="$PROJECT_DIR$/Classes/Pictures/skrzykna.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Board.py" afterPath="$PROJECT_DIR$/Classes/Board.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Bomb.py" afterPath="$PROJECT_DIR$/Classes/Bomb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Player.py" afterPath="$PROJECT_DIR$/Classes/Player.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,8 +19,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="88">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -49,40 +31,15 @@
       <file leaf-file-name="Player.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Classes/Player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+            <state relative-caret-position="238">
+              <caret line="58" column="20" lean-forward="true" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#2490#3811#0" expanded="false" />
-                <element signature="e#3843#3874#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Board.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Board.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#143#555#0" expanded="false" />
-                <element signature="e#711#956#0" expanded="false" />
-                <element signature="e#996#1651#0" expanded="false" />
-                <element signature="e#1684#1834#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Button.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Button.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="40" lean-forward="true" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#754#1693#0" expanded="false" />
+                <element signature="e#2036#2751#0" expanded="false" />
+                <element signature="e#2787#2958#0" expanded="false" />
+                <element signature="e#2997#3110#0" expanded="false" />
+                <element signature="e#3161#4482#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,29 +48,26 @@
       <file leaf-file-name="Bomb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Bomb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="220">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Brick.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Brick.py">
+      <file leaf-file-name="Board.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Board.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="8" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Wall.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Wall.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-              <folding />
+            <state relative-caret-position="418">
+              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#143#555#0" expanded="false" />
+                <element signature="e#605#762#0" expanded="false" />
+                <element signature="e#800#1045#0" expanded="false" />
+                <element signature="e#1085#1740#0" expanded="false" />
+                <element signature="e#1773#1923#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,6 +81,14 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>running</find>
+      <find>show</find>
+      <find>lock</find>
+      <find>left_bombs</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -136,13 +98,13 @@
         <option value="$PROJECT_DIR$/Wall.py" />
         <option value="$PROJECT_DIR$/Board.py" />
         <option value="$PROJECT_DIR$/Classes.py" />
-        <option value="$PROJECT_DIR$/Classes/Bomb.py" />
         <option value="$PROJECT_DIR$/Classes/Wall.py" />
         <option value="$PROJECT_DIR$/Classes/Brick.py" />
         <option value="$PROJECT_DIR$/Classes/Button.py" />
         <option value="$PROJECT_DIR$/Classes/Board.py" />
-        <option value="$PROJECT_DIR$/Classes/Player.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/Classes/Bomb.py" />
+        <option value="$PROJECT_DIR$/Classes/Player.py" />
       </list>
     </option>
   </component>
@@ -278,14 +240,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Classes/Player.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -324,14 +279,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Brick.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="8" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Wall.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -350,46 +297,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Bomb.py">
+    <entry file="file://$PROJECT_DIR$/Classes/Brick.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="8" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/834102817/pygame/rect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="202">
+          <caret line="281" column="0" lean-forward="false" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Board.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state relative-caret-position="418">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#143#555#0" expanded="false" />
-            <element signature="e#711#956#0" expanded="false" />
-            <element signature="e#996#1651#0" expanded="false" />
-            <element signature="e#1684#1834#0" expanded="false" />
+            <element signature="e#605#762#0" expanded="false" />
+            <element signature="e#800#1045#0" expanded="false" />
+            <element signature="e#1085#1740#0" expanded="false" />
+            <element signature="e#1773#1923#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Bomb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+        <state relative-caret-position="238">
+          <caret line="58" column="20" lean-forward="true" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#2490#3811#0" expanded="false" />
-            <element signature="e#3843#3874#0" expanded="false" />
+            <element signature="e#754#1693#0" expanded="false" />
+            <element signature="e#2036#2751#0" expanded="false" />
+            <element signature="e#2787#2958#0" expanded="false" />
+            <element signature="e#2997#3110#0" expanded="false" />
+            <element signature="e#3161#4482#0" expanded="false" />
           </folding>
         </state>
       </provider>
