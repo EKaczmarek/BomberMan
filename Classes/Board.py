@@ -31,10 +31,12 @@ class Board(object):
 
         # Board of game
         self.game = [[0 for col in range(15)] for row in range(15)]
+
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
             print()
+
         self.buttons()
         self.walls(walls)
         self.bricks(bricks)
@@ -82,3 +84,39 @@ class Board(object):
                 if(self.game[i][j] != 0):
                     print(self.game[i][j].x, " ", self.game[i][j].y, " ", self.game[i][j].desc, end='\n')
             print()
+
+    def count(self, x_bomb, y_bomb):
+
+        to_destroy = []
+        xx = int(y_bomb/50)
+        yy = int((x_bomb - 450) / 50)
+
+        x_brick_1, y_brick_1 = xx, yy+1
+        if(self.game[x_brick_1][y_brick_1] != 0):
+            if (self.game[x_brick_1][y_brick_1].desc == "brick"):
+                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_1, " ", y_brick_1)
+                to_destroy.append((x_brick_1, y_brick_1))
+                #self.game[x_brick_1][y_brick_1] = 0
+
+        x_brick_2, y_brick_2 = xx, yy-1
+        if(self.game[x_brick_2][y_brick_2] != 0):
+            if (self.game[x_brick_2][y_brick_2].desc == "brick"):
+                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_2, " ", y_brick_2)
+                to_destroy.append((x_brick_2, y_brick_2))
+                #self.game[x_brick_2][y_brick_2] = 0
+
+        x_brick_3, y_brick_3 = xx-1, yy
+        if(self.game[x_brick_3][y_brick_3] != 0):
+            if (self.game[x_brick_3][y_brick_3].desc == "brick"):
+                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_3, " ", y_brick_3)
+                to_destroy.append((x_brick_3, y_brick_3))
+                #self.game[x_brick_3][y_brick_3] = 0
+
+        x_brick_4, y_brick_4 = xx+1, yy
+        if(self.game[x_brick_4][y_brick_4] != 0):
+            if (self.game[x_brick_4][y_brick_4].desc == "brick"):
+                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_4, " ", y_brick_4)
+                to_destroy.append((x_brick_1, y_brick_1))
+                #self.game[x_brick_4][y_brick_4] = 0
+
+

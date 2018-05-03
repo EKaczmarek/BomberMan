@@ -1,7 +1,8 @@
 import pygame
 import Classes.Board as board
 import Classes.Bomb as bom
-
+import Classes.Wall as wal
+import Classes.Brick as brick
 
 class Player(object):
 
@@ -14,7 +15,7 @@ class Player(object):
 
         self.rect = pygame.Rect(x, y, 50, 50)
         self.board = board.Board(self.walls, self.bricks)
-        self.board.show_board()
+        #self.board.show_board()
 
         self.show_player = False
         self.exit_key = False
@@ -69,19 +70,22 @@ class Player(object):
         # Display screen
         self.board.screen.fill((255, 255, 255))
 
-        # Display bricks
-        for brick in self.bricks:
-            pygame.draw.rect(self.board.screen, (255, 100, 50), brick.rect)
+        for i in range(len(self.board.game)):
+            for j in range(len(self.board.game[i])):
+                if(self.board.game[i][j] != 0):
+                    if(self.board.game[i][j].desc == "wall"):
+                        pygame.draw.rect(self.board.screen, (0, 0, 0), self.board.game[i][j].rect)
+                        if (self.show_player):
+                            pygame.draw.rect(self.board.screen, (255, 200, 0), self.rect)
+                        if (self.bomb_key):
+                            pygame.draw.rect(self.board.screen, (255, 0, 255), self.bomb.rect)
+                    elif(self.board.game[i][j].desc == "brick"):
+                        pygame.draw.rect(self.board.screen, (255, 100, 50), self.board.game[i][j].rect)
+                        # Display buttons
+                else:
+                    pygame.draw.rect(self.board.screen, (255, 255, 255), self.rect)
 
-        # Display walls
-        for wall in self.walls:
-            pygame.draw.rect(self.board.screen, (0, 0, 0), wall.rect)
-            if (self.show_player):
-                pygame.draw.rect(self.board.screen, (255, 200, 0), self.rect)
-            if (self.bomb_key):
-                pygame.draw.rect(self.board.screen, (255, 0, 255), self.bomb.rect)
 
-        # Display buttons
         self.board.exitBtn.show(self.board.screen)
         self.board.menuBtn.show(self.board.screen)
 
@@ -93,6 +97,10 @@ class Player(object):
             self.bomb = bom.Bomb(xx, yy)
             self.left_bombs += 1
             self.bomb_key = True
+
+            # Count which bricks explode
+            to_destroy = self.board.count(xx, yy)
+            print(to_destroy)
 
     def move(self, dx, dy):
 
@@ -106,29 +114,18 @@ class Player(object):
         self.rect.x += dx
         self.rect.y += dy
 
-        for wall in self.walls:
-            print(self.rect.x, '', self.rect.y)
-            if self.rect.colliderect(wall.rect):
-                if dx > 0:  # Moving right; Hit the left side of the wall
-                    self.rect.right = wall.rect.left
-                if dx < 0:  # Moving left; Hit the right side of the wall
-                    self.rect.left = wall.rect.right
-                if dy > 0:  # Moving down; Hit the top side of the wall
-                    self.rect.bottom = wall.rect.top
-                if dy < 0:  # Moving up; Hit the bottom side of the wall
-                    self.rect.top = wall.rect.bottom
-
-        for brick in self.bricks:
-            #print(self.rect.x, '', self.rect.y)
-            if self.rect.colliderect(brick.rect):
-                if dx > 0:  # Moving right; Hit the left side of the wall
-                    self.rect.right = brick.rect.left
-                if dx < 0:  # Moving left; Hit the right side of the wall
-                    self.rect.left = brick.rect.right
-                if dy > 0:  # Moving down; Hit the top side of the wall
-                    self.rect.bottom = brick.rect.top
-                if dy < 0:  # Moving up; Hit the bottom side of the wall
-                    self.rect.top = brick.rect.bottom
+        for i in range(len(self.board.game)):
+            for j in range(len(self.board.game[i])):
+                if((type(self.board.game[i][j]) is wal.Wall) or (type(self.board.game[i][j]) is brick.Brick)):
+                    if self.rect.colliderect(self.board.game[i][j].rect):
+                        if dx > 0:  # Moving right; Hit the left side of the wall
+                            self.rect.right = self.board.game[i][j].rect.left
+                        if dx < 0:  # Moving left; Hit the right side of the wall
+                            self.rect.left = self.board.game[i][j].rect.right
+                        if dy > 0:  # Moving down; Hit the top side of the wall
+                            self.rect.bottom = self.board.game[i][j].rect.top
+                        if dy < 0:  # Moving up; Hit the bottom side of the wall
+                            self.rect.top = self.board.game[i][j].rect.bottom
 
     def get_pos(self):
         return self.rect.x, self.rect.y

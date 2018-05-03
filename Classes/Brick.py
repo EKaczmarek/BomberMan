@@ -14,3 +14,4 @@ class Brick(object):
 
     def get_brick(self):
         return self
+
