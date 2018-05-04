@@ -4,6 +4,7 @@ import Classes.Bomb as bom
 import Classes.Wall as wal
 import Classes.Brick as brick
 
+
 class Player(object):
 
     walls = []  # List to hold walls
@@ -57,6 +58,8 @@ class Player(object):
                 if (self.board.exitBtn.button.collidepoint(mouse)):
                     self.exit_key = True
 
+
+
     def handle_bombs(self):
         # bomb timer
         if (self.bomb_key == True):
@@ -87,7 +90,6 @@ class Player(object):
                 else:
                     pygame.draw.rect(self.board.screen, (255, 255, 255), self.rect)
 
-
         self.board.exitBtn.show(self.board.screen)
         self.board.menuBtn.show(self.board.screen)
 
@@ -102,7 +104,24 @@ class Player(object):
 
             # Count which bricks explode
             self.to_destroy = self.board.count(xx, yy)
-            #print(self.to_destroy)
+            """destroy_player = self.destroy_player(xx, yy)
+            print(destroy_player)
+            if(destroy_player != 0):
+                self.to_destroy.append(destroy_player)"""
+            print(self.to_destroy)
+
+
+
+    def destroy_player(self, xx, yy):
+        x, y = self.get_pos()
+        print("Player", x, " ", y)
+        if((x == xx and y == yy) or (x == xx+50 and y == yy) or (x==xx-50 and y == yy) or(x == xx and y == yy+50) or (x == xx and y ==yy-50)):
+            x_player = int((x - 450) / 50)
+            y_player = int(y / 50)
+            print("gracz:", x_player, " ", y_player)
+            return (x_player, y_player)
+        else:
+            return 0
 
     def move(self, dx, dy):
 
