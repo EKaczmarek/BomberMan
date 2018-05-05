@@ -13,21 +13,20 @@ class Player(object):
     def __init__(self, x, y):
         # Initialise pygame
         self.pygame = pygame.init()
-
+        # Position of player
         self.rect = pygame.Rect(x, y, 50, 50)
+        # Initialize board
         self.board = board.Board(self.walls, self.bricks)
-        #self.board.show_board()
-
-        self.show_player = False
+        # Initialize flags
+        self.show_player = True
         self.exit_key = False
         self.bomb_key = False
         self.left_bombs = 0
-
+        # Main loop
         self.main_loop()
 
     def main_loop(self):
         while (self.exit_key != True):
-            self.show_player = True
             self.handle_moves()
             self.handle_bombs()
             self.display_all()
@@ -58,8 +57,6 @@ class Player(object):
                 if (self.board.exitBtn.button.collidepoint(mouse)):
                     self.exit_key = True
 
-
-
     def handle_bombs(self):
         # bomb timer
         if (self.bomb_key == True):
@@ -68,8 +65,21 @@ class Player(object):
                 self.bomb.blow()
                 self.bomb_key = False
                 print(self.to_destroy)
+
+
+
+                # self.check_player(self.bomb.)
                 for i in self.to_destroy:
                     self.board.game[i[0]][i[1]] = 0
+                print("Bomba: ", self.bomb.xx, " ", self.bomb.yy)
+
+                ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
+                print(ans)
+                if (ans):
+                    self.die()
+
+    def die(self):
+        self.show_player = False
 
     def display_all(self):
         # Display screen
@@ -97,29 +107,36 @@ class Player(object):
 
     def leave_bomb(self):
         if (self.bomb_key == False):
-            xx, yy = self.get_pos()
+            xx, yy = self.get_pos_to_bomb()
             self.bomb = bom.Bomb(xx, yy)
             self.left_bombs += 1
             self.bomb_key = True
 
             # Count which bricks explode
             self.to_destroy = self.board.count(xx, yy)
-            """destroy_player = self.destroy_player(xx, yy)
+            # Count if player will be dead
+            destroy_player = self.destroy_player(xx, yy)
+
             print(destroy_player)
+
             if(destroy_player != 0):
-                self.to_destroy.append(destroy_player)"""
+                self.to_destroy.append(destroy_player)
             print(self.to_destroy)
 
-
-
     def destroy_player(self, xx, yy):
-        x, y = self.get_pos()
+
+        x,y = self.get_pos()
         print("Player", x, " ", y)
-        if((x == xx and y == yy) or (x == xx+50 and y == yy) or (x==xx-50 and y == yy) or(x == xx and y == yy+50) or (x == xx and y ==yy-50)):
-            x_player = int((x - 450) / 50)
-            y_player = int(y / 50)
-            print("gracz:", x_player, " ", y_player)
-            return (x_player, y_player)
+        xx = int((xx - 450) / 50)
+        yy = int(yy / 50)
+        print("Bomba 1: ", xx, " ", yy)
+        if((x == xx and y == yy)
+           or (x == xx+1 and y == yy)
+           or (x == xx-1 and y == yy)
+           or (x == xx and y == yy+1)
+           or (x == xx and y == yy-1)):
+            print("gracz:", x, " ", y)
+            return (y, x)
         else:
             return 0
 
@@ -149,5 +166,13 @@ class Player(object):
                             self.rect.top = self.board.game[i][j].rect.bottom
 
     def get_pos(self):
+        print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
+        xx = int((self.rect.x - 450) / 50)
+        yy = int(self.rect.y / 50)
+        print("Wspolrzedne2: ", xx, ", ", yy)
+        return xx, yy
+
+    def get_pos_to_bomb(self):
         return self.rect.x, self.rect.y
+
 
