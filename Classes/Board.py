@@ -87,6 +87,7 @@ class Board(object):
 
     def count(self, x_bomb, y_bomb):
 
+        print(x_bomb, " ", y_bomb)
         self.list_to_destroy = []
         xx = int(y_bomb / 50)
         yy = int((x_bomb - 450) / 50)
