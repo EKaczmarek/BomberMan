@@ -61,15 +61,16 @@ class Player(object):
         # bomb timer
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
-            if (seconds >= 1):
+            if (seconds >= 2):
                 self.bomb.blow()
                 self.bomb_key = False
                 print(self.to_destroy)
 
 
-
-                # self.check_player(self.bomb.)
+                self.to_destroy.append((self.get_changed_pos(self.bomb.xx, self.bomb.yy)))
+                print("Lista: ", self.to_destroy)
                 for i in self.to_destroy:
+                    print(i)
                     self.board.game[i[0]][i[1]] = 0
                 print("Bomba: ", self.bomb.xx, " ", self.bomb.yy)
 
@@ -107,8 +108,14 @@ class Player(object):
 
     def leave_bomb(self):
         if (self.bomb_key == False):
+
+
             xx, yy = self.get_pos_to_bomb()
+
             self.bomb = bom.Bomb(xx, yy)
+
+            self.board.game[int(xx / 50)][int((yy - 450) / 50)] = self.bomb.get_bomb()
+
             self.left_bombs += 1
             self.bomb_key = True
 
@@ -154,7 +161,9 @@ class Player(object):
 
         for i in range(len(self.board.game)):
             for j in range(len(self.board.game[i])):
-                if((type(self.board.game[i][j]) is wal.Wall) or (type(self.board.game[i][j]) is brick.Brick)):
+                if((type(self.board.game[i][j]) is wal.Wall)
+                   or (type(self.board.game[i][j]) is brick.Brick)
+                   or (type(self.board.game[i][j]) is bom.Bomb)):
                     if self.rect.colliderect(self.board.game[i][j].rect):
                         if dx > 0:  # Moving right; Hit the left side of the wall
                             self.rect.right = self.board.game[i][j].rect.left
@@ -172,7 +181,10 @@ class Player(object):
         print("Wspolrzedne2: ", xx, ", ", yy)
         return xx, yy
 
+    def get_changed_pos(self, xx, yy):
+        xx = int((xx - 450) / 50)
+        yy = int(yy / 50)
+        return xx, yy
+
     def get_pos_to_bomb(self):
         return self.rect.x, self.rect.y
-
-
