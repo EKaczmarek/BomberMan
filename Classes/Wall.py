@@ -14,5 +14,8 @@ class Wall(object):
     def get_wall(self):
         return self
 
+    def change_xy(self, x, y):
+        return int(y / 50), int((x - 450) / 50)
+
     def get_pos_wall(self):
         return self.x, self.y

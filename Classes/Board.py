@@ -87,38 +87,31 @@ class Board(object):
 
     def count(self, x_bomb, y_bomb):
 
-        to_destroy = []
-        xx = int(y_bomb/50)
+        self.list_to_destroy = []
+        xx = int(y_bomb / 50)
         yy = int((x_bomb - 450) / 50)
 
-        x_brick_1, y_brick_1 = xx, yy+1
-        if(self.game[x_brick_1][y_brick_1] != 0):
-            if (self.game[x_brick_1][y_brick_1].desc == "brick"):
-                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_1, " ", y_brick_1)
-                to_destroy.append((x_brick_1, y_brick_1))
-                #self.game[x_brick_1][y_brick_1] = 0
+        x_brick_1, y_brick_1 = xx, yy + 1
+        self.which_one(x_brick_1, y_brick_1)
 
-        x_brick_2, y_brick_2 = xx, yy-1
-        if(self.game[x_brick_2][y_brick_2] != 0):
-            if (self.game[x_brick_2][y_brick_2].desc == "brick"):
-                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_2, " ", y_brick_2)
-                to_destroy.append((x_brick_2, y_brick_2))
-                #self.game[x_brick_2][y_brick_2] = 0
+        x_brick_2, y_brick_2 = xx, yy - 1
+        self.which_one(x_brick_2, y_brick_2)
 
-        x_brick_3, y_brick_3 = xx-1, yy
-        if(self.game[x_brick_3][y_brick_3] != 0):
-            if (self.game[x_brick_3][y_brick_3].desc == "brick"):
-                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_3, " ", y_brick_3)
-                to_destroy.append((x_brick_3, y_brick_3))
-                #self.game[x_brick_3][y_brick_3] = 0
+        x_brick_3, y_brick_3 = xx - 1, yy
+        self.which_one(x_brick_3, y_brick_3)
 
-        x_brick_4, y_brick_4 = xx+1, yy
-        if(self.game[x_brick_4][y_brick_4] != 0):
-            if (self.game[x_brick_4][y_brick_4].desc == "brick"):
-                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick_4, " ", y_brick_4)
-                to_destroy.append((x_brick_4, y_brick_4))
-                #self.game[x_brick_4][y_brick_4] = 0
+        x_brick_4, y_brick_4 = xx + 1, yy
+        self.which_one(x_brick_4, y_brick_4)
 
-        return to_destroy
+        self.list_to_destroy.append((xx, yy))
+
+        return self.list_to_destroy
+
+    def which_one(self, x_brick, y_brick):
+        if (self.game[x_brick][y_brick] != 0):
+            if (self.game[x_brick][y_brick].desc == "brick"):
+                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
+                self.list_to_destroy.append((x_brick, y_brick))
+
 
 

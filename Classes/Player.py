@@ -113,8 +113,9 @@ class Player(object):
             xx, yy = self.get_pos_to_bomb()
 
             self.bomb = bom.Bomb(xx, yy)
+            print("lolaola: ", xx, " ", yy)
 
-            self.board.game[int(xx / 50)][int((yy - 450) / 50)] = self.bomb.get_bomb()
+            self.board.game[int(yy / 50)][int((xx - 450) / 50)] = self.bomb.get_bomb()
 
             self.left_bombs += 1
             self.bomb_key = True
