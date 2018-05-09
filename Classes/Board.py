@@ -8,13 +8,13 @@ import pygame
 class Board(object):
     level = [
         "WWWWWWWWWWWWWWW",
-        "W             W",
-        "W W W W W W W W",
-        "W             W",
-        "W W W W W W W W",
-        "W             W",
-        "W W W W W W W W",
-        "W             W",
+        "W    BB       W",
+        "W W W WBW W W W",
+        "W       B     W",
+        "WBW W W W W W W",
+        "W    BBB    BBW",
+        "W W W W W W WBW",
+        "W      BB BB  W",
         "W W W W W W W W",
         "W             W",
         "W W W W W W W W",
@@ -41,6 +41,9 @@ class Board(object):
         self.walls(walls)
         self.bricks(bricks)
 
+    def table_dimension(self, x, y):
+        return int(x/50), int((y-450)/50)
+
     def walls(self, walls):
         x = 450
         y = 0
@@ -48,7 +51,10 @@ class Board(object):
             for col in row:
                 if col == "W":
                     wal = w.Wall((x, y), walls)
-                    self.game[int(y/50)][int((x-450)/50)] = wal.get_wall()
+                    # x is a multiply of 50 f.ex 450, y also
+                    # so it's easier to have element table[1][1] than table[50][50] etc
+                    table_x, table_y = self.table_dimension(y, x)
+                    self.game[table_x][table_y] = wal.get_wall()
                 x += 50
             y += 50
             x = 450
@@ -57,18 +63,13 @@ class Board(object):
         print(" Z cegłami")
         x2 = 450
         y2 = 0
-        # skrzynki na planszy
+        # Bricks on the board
         for row2 in self.level:
             for col2 in row2:
-                if col2 != "W":
-                    if (row2 != 500 and col2 != 50):
-                        rand = random.randint(1, 100)
-                        if rand > 65:
-                            if ((x2 == 500 and y2 == 50) or (x2 == 500 and y2 == 100) or (x2 == 550 and y2 == 50)):
-                                continue
-                            else:
-                                brick = b.Brick((x2, y2), bricks)
-                                self.game[int(y2 / 50)][int((x2 - 450) / 50)] = brick.get_brick()
+                if col2 == "B":
+                        brick = b.Brick((x2, y2), bricks)
+                        table_x, table_y = self.table_dimension(y2, x2)
+                        self.game[table_x][table_y] = brick.get_brick()
                 x2 += 50
             y2 += 50
             x2 = 450
@@ -87,7 +88,6 @@ class Board(object):
 
     def count(self, x_bomb, y_bomb):
 
-        print(x_bomb, " ", y_bomb)
         self.list_to_destroy = []
         xx = int(y_bomb / 50)
         yy = int((x_bomb - 450) / 50)

@@ -133,7 +133,7 @@ class Player(object):
 
     def destroy_player(self, xx, yy):
 
-        x,y = self.get_pos()
+        x, y = self.get_pos()
         print("Player", x, " ", y)
         xx = int((xx - 450) / 50)
         yy = int(yy / 50)
