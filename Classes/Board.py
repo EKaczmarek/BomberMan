@@ -38,13 +38,12 @@ class Board(object):
             print()
 
         self.buttons()
-        self.walls(walls)
-        self.bricks(bricks)
+        self.walls_bricks(walls, bricks)
 
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
-    def walls(self, walls):
+    def walls_bricks(self, walls, bricks):
         x = 450
         y = 0
         for row in self.level:
@@ -55,24 +54,13 @@ class Board(object):
                     # so it's easier to have element table[1][1] than table[50][50] etc
                     table_x, table_y = self.table_dimension(y, x)
                     self.game[table_x][table_y] = wal.get_wall()
+                elif col == "B":
+                        brick = b.Brick((x, y), bricks)
+                        table_x, table_y = self.table_dimension(y, x)
+                        self.game[table_x][table_y] = brick.get_brick()
                 x += 50
             y += 50
             x = 450
-
-    def bricks(self, bricks):
-        print(" Z cegłami")
-        x2 = 450
-        y2 = 0
-        # Bricks on the board
-        for row2 in self.level:
-            for col2 in row2:
-                if col2 == "B":
-                        brick = b.Brick((x2, y2), bricks)
-                        table_x, table_y = self.table_dimension(y2, x2)
-                        self.game[table_x][table_y] = brick.get_brick()
-                x2 += 50
-            y2 += 50
-            x2 = 450
 
     def buttons(self):
         # Create buttons
