@@ -1,30 +1,13 @@
-import random
 import Classes.Wall as w
 import Classes.Brick as b
 import Classes.Button as btn
-
+import Classes.Client as client
 import pygame
 
-class Board(object):
-    level = [
-        "WWWWWWWWWWWWWWW",
-        "W    BB       W",
-        "W W W WBW W W W",
-        "W       B     W",
-        "WBW W W W W W W",
-        "W    BBB    BBW",
-        "W W W W W W WBW",
-        "W      BB BB  W",
-        "W W W W W W W W",
-        "W             W",
-        "W W W W W W W W",
-        "W             W",
-        "W W W W W W W W",
-        "W             W",
-        "WWWWWWWWWWWWWWW",
-    ]
 
-    def __init__(self, walls, bricks):
+class Board(object):
+
+    def __init__(self,):
 
         # Set up the display
         self.screen = pygame.display.set_mode((1200, 750))
@@ -35,6 +18,16 @@ class Board(object):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
             print()
+
+        cl = client.Client()
+        cl.connectToSerwer('192.168.0.103')
+        cl.sendMessage("GET")
+        lev = cl.wait4Response()
+
+        print("Dlugosc odp: ", len(lev))
+        print("Poziom: ", lev)
+
+        self.level = map(''.join, zip(*[iter(lev)]*15))
 
         self.buttons()
         self.walls_bricks()
@@ -106,6 +99,3 @@ class Board(object):
             if (self.game[x_brick][y_brick].desc == "brick"):
                 print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
                 self.list_to_destroy.append((x_brick, y_brick))
-
-
-

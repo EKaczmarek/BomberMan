@@ -16,7 +16,7 @@ class Player(object):
         # Position of player
         self.rect = pygame.Rect(x, y, 50, 50)
         # Initialize board
-        self.board = board.Board(self.walls, self.bricks)
+        self.board = board.Board()
         # Initialize flags
         self.show_player = True
         self.exit_key = False
