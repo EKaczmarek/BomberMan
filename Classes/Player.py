@@ -67,7 +67,6 @@ class Player(object):
                 print(self.to_destroy)
 
 
-                self.to_destroy.append((self.get_changed_pos(self.bomb.xx, self.bomb.yy)))
                 print("Lista: ", self.to_destroy)
                 for i in self.to_destroy:
                     print(i)

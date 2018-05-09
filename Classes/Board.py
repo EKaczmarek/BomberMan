@@ -31,31 +31,30 @@ class Board(object):
 
         # Board of game
         self.game = [[0 for col in range(15)] for row in range(15)]
-
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
             print()
 
         self.buttons()
-        self.walls_bricks(walls, bricks)
+        self.walls_bricks()
 
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
-    def walls_bricks(self, walls, bricks):
+    def walls_bricks(self):
         x = 450
         y = 0
         for row in self.level:
             for col in row:
                 if col == "W":
-                    wal = w.Wall((x, y), walls)
+                    wal = w.Wall((x, y))
                     # x is a multiply of 50 f.ex 450, y also
                     # so it's easier to have element table[1][1] than table[50][50] etc
                     table_x, table_y = self.table_dimension(y, x)
                     self.game[table_x][table_y] = wal.get_wall()
                 elif col == "B":
-                        brick = b.Brick((x, y), bricks)
+                        brick = b.Brick((x, y))
                         table_x, table_y = self.table_dimension(y, x)
                         self.game[table_x][table_y] = brick.get_brick()
                 x += 50
@@ -77,22 +76,28 @@ class Board(object):
     def count(self, x_bomb, y_bomb):
 
         self.list_to_destroy = []
-        xx = int(y_bomb / 50)
-        yy = int((x_bomb - 450) / 50)
+        xx, yy = self.table_dimension(y_bomb, x_bomb)
+        print("Bomba: ", xx, " ", yy)
 
         x_brick_1, y_brick_1 = xx, yy + 1
         self.which_one(x_brick_1, y_brick_1)
+        print("Cegla 1: ", x_brick_1, " ", y_brick_1)
 
         x_brick_2, y_brick_2 = xx, yy - 1
         self.which_one(x_brick_2, y_brick_2)
+        print("Cegla 2: ", x_brick_2, " ", y_brick_2)
 
         x_brick_3, y_brick_3 = xx - 1, yy
         self.which_one(x_brick_3, y_brick_3)
+        print("Cegla 3: ", x_brick_3, " ", y_brick_3)
 
         x_brick_4, y_brick_4 = xx + 1, yy
         self.which_one(x_brick_4, y_brick_4)
+        print("Cegla 4: ", x_brick_4, " ", y_brick_4)
+        print("To destroy: ", self.list_to_destroy)
 
         self.list_to_destroy.append((xx, yy))
+        print("To destroy: ", self.list_to_destroy)
 
         return self.list_to_destroy
 
