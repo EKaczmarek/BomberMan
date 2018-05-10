@@ -1,97 +1,64 @@
-import Classes.Player as pl
-import Classes.Label as l
-import Classes.InputBox as in_box
-import Classes.Button as b
-import Classes.Bad_data_screen as bds
-import Classes.Game_screen as gs
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import pyqtSlot
+from PyQt5 import uic
+from pymongo import MongoClient
+from Classes.Game_screen import game
+import hashlib
+import sys
 import os
-import pygame
 
 
-class Login_screen:
+qtCreatorFile = "Classes\login.ui"
+Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-    def inputs(self):
-        self.input_nickname = in_box.InputBox(500, 200, 140, 32)
-        self.input_password = in_box.InputBox(500, 300, 140, 32)
-        self.input_boxes = [self.input_nickname, self.input_password]
-        self.done = False
+class Login_screen(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent = None):
+        QMainWindow.__init__(self, parent)
+        #Ui_MainWindow.__init__(self)
+        self.setupUi(self)
 
-    def labels(self):
-        sign = l.Label(500, 125, "Pictures/sign_in.png")
-        self.t0, self.t_rect0 = sign.getData()
+        self.connectWithMongo()
+        self.setWindowTitle('Bomberman')
+        self.setStyleSheet("background: white")
 
-        nickname = l.Label(400, 215, "Pictures/nickname.png")
-        self.t1, self.t_rect1 = nickname.getData()
-
-        password = l.Label(400, 315, "Pictures/password.png")
-        self.t2, self.t_rect2 = password.getData()
-
-    def buttons(self):
-        self.x_button_ok, self.y_button_ok = 600, 400
-        self.varial = False
-        self.btn = b.Button('Pictures\ok.png', (self.x_button_ok, self.y_button_ok))
-
-    def blit_labels(self):
-        self.screen.blit(self.t1, self.t_rect1)
-        self.screen.blit(self.t2, self.t_rect2)
-
-    def __init__(self):
-
-        pygame.init()
-        mongo = self.connectWithMongo()
-
-        self.screen = pygame.display.set_mode((1200, 750))
-        pygame.font.Font(None, 50)
-        self.clock = pygame.time.Clock()
-
-        self.inputs()
-        self.labels()
-        self.buttons()
+        self.button_ok.clicked.connect(self.on_button_ok_clicked)
+        self.button_register.clicked.connect(self.on_register_button_clicked)
+        self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
     def connectWithMongo(self):
         os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
-    def loop(self):
-        while not self.done:
-            self.blit_labels()
+    def checkWithMongo(self, nick, password):
+        print("Weszlo")
+        client = MongoClient('localhost', 27017)
+        db = client['BomberMan']
+        collection = db['Players']
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.done = True
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    mouse = pygame.mouse.get_pos()
-                    if self.y_button_ok <= mouse[1] <= self.y_button_ok + 50 and self.x_button_ok - 100 <= mouse[0] <= self.x_button_ok:
-                        # dodanie akcji do przycisku - logowanie z bd, przejscie do ekranu kolejnego :)
-                        self.varial = True
-                        print("Kliknieto ok")
-                        answer = self.input_nickname.checkWithMongo(self.input_nickname.text, self.input_password.text)
-                        print("Odebrano odp")
-                        if (answer == 1):
-                            # Create players
-                            game_scr = gs.Game_screen()
-                            game_scr.loop()
-                            # p.Player(500, 50)
-                        elif(answer == 0):
-                            bad = bds.Bad_data_screen()
-                            bad.loop()
+        sha_signature = hashlib.sha256(password.encode()).hexdigest()
+        print(sha_signature)
+        answer = 1
+        answer = (collection.find({"login": nick, "password": sha_signature}).count()) == 1
+        print(answer)
+        print("lol")
+        if (answer):
+            return 1
+        else:
+            return 0
 
+    @pyqtSlot()
+    def on_button_ok_clicked(self):
+        nickname = self.lineEdit_nickname.text()
+        password = self.lineEdit_password.text()
+        print(nickname, ", ", password)
+        if (self.checkWithMongo(nickname, password)):
+            self.close()
+            self.g = game()
+            self.g.show()
 
-                for box in self.input_boxes:
-                    box.handle_event(event)
+    @pyqtSlot()
+    def on_register_button_clicked(self):
+        print("Rejestracja")
 
-            for box in self.input_boxes:
-                box.update()
-
-            self.screen.fill((255, 255, 255))
-            for box in self.input_boxes:
-                box.draw(self.screen)
-
-            self.screen.blit(self.t0, self.t_rect0)
-            self.screen.blit(self.t1, self.t_rect1)
-            self.screen.blit(self.t2, self.t_rect2)
-
-            self.btn.show(self.screen)
-
-            pygame.display.flip()
-
-            self.clock.tick(30)
+    @pyqtSlot()
+    def on_exit_button_clicked(self):
+        sys.exit(self.app.exec_())

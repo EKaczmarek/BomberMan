@@ -10,7 +10,7 @@ class Player(object):
     walls = []  # List to hold walls
     bricks = []  # List to hold bricks
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
         # Position of player
