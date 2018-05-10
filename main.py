@@ -1,12 +1,12 @@
-import pygame
-import Classes.Player as p
-
-def game():
-
-    # Create players
-    p.Player(500, 50)
-    # p.Player(1100, 650)
+import Classes.Login_screen as ls
 
 
 if __name__ == "__main__":
-    game()
+    login = ls.Login_screen()
+    login.loop()
+    
+    # for Mariusz:
+    # u góry do zakoemntowania bo baza u Cb nie zadziala, na dole do odkomentowania :)
+    #  p.Player(500, 50)
+
+

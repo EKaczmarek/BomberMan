@@ -64,14 +64,14 @@ class Player(object):
             if (seconds >= 2):
                 self.bomb.blow()
                 self.bomb_key = False
-                print(self.to_destroy)
+                print(self.board.list_to_destroy)
 
-
-                print("Lista: ", self.to_destroy)
-                for i in self.to_destroy:
-                    print(i)
+                print("Lista: ", self.board.list_to_destroy)
+                for i in self.board.list_to_destroy:
+                    print(i[0])
+                    print("Typ: ", type(i[0]))
                     self.board.game[i[0]][i[1]] = 0
-                print("Bomba: ", self.bomb.xx, " ", self.bomb.yy)
+
 
                 ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
                 print(ans)
@@ -107,28 +107,23 @@ class Player(object):
 
     def leave_bomb(self):
         if (self.bomb_key == False):
-
-
             xx, yy = self.get_pos_to_bomb()
-
             self.bomb = bom.Bomb(xx, yy)
-            print("lolaola: ", xx, " ", yy)
+            self.left_bombs += 1
 
             self.board.game[int(yy / 50)][int((xx - 450) / 50)] = self.bomb.get_bomb()
-
-            self.left_bombs += 1
             self.bomb_key = True
 
             # Count which bricks explode
-            self.to_destroy = self.board.count(xx, yy)
+            self.board.count(xx, yy)
             # Count if player will be dead
             destroy_player = self.destroy_player(xx, yy)
 
             print(destroy_player)
 
             if(destroy_player != 0):
-                self.to_destroy.append(destroy_player)
-            print(self.to_destroy)
+                self.board.list_to_destroy.append(destroy_player)
+            print(self.board.list_to_destroy)
 
     def destroy_player(self, xx, yy):
 
@@ -175,16 +170,12 @@ class Player(object):
                             self.rect.top = self.board.game[i][j].rect.bottom
 
     def get_pos(self):
-        print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
+        # print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
         xx = int((self.rect.x - 450) / 50)
         yy = int(self.rect.y / 50)
-        print("Wspolrzedne2: ", xx, ", ", yy)
+        # print("Wspolrzedne2: ", xx, ", ", yy)
         return xx, yy
 
-    def get_changed_pos(self, xx, yy):
-        xx = int((xx - 450) / 50)
-        yy = int(yy / 50)
-        return xx, yy
 
     def get_pos_to_bomb(self):
         return self.rect.x, self.rect.y

@@ -6,7 +6,23 @@ import pygame
 
 
 class Board(object):
-
+    level = [
+            "WWWWWWWWWWWWWWW",
+            "W    BBBBBBB  W",
+            "WBW W W W W W W",
+            "WB      BBB   W",
+            "WBW WBW W W W W",
+            "W   BBBBBBBB  W",
+            "W W W W W W W W",
+            "W  BB         W",
+            "W W W W W W W W",
+            "W BBBBBBBBBB  W",
+            "W W W WBWBW W W",
+            "WB   BBBBB    W",
+            "WBW W WBW W W W",
+            "WBB B  B      W",
+            "WWWWWWWWWWWWWWW",
+        ]
     def __init__(self,):
 
         # Set up the display
@@ -19,15 +35,15 @@ class Board(object):
                 self.game[i][j] = 0
             print()
 
-        cl = client.Client()
-        cl.connectToSerwer('192.168.0.103')
-        cl.sendMessage("GET")
-        lev = cl.wait4Response()
-
-        print("Dlugosc odp: ", len(lev))
-        print("Poziom: ", lev)
-
-        self.level = map(''.join, zip(*[iter(lev)]*15))
+            """cl = client.Client()
+                cl.connectToSerwer('192.168.0.103')
+                cl.sendMessage("GET")
+                lev = cl.wait4Response()
+            
+                print("Dlugosc odp: ", len(lev))
+                print("Poziom: ", lev)
+            
+                self.level = map(''.join, zip(*[iter(lev)]*15))"""
 
         self.buttons()
         self.walls_bricks()
@@ -69,6 +85,7 @@ class Board(object):
     def count(self, x_bomb, y_bomb):
 
         self.list_to_destroy = []
+        # self.list_to_blow = []
         xx, yy = self.table_dimension(y_bomb, x_bomb)
         print("Bomba: ", xx, " ", yy)
 
@@ -87,7 +104,6 @@ class Board(object):
         x_brick_4, y_brick_4 = xx + 1, yy
         self.which_one(x_brick_4, y_brick_4)
         print("Cegla 4: ", x_brick_4, " ", y_brick_4)
-        print("To destroy: ", self.list_to_destroy)
 
         self.list_to_destroy.append((xx, yy))
         print("To destroy: ", self.list_to_destroy)
@@ -95,6 +111,7 @@ class Board(object):
         return self.list_to_destroy
 
     def which_one(self, x_brick, y_brick):
+        # self.list_to_blow.append((x_brick, y_brick))
         if (self.game[x_brick][y_brick] != 0):
             if (self.game[x_brick][y_brick].desc == "brick"):
                 print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
