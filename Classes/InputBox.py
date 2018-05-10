@@ -1,6 +1,7 @@
 import hashlib
 import pygame
 from pymongo import MongoClient
+import os
 
 class InputBox:
 
@@ -48,6 +49,7 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
+
 
     def checkWithMongo(self, nick, password):
         client = MongoClient('localhost', 27017)

@@ -2,14 +2,13 @@ import Classes.Player as pl
 import Classes.Label as l
 import Classes.InputBox as in_box
 import Classes.Button as b
-import Classes.Player as p
+import Classes.Bad_data_screen as bds
+import Classes.Game_screen as gs
 import os
 import pygame
 
 
 class Login_screen:
-    def connectWithMongo(self):
-        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def inputs(self):
         self.input_nickname = in_box.InputBox(500, 200, 140, 32)
@@ -39,6 +38,8 @@ class Login_screen:
     def __init__(self):
 
         pygame.init()
+        mongo = self.connectWithMongo()
+
         self.screen = pygame.display.set_mode((1200, 750))
         pygame.font.Font(None, 50)
         self.clock = pygame.time.Clock()
@@ -46,6 +47,9 @@ class Login_screen:
         self.inputs()
         self.labels()
         self.buttons()
+
+    def connectWithMongo(self):
+        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
 
     def loop(self):
         while not self.done:
@@ -59,12 +63,17 @@ class Login_screen:
                     if self.y_button_ok <= mouse[1] <= self.y_button_ok + 50 and self.x_button_ok - 100 <= mouse[0] <= self.x_button_ok:
                         # dodanie akcji do przycisku - logowanie z bd, przejscie do ekranu kolejnego :)
                         self.varial = True
+                        print("Kliknieto ok")
                         answer = self.input_nickname.checkWithMongo(self.input_nickname.text, self.input_password.text)
+                        print("Odebrano odp")
                         if (answer == 1):
                             # Create players
-                            p.Player(500, 50)
+                            game_scr = gs.Game_screen()
+                            game_scr.loop()
+                            # p.Player(500, 50)
                         elif(answer == 0):
-                            return 0
+                            bad = bds.Bad_data_screen()
+                            bad.loop()
 
 
                 for box in self.input_boxes:
