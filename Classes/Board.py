@@ -26,7 +26,7 @@ class Board(object):
     def __init__(self,):
 
         # Set up the display
-        self.screen = pygame.display.set_mode((1200, 750))
+        self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
 
         # Board of game
         self.game = [[0 for col in range(15)] for row in range(15)]
