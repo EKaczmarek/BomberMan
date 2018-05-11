@@ -2,11 +2,11 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
 
-qtCreatorFile = "Classes/bad_data.ui"
+qtCreatorFile = "Classes/options.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
-class bad_data(QDialog, Ui_Dialog):
+class Options(QDialog, Ui_Dialog):
 
     def __init__(self, parent = None):
         QDialog.__init__(self, parent)
@@ -15,9 +15,13 @@ class bad_data(QDialog, Ui_Dialog):
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
 
-        self.button_ok.clicked.connect(self.on_button_ok_clicked)
-
+        self.button_back.clicked.connect(self.on_button_back_clicked)
+        self.button_apply.clicked.connect(self.on_button_apply_clicked)
 
     @pyqtSlot()
-    def on_button_ok_clicked(self):
+    def on_button_back_clicked(self):
         self.close()
+
+    @pyqtSlot()
+    def on_button_apply_clicked(self):
+        pass

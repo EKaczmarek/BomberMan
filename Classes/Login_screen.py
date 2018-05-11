@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
 from pymongo import MongoClient
 from Classes.Game_screen import game
+from Classes.Bad_data_screen import bad_data
 import hashlib
 import sys
 import os
@@ -54,6 +55,11 @@ class Login_screen(QMainWindow, Ui_MainWindow):
             self.close()
             self.g = game()
             self.g.show()
+        else:
+            self.b = bad_data()
+            self.lineEdit_nickname.setText('')
+            self.lineEdit_password.setText('')
+            self.b.show()
 
     @pyqtSlot()
     def on_register_button_clicked(self):

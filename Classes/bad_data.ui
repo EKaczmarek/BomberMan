@@ -37,7 +37,7 @@
     <string>DATA IS INCORRECT</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="button_options">
+  <widget class="QPushButton" name="button_ok">
    <property name="geometry">
     <rect>
      <x>240</x>
