@@ -1,17 +1,11 @@
-import pyaudio
 import socket
-import time
-from pymongo import MongoClient
 # from validation import Validator
-import os
-import json
 
 
 class Server:
 
     def __init__(self):
         print("Inicjalizacja klasy Server")
-
 
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
@@ -33,22 +27,25 @@ class Server:
     def listening(self):
         print("[*] Start listen")
 
+        self.dict_players = {}
         while True:
             try:
                 data, addr = self.s.recvfrom(self.size)
-                self.host = addr[0]
-                self.port = addr[1]
-                print(self.host)
-                print(self.port)
-
                 if data:
-                    # self.stream.write(data)  # Stream the recieved audio data
-                    print(type(data), data)
                     try:
                         data = data.decode("utf-8")
                         if (data[0:3] == "GET"):
-                            print("Otrzymano GET")
-                            self.sendM("GET WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW")
+                            print("Otrzymano GET ", addr[0], " ", addr[1])
+                            board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
+                            self.s.sendto(("GET " + board).encode("utf-8"), addr)
+                        elif (data[0:3] == "POS"):
+                            frames = data.split(" ")
+                            self.dict_players[addr] = (frames[1], frames[1])
+                            for key, values in self.dict_players.items():
+                                print("Pozycja gracza o IP " + addr[0] + ": ", frames[1], frames[2])
+                                print(key, " ", values)
+                                self.s.sendto((data).encode("utf-8"), key)
+
                     except UnicodeDecodeError:
                         print("Bład dekodowania")
 
@@ -62,12 +59,8 @@ class Server:
     def stopConnection(self):
         self.stream.stop_stream()
         self.stream.close()
-
         self.s.close()
-
-
-
+        
 serwer = Server()
 serwer.connectWithClient()
 serwer.listening()
-# serwer.stopConnection()

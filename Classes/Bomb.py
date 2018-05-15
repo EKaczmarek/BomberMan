@@ -11,8 +11,5 @@ class Bomb(object):
         self.desc = "bomb"
         print(self.start_timer)
 
-    def blow(self):
-        print("Wybuchaa!!!")
-
     def get_bomb(self):
         return self

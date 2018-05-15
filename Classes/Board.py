@@ -23,7 +23,7 @@ class Board(object):
             "WBB B  B      W",
             "WWWWWWWWWWWWWWW",
         ]
-    def __init__(self,):
+    def __init__(self, ):
 
         # Set up the display
         self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
@@ -35,15 +35,15 @@ class Board(object):
                 self.game[i][j] = 0
             print()
 
-            """cl = client.Client()
-                cl.connectToSerwer('192.168.0.103')
-                cl.sendMessage("GET")
-                lev = cl.wait4Response()
+            self.cl = client.Client()
+            self.cl.connectToSerwer('10.160.34.83')
+            lev = self.cl.sendMessage("GET")
+            # lev = cl.wait4Response()
             
-                print("Dlugosc odp: ", len(lev))
-                print("Poziom: ", lev)
+            print("Dlugosc odp: ", len(lev))
+            print("Poziom: ", lev)
             
-                self.level = map(''.join, zip(*[iter(lev)]*15))"""
+            self.level = map(''.join, zip(*[iter(lev)]*15))
 
         self.buttons()
         self.walls_bricks()
@@ -57,15 +57,17 @@ class Board(object):
         for row in self.level:
             for col in row:
                 if col == "W":
+                    # wal = board_obj.Board_objects((x, y), "wall")
                     wal = w.Wall((x, y))
                     # x is a multiply of 50 f.ex 450, y also
                     # so it's easier to have element table[1][1] than table[50][50] etc
                     table_x, table_y = self.table_dimension(y, x)
                     self.game[table_x][table_y] = wal.get_wall()
                 elif col == "B":
-                        brick = b.Brick((x, y))
-                        table_x, table_y = self.table_dimension(y, x)
-                        self.game[table_x][table_y] = brick.get_brick()
+                    # brick = board_obj.Board_objects((x,y), "brick")
+                    brick = b.Brick((x, y))
+                    table_x, table_y = self.table_dimension(y, x)
+                    self.game[table_x][table_y] = brick.get_brick()
                 x += 50
             y += 50
             x = 450
@@ -105,7 +107,7 @@ class Board(object):
         self.which_one(x_brick_4, y_brick_4)
         print("Cegla 4: ", x_brick_4, " ", y_brick_4)
 
-        self.list_to_destroy.append((xx, yy))
+        #self.list_to_destroy.append((xx, yy))
         print("To destroy: ", self.list_to_destroy)
 
         return self.list_to_destroy

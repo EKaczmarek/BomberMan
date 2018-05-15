@@ -8,7 +8,6 @@ if __name__ == "__main__":
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
-
     """app = QApplication(sys.argv)
     window = Login_screen()
     window.show()
@@ -16,9 +15,9 @@ if __name__ == "__main__":
 
     # powyzej do zakomentowania
     # ponizej odkomentowania
-    p = Player(1000, 50, BLUE)
 
-    # p1 = Player(1000, 50, 50002)
+    p = Player(500, 50, GREEN)
+
 
 
 

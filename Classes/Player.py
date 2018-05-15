@@ -10,13 +10,14 @@ class Player(object):
     walls = []  # List to hold walls
     bricks = []  # List to hold bricks
 
-    def __init__(self, x, y, parent = None):
+    def __init__(self, x, y, colour, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
-        # Position of player
-        self.rect = pygame.Rect(x, y, 50, 50)
         # Initialize board
         self.board = board.Board()
+        # Position of player
+        self.rect = pygame.Rect(x, y, 50, 50)
+        self.colour = colour
         # Initialize flags
         self.show_player = True
         self.exit_key = False
@@ -46,6 +47,9 @@ class Player(object):
                     self.move(0, 50)
                 if e.key == pygame.K_b:
                     self.leave_bomb()
+                x, y = str(self.get_pos()[0]), str(self.get_pos()[1])
+                print("Wysłanie do serwera: x=" + x + " y=" + y)
+                self.board.cl.sendMessage("POS " + x + " " + y)
 
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:
@@ -62,7 +66,6 @@ class Player(object):
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
             if (seconds >= 2):
-                self.bomb.blow()
                 self.bomb_key = False
                 print(self.board.list_to_destroy)
 
@@ -91,7 +94,7 @@ class Player(object):
                     if(self.board.game[i][j].desc == "wall"):
                         pygame.draw.rect(self.board.screen, (0, 0, 0), self.board.game[i][j].rect)
                         if (self.show_player):
-                            pygame.draw.rect(self.board.screen, (255, 200, 0), self.rect)
+                            pygame.draw.rect(self.board.screen, self.colour, self.rect)
                         if (self.bomb_key):
                             pygame.draw.rect(self.board.screen, (255, 0, 255), self.bomb.rect)
                     elif(self.board.game[i][j].desc == "brick"):

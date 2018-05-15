@@ -3,18 +3,7 @@ import socket
 #from JaroEliCall.src.validation import Validator
 
 
-#class Client(Validator):
 class Client:
-    FORMAT = pyaudio.paInt16
-    CHUNK = 1024
-    WIDTH = 1
-    CHANNELS = 1
-    RATE = 8000
-    RECORD_SECONDS = 15
-    FACTOR = 2
-
-    #def __init__(self, priv, publ):
-
     def __init__(self):
         print("Inicjalizacja klasy Client")
 
@@ -36,22 +25,18 @@ class Client:
         print(data)
         try:
             self.s.send(data.encode("utf-8"))
+            print("Wyslano: ", data)
+            ans, addr = self.s.recvfrom(self.size)
+            data = ans.decode("utf-8")
+            print("Dane: ", data[0:3])
+            if (data[0:3] == "GET"):
+                return data[4::]
+            elif (data[0:3] == "POS"):
+                print("Dostalem komunikat: ", data)
+                return data
         except ConnectionRefusedError as err:
             print(err)
-
         print("Czekam na odpowiedź od serwera ")
-
-    def wait4Response(self):
-        while True:
-            try:
-                print("Oczekiwanie....")
-                data, addr2 = self.s.recvfrom(self.size)
-                data = data.decode("utf-8")
-                print("DAne: ", data[0:3])
-                if(data[0:3] == "GET"):
-                    return data[4::]
-            except ConnectionRefusedError:
-                print("Blad przy otrzymywaniu odp od serwera")
 
 
 
