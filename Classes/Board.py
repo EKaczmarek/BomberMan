@@ -2,6 +2,7 @@ import Classes.Wall as w
 import Classes.Brick as b
 import Classes.Button as btn
 import Classes.Client as client
+import threading
 import pygame
 
 
@@ -37,6 +38,8 @@ class Board(object):
 
             self.cl = client.Client()
             self.cl.connectToSerwer('10.160.34.83')
+            t = threading.Thread(target=self.cl.listening)
+            t.start()
             lev = self.cl.sendMessage("GET")
             # lev = cl.wait4Response()
             

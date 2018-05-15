@@ -75,7 +75,6 @@ class Player(object):
                     print("Typ: ", type(i[0]))
                     self.board.game[i[0]][i[1]] = 0
 
-
                 ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
                 print(ans)
                 if (ans):
@@ -163,7 +162,7 @@ class Player(object):
                    or (type(self.board.game[i][j]) is brick.Brick)
                    or (type(self.board.game[i][j]) is bom.Bomb)):
                     if self.rect.colliderect(self.board.game[i][j].rect):
-                        if dx > 0:  # Moving right; Hit the left side of the wall
+                        if dx > 0:  # Moving right; Hit thes left side of the wall
                             self.rect.right = self.board.game[i][j].rect.left
                         if dx < 0:  # Moving left; Hit the right side of the wall
                             self.rect.left = self.board.game[i][j].rect.right

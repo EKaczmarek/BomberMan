@@ -1,7 +1,7 @@
 import pyaudio
 import socket
 #from JaroEliCall.src.validation import Validator
-
+import threading
 
 class Client:
     def __init__(self):
@@ -10,13 +10,15 @@ class Client:
 
     def connectToSerwer(self, host):
         # ipadres serwera
-        self.host = host
+        self.host = "10.160.34.83"
         self.port = 50001
         self.size = 2048
 
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
+            self.sendMessage("GET")
+
         except ConnectionRefusedError as err:
             print(err)
             self.s.close()
@@ -34,11 +36,28 @@ class Client:
             elif (data[0:3] == "POS"):
                 print("Dostalem komunikat: ", data)
                 return data
+            else:
+                return data
         except ConnectionRefusedError as err:
             print(err)
         print("Czekam na odpowiedź od serwera ")
 
+    def listening(self):
+        print("[*] Start listening")
 
+        while True:
+            print("W petli: ")
+            try:
+                data, addr = self.s.recvfrom(self.size)
+                if data:
+                  print("Dostalem: ", data)
+
+            except ConnectionRefusedError as err:
+                print(err)
+                print("Bład połączenia")
+                break
+
+        print("[*] Stop listen")
 
     def closeConnection(self):
         self.stream.stop_stream()
