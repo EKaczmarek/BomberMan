@@ -10,7 +10,7 @@ class Board(object):
             "WWWWWWWWWWWWWWW",
             "W    BBBBBBB  W",
             "WBW W W W W W W",
-            "WB      BBB   W",
+            "WB  B   BBB   W",
             "WBW WBW W W W W",
             "W   BBBBBBBB  W",
             "W W W W W W W W",
@@ -18,11 +18,12 @@ class Board(object):
             "W W W W W W W W",
             "W BBBBBBBBBB  W",
             "W W W WBWBW W W",
-            "WB   BBBBB    W",
+            "WB  BBBBBB    W",
             "WBW W WBW W W W",
             "WBB B  B      W",
             "WWWWWWWWWWWWWWW",
         ]
+
     def __init__(self,):
 
         # Set up the display

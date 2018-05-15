@@ -59,19 +59,20 @@ class Player(object):
 
     def handle_bombs(self):
         # bomb timer
+        ex = pygame.image.load(r"Classes/Pictures/ex1.png")
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
             if (seconds >= 2):
                 self.bomb.blow()
                 self.bomb_key = False
+                self.board.screen.blit(ex, self.bomb.get_bomb())
+                pygame.display.flip()
                 print(self.board.list_to_destroy)
-
                 print("Lista: ", self.board.list_to_destroy)
                 for i in self.board.list_to_destroy:
                     print(i[0])
                     print("Typ: ", type(i[0]))
                     self.board.game[i[0]][i[1]] = 0
-
 
                 ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
                 print(ans)
@@ -83,19 +84,25 @@ class Player(object):
 
     def display_all(self):
         # Display screen
+        wall = pygame.image.load(r"Classes/Pictures/wall.png").convert()
+        box = pygame.image.load(r"Classes/Pictures/box.png").convert()
+        bomba = pygame.image.load(r"Classes/Pictures/bomb.png")
+        bomberman = pygame.image.load(r"Classes/Pictures/player.png").convert()
+
         self.board.screen.fill((255, 255, 255))
 
         for i in range(len(self.board.game)):
             for j in range(len(self.board.game[i])):
                 if(self.board.game[i][j] != 0):
                     if(self.board.game[i][j].desc == "wall"):
-                        pygame.draw.rect(self.board.screen, (0, 0, 0), self.board.game[i][j].rect)
+                        self.board.screen.blit(wall, self.board.game[i][j])
                         if (self.show_player):
-                            pygame.draw.rect(self.board.screen, (255, 200, 0), self.rect)
+                            self.board.screen.blit(bomberman, self.rect)
                         if (self.bomb_key):
-                            pygame.draw.rect(self.board.screen, (255, 0, 255), self.bomb.rect)
+                            self.board.screen.blit(bomba, self.bomb.rect)
                     elif(self.board.game[i][j].desc == "brick"):
-                        pygame.draw.rect(self.board.screen, (255, 100, 50), self.board.game[i][j].rect)
+                        self.board.screen.blit(box, self.board.game[i][j])
+
                         # Display buttons
                 else:
                     pygame.draw.rect(self.board.screen, (255, 255, 255), self.rect)
