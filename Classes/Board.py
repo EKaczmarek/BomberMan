@@ -36,7 +36,7 @@ class Board(object):
                 self.game[i][j] = 0
             print()
 
-            self.cl = client.Client()
+            """self.cl = client.Client()
             self.cl.connectToSerwer('10.160.34.83')
             t = threading.Thread(target=self.cl.listening)
             t.start()
@@ -46,7 +46,7 @@ class Board(object):
             print("Dlugosc odp: ", len(lev))
             print("Poziom: ", lev)
             
-            self.level = map(''.join, zip(*[iter(lev)]*15))
+            self.level = map(''.join, zip(*[iter(lev)]*15))"""
 
         self.buttons()
         self.walls_bricks()

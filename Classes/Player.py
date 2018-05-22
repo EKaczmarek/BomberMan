@@ -48,8 +48,8 @@ class Player(object):
                 if e.key == pygame.K_b:
                     self.leave_bomb()
                 x, y = str(self.get_pos()[0]), str(self.get_pos()[1])
-                print("Wysłanie do serwera: x=" + x + " y=" + y)
-                self.board.cl.sendMessage("POS " + x + " " + y)
+                #print("Wysłanie do serwera: x=" + x + " y=" + y)
+                #self.board.cl.sendMessage("POS " + x + " " + y)
 
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:

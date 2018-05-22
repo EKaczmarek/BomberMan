@@ -10,7 +10,7 @@ class Client:
 
     def connectToSerwer(self, host):
         # ipadres serwera
-        self.host = "10.160.34.83"
+        self.host = "192.168.43.130"
         self.port = 50001
         self.size = 2048
 

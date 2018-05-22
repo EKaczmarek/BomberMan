@@ -10,7 +10,7 @@ class Server:
 
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
-        self.host = "10.160.34.83"
+        self.host = "192.168.43.130"
         self.port = 50001
         self.size = 2048
 
@@ -34,10 +34,10 @@ class Server:
             print("W petli: ")
             print(self.dict_players)
             for key, values in self.dict_players.items():
-                #print("Wyslanie do ", key, " ,wartosci: ", values)
+                # print("Wyslanie do ", key, " ,wartosci: ", values)
                 self.send_message_to_client("POS " + values, key)
-                self.host = key[0]
-                self.port = key[1]
+                # self.host = key[0]
+                # self.port = key[1]
 
             try:
                 data, addr = self.s.recvfrom(self.size)

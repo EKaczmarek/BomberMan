@@ -9,14 +9,14 @@ if __name__ == "__main__":
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
 
-    """app = QApplication(sys.argv)
+    app = QApplication(sys.argv)
     window = Login_screen()
     window.show()
-    sys.exit(app.exec_())"""
+    sys.exit(app.exec_())
 
     # powyzej do zakomentowania
     # ponizej odkomentowania
-    p = Player(1000, 50, BLUE)
+    # p = Player(1000, 50, BLUE)
 
     # p1 = Player(1000, 50, 50002)
 
