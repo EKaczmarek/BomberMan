@@ -1,8 +1,10 @@
 import Classes.Wall as w
 import Classes.Brick as b
+import Classes.Powerup as p
 import Classes.Button as btn
 import Classes.Client as client
 import pygame
+import random
 
 
 class Board(object):
@@ -24,17 +26,26 @@ class Board(object):
             "WWWWWWWWWWWWWWW",
         ]
 
+    # list_of_empty_field = []
+
     def __init__(self,):
 
         # Set up the display
         self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
-
+        pygame.mixer.music.load(r"Classes/Music/music.wav")
+        # pygame.mixer.music.play(-1)
         # Board of game
+        self.powerups_array = [[0 for columns in range(15)] for rows in range(15)]
+        for i in range(len(self.powerups_array)):
+            for j in range(len(self.powerups_array[i])):
+                self.powerups_array[i][j] = 0
+
         self.game = [[0 for col in range(15)] for row in range(15)]
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
             print()
+
 
             """cl = client.Client()
                 cl.connectToSerwer('192.168.0.103')
@@ -52,6 +63,9 @@ class Board(object):
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
+    def table_to_pixels(self, x, y):
+        return int(x*50), int((y*50)+450)
+
     def walls_bricks(self):
         x = 450
         y = 0
@@ -65,8 +79,17 @@ class Board(object):
                     self.game[table_x][table_y] = wal.get_wall()
                 elif col == "B":
                         brick = b.Brick((x, y))
+                        powerUP = p.Powerup((x, y))
                         table_x, table_y = self.table_dimension(y, x)
                         self.game[table_x][table_y] = brick.get_brick()
+                        # rand = random.randint(0, 100)
+                        # if (rand > 0):
+
+                        # table_x, table_y = self.table_dimension(y, x)
+                        self.powerups_array[table_x][table_y] = powerUP.get_powerup()
+                '''else:
+                    table_x, table_y = self.table_dimension(y, x)
+                    self.list_of_empty_field.append((table_x, table_y))'''
                 x += 50
             y += 50
             x = 450
@@ -84,9 +107,7 @@ class Board(object):
             print()
 
     def count(self, x_bomb, y_bomb):
-
         self.list_to_destroy = []
-        # self.list_to_blow = []
         xx, yy = self.table_dimension(y_bomb, x_bomb)
         print("Bomba: ", xx, " ", yy)
 
@@ -112,8 +133,13 @@ class Board(object):
         return self.list_to_destroy
 
     def which_one(self, x_brick, y_brick):
-        # self.list_to_blow.append((x_brick, y_brick))
+        # print("Jestem w metodzie which_one")
         if (self.game[x_brick][y_brick] != 0):
             if (self.game[x_brick][y_brick].desc == "brick"):
-                print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
+                # print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
+                self.list_to_destroy.append((x_brick, y_brick))
+        else:
+            # if (self.game[x_brick][y_brick].desc != "wall" and self.game[x_brick][y_brick].desc != "brick"):
+                # self.list_to_fire.append((x_brick, y_brick))
+                # print("list to fire: ", self.list_to_fire)
                 self.list_to_destroy.append((x_brick, y_brick))

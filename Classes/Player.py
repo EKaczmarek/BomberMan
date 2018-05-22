@@ -1,14 +1,41 @@
 import pygame
+import time
+import glob
 import Classes.Board as board
 import Classes.Bomb as bom
 import Classes.Wall as wal
 import Classes.Brick as brick
+import Classes.Powerup as powerup
+
+
+def load_image(name):
+    image = pygame.image.load(name)
+    return image
 
 
 class Player(object):
 
     walls = []  # List to hold walls
     bricks = []  # List to hold bricks
+    side = 0
+
+    lista = []
+    images = []
+    # self.images = glob.glob(r"Classes/Pictures/ex*.png")
+    images.append(load_image(r"Classes/Pictures/ex1.png"))
+    images.append(load_image(r"Classes/Pictures/ex2.png"))
+    images.append(load_image(r"Classes/Pictures/ex3.png"))
+    images.append(load_image(r"Classes/Pictures/ex4.png"))
+    images.append(load_image(r"Classes/Pictures/ex5.png"))
+    images.append(load_image(r"Classes/Pictures/ex6.png"))
+    images.append(load_image(r"Classes/Pictures/ex7.png"))
+    images.append(load_image(r"Classes/Pictures/ex8.png"))
+
+    images = images
+    images_right = images
+    images_left = [pygame.transform.flip(image, True, False) for image in images]  # Flipping every image.
+    index = 0
+    image = images[index]
 
     def __init__(self, x, y, parent = None):
         # Initialise pygame
@@ -38,8 +65,10 @@ class Player(object):
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT:
                     self.move(-50, 0)
+                    Player.side = 1
                 if e.key == pygame.K_RIGHT:
                     self.move(50, 0)
+                    Player.side = 0
                 if e.key == pygame.K_UP:
                     self.move(0, -50)
                 if e.key == pygame.K_DOWN:
@@ -58,26 +87,46 @@ class Player(object):
                     self.exit_key = True
 
     def handle_bombs(self):
+        powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
         # bomb timer
-        ex = pygame.image.load(r"Classes/Pictures/ex1.png")
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
-            if (seconds >= 2):
+
+            if (seconds >= 1.5):
                 self.bomb.blow()
                 self.bomb_key = False
-                self.board.screen.blit(ex, self.bomb.get_bomb())
-                pygame.display.flip()
-                print(self.board.list_to_destroy)
-                print("Lista: ", self.board.list_to_destroy)
+
+                '''for x in range(8):
+                    self.board.screen.blit(self.images[x], self.bomb.get_bomb())
+                    pygame.display.flip()
+                    time.sleep(0.05)'''
+
+                print("Lista do zniszczenia:", self.board.list_to_destroy)
+
                 for i in self.board.list_to_destroy:
-                    print(i[0])
-                    print("Typ: ", type(i[0]))
+                    for x in range(8):
+                        posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
+                        # print("posx:" + str(posx))
+                        # print("posy:" + str(posy))
+                        self.board.screen.blit(self.images[x], (posy, posx))
+                        pygame.display.flip()
+                        #time.sleep(0.1)
+
                     self.board.game[i[0]][i[1]] = 0
 
+                    # self.board.screen.blit(powUP, (posy, posx))
+                    '''for px in range(len(self.board.game)):
+                        for py in range(len(self.board.game[px])):
+                            if (self.board.powerups_array[px][py] == self.board.game[px][py]):
+                                self.board.screen.blit(self.powUp, (posy, posx))
+                                # self.board.screen.blit(box2, self.board.game[i[0]][i[1]])'''
+
+                # pygame.mixer.music.unpause()
                 ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
-                print(ans)
+                # print("ans zwraca: " + str(ans))
                 if (ans):
                     self.die()
+
 
     def die(self):
         self.show_player = False
@@ -87,7 +136,8 @@ class Player(object):
         wall = pygame.image.load(r"Classes/Pictures/wall.png").convert()
         box = pygame.image.load(r"Classes/Pictures/box.png").convert()
         bomba = pygame.image.load(r"Classes/Pictures/bomb.png")
-        bomberman = pygame.image.load(r"Classes/Pictures/player.png").convert()
+        bombermanL = pygame.image.load(r"Classes/Pictures/playerL.png").convert()
+        bombermanR = pygame.image.load(r"Classes/Pictures/playerR.png").convert()
 
         self.board.screen.fill((255, 255, 255))
 
@@ -97,7 +147,10 @@ class Player(object):
                     if(self.board.game[i][j].desc == "wall"):
                         self.board.screen.blit(wall, self.board.game[i][j])
                         if (self.show_player):
-                            self.board.screen.blit(bomberman, self.rect)
+                            if(Player.side == 0):
+                                self.board.screen.blit(bombermanR, self.rect)
+                            else:
+                                self.board.screen.blit(bombermanL, self.rect)
                         if (self.bomb_key):
                             self.board.screen.blit(bomba, self.bomb.rect)
                     elif(self.board.game[i][j].desc == "brick"):
@@ -113,6 +166,8 @@ class Player(object):
         pygame.display.flip()
 
     def leave_bomb(self):
+        BombExplode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
+
         if (self.bomb_key == False):
             xx, yy = self.get_pos_to_bomb()
             self.bomb = bom.Bomb(xx, yy)
@@ -121,8 +176,12 @@ class Player(object):
             self.board.game[int(yy / 50)][int((xx - 450) / 50)] = self.bomb.get_bomb()
             self.bomb_key = True
 
+            # pygame.mixer.music.pause()
+            pygame.mixer.Sound.play(BombExplode)
+
             # Count which bricks explode
             self.board.count(xx, yy)
+
             # Count if player will be dead
             destroy_player = self.destroy_player(xx, yy)
 
@@ -135,16 +194,16 @@ class Player(object):
     def destroy_player(self, xx, yy):
 
         x, y = self.get_pos()
-        print("Player", x, " ", y)
+        # print("Player", x, " ", y)
         xx = int((xx - 450) / 50)
         yy = int(yy / 50)
-        print("Bomba 1: ", xx, " ", yy)
+        # print("Bomba 1: ", xx, " ", yy)
         if((x == xx and y == yy)
            or (x == xx+1 and y == yy)
            or (x == xx-1 and y == yy)
            or (x == xx and y == yy+1)
            or (x == xx and y == yy-1)):
-            print("gracz:", x, " ", y)
+            # print("gracz:", x, " ", y)
             return (y, x)
         else:
             return 0
