@@ -1,6 +1,5 @@
 import pygame
 
-
 class Wall(object):
 
     x, y = '', ''
@@ -13,3 +12,6 @@ class Wall(object):
 
     def get_wall(self):
         return self
+
+    def get_pos_wall(self):
+        return self.x, self.y

@@ -37,14 +37,13 @@ class Player(object):
     index = 0
     image = images[index]
 
-    def __init__(self, x, y, colour, parent = None):
+    def __init__(self, x, y, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
-        # Initialize board
-        self.board = board.Board()
         # Position of player
         self.rect = pygame.Rect(x, y, 50, 50)
-        self.colour = colour
+        # Initialize board
+        self.board = board.Board()
         # Initialize flags
         self.show_player = True
         self.exit_key = False
@@ -76,9 +75,6 @@ class Player(object):
                     self.move(0, 50)
                 if e.key == pygame.K_b:
                     self.leave_bomb()
-                x, y = str(self.get_pos()[0]), str(self.get_pos()[1])
-                #print("Wysłanie do serwera: x=" + x + " y=" + y)
-                #self.board.cl.sendMessage("POS " + x + " " + y)
 
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:
@@ -126,7 +122,6 @@ class Player(object):
                                 # self.board.screen.blit(box2, self.board.game[i[0]][i[1]])'''
 
                 # pygame.mixer.music.unpause()
-				
                 ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
                 # print("ans zwraca: " + str(ans))
                 if (ans):
@@ -152,7 +147,6 @@ class Player(object):
                     if(self.board.game[i][j].desc == "wall"):
                         self.board.screen.blit(wall, self.board.game[i][j])
                         if (self.show_player):
-
                             if(Player.side == 0):
                                 self.board.screen.blit(bombermanR, self.rect)
                             else:
@@ -232,7 +226,7 @@ class Player(object):
                    or (type(self.board.game[i][j]) is brick.Brick)
                    or (type(self.board.game[i][j]) is bom.Bomb)):
                     if self.rect.colliderect(self.board.game[i][j].rect):
-                        if dx > 0:  # Moving right; Hit thes left side of the wall
+                        if dx > 0:  # Moving right; Hit the left side of the wall
                             self.rect.right = self.board.game[i][j].rect.left
                         if dx < 0:  # Moving left; Hit the right side of the wall
                             self.rect.left = self.board.game[i][j].rect.right

@@ -1,13 +1,10 @@
 from PyQt5.QtWidgets import QApplication
-from Classes.Login_screen import Login_screen
-from Classes.Player import Player
+from Classes.Screen_codes.Login_screen import Login_screen
+import Classes.Player as p
 import sys
-
+from Classes.Screen_codes.Ranking_screen import Ranking
 
 if __name__ == "__main__":
-    RED = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    BLUE = (0, 0, 255)
 
     app = QApplication(sys.argv)
     window = Login_screen()
@@ -16,8 +13,7 @@ if __name__ == "__main__":
 
     # powyzej do zakomentowania
     # ponizej odkomentowania
-    # p = Player(1000, 50, BLUE)
-
+    # p.Player(500, 50)
 
 
 
