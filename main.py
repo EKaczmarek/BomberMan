@@ -18,7 +18,6 @@ if __name__ == "__main__":
     # ponizej odkomentowania
     # p = Player(1000, 50, BLUE)
 
-    # p1 = Player(1000, 50, 50002)
 
 
 

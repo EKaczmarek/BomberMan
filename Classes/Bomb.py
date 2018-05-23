@@ -1,4 +1,5 @@
 import pygame
+import Classes.Board as board
 
 
 class Bomb(object):
