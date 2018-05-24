@@ -32,7 +32,6 @@ class Server:
 
     def listening(self):
         print("[*] Start listen")
-
         while True:
             try:
                 data, addr = self.s.recvfrom(self.size)
@@ -40,7 +39,6 @@ class Server:
                 self.port = addr[1]
                 print(self.host)
                 print(self.port)
-
                 if data:
                     # self.stream.write(data)  # Stream the recieved audio data
                     print(type(data), data)

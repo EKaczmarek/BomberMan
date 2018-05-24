@@ -6,13 +6,12 @@ from Classes.Screen_codes.Options_screen import Options
 from Classes.Screen_codes.Ranking_screen import Ranking
 
 
-
 qtCreatorFile = "Classes\GUI\game.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-class Game(QDialog, Ui_Dialog):
 
-    def __init__(self, parent = None):
+class Game(QDialog, Ui_Dialog):
+    def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
@@ -23,7 +22,6 @@ class Game(QDialog, Ui_Dialog):
         self.button_ranking.clicked.connect(self.on_ranking_button_clicked)
         self.button_options.clicked.connect(self.on_options_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
-
 
     @pyqtSlot()
     def on_button_play_clicked(self):

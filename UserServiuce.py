@@ -1,15 +1,17 @@
 import hashlib
 import random
 import string
-
 import cherrypy
 import pymongo
+
 
 def _hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
+
 def _generate_activation_key(length):
     return ''.join(random.sample(string.ascii_letters + string.digits, length))
+
 
 @cherrypy.expose
 class UsersService:

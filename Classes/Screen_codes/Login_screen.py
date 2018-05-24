@@ -5,6 +5,8 @@ from pymongo import MongoClient
 from Classes.Screen_codes.Game_screen import Game
 from Classes.Screen_codes.Bad_data_screen import Bad_data
 from Classes.Screen_codes.Register_screen import Register
+from UserServiuce import UsersService
+import http.client
 
 import hashlib
 import sys
@@ -28,7 +30,8 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
     def connectWithMongo(self):
-        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
+        # os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
+        pass
 
     def checkWithMongo(self, nick, password):
         sha_signature = hashlib.sha256(password.encode()).hexdigest()
@@ -44,6 +47,12 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_button_ok_clicked(self):
+        conn = http.client.HTTPConnection("localhost", 8080)
+        conn.request("GET", "/users")
+        r1 = (conn.getresponse())
+        print(r1.status)
+        print(r1.read())
+
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
         print(nickname, ", ", password)
