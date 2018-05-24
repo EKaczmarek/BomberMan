@@ -16,6 +16,7 @@ def _generate_activation_key(length):
 @cherrypy.expose
 class UsersService:
     @cherrypy.tools.json_out()
+    # get data about activation
     def GET(self, nickname=None):
         with pymongo.MongoClient() as db:
             if nickname:
@@ -31,7 +32,9 @@ class UsersService:
     @cherrypy.tools.json_in()
     # Replace with auth_basic using "superadmin" credentials
     # (without pushing credentials into the repository)??
+    #
     @cherrypy.tools.auth_basic(on=False)
+    # user register
     def POST(self):
         data = cherrypy.request.json
         with pymongo.MongoClient() as db:
@@ -49,6 +52,7 @@ class UsersService:
             else:
                 raise cherrypy.HTTPError(409)
 
+    # activation account
     def PATCH(self, nickname, activation_key):
         with pymongo.MongoClient() as db:
             if db.BomberMan.Players.find({'nickname': nickname, 'activation_key': activation_key}).count() == 1:
@@ -57,6 +61,7 @@ class UsersService:
                 raise cherrypy.HTTPError(404)
 
 # db.players.update({'nickname': 'Toreno96'}, {'$push': {'statistic_per_game': {'place': 12, 'bombs_set': 10, 'players_count': 20}}})
+#  ranking update
 @cherrypy.expose
 class RankingService:
     @cherrypy.tools.json_in()

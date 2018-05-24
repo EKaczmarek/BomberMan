@@ -28,5 +28,6 @@ def main():
     cherrypy.config.update({'server.socket_port': 9090})
     cherrypy.quickstart(UserActivation(), '/')
 
+
 if __name__ == '__main__':
     main()
