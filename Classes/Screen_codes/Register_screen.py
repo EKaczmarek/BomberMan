@@ -40,7 +40,7 @@ class Register(QDialog, Ui_Dialog):
             print(r1.status)
             print(r1.read())
             if(r1.status == 201):
-                self.activ = Activation()
+                self.activ = Activation(nickname)
                 self.activ.show()
             if(r1.status == 409):
                 print("Dane juz istnieja w bazie")
