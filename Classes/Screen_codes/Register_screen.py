@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
 import http.client
 import json
+import requests
 
 qtCreatorFile = "Classes/GUI/register.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -34,6 +35,27 @@ class Register(QDialog, Ui_Dialog):
         print(params)
         headers = {'Content-type': 'application/json'}
         if(password == repassword):
+            """url = '{0[protocol]}://{0[address]}:{0[port]}{0[process_endpoint]}'.format(
+                self.config['server'])
+            # logging.debug('sending to: %s', url)
+            response = requests.post(url, json=processes)"""
+            """
+            {
+                "server": {
+                    "protocol": "http",
+                    "address": "127.0.0.1",
+                    "port": 8080,
+                    "process_endpoint": "/api/process/"
+                },
+                "name": "name",
+                "group": "group",
+                "time period": {
+                    "processes collecting": 30,
+                    "server communication": 60
+                }
+            }"""
+            # https://github.com/Irsutoro/Sauron/blob/nazgul/src/nazgul/config.json
+
             conn = http.client.HTTPConnection('localhost', 8080)
             conn.request('POST', '/users', params, headers)
             r1 = (conn.getresponse())

@@ -13,6 +13,7 @@ class UserActivation:
     #    do serwisów, zamiast poprzez "stronę" do aktywacji.
     @cherrypy.expose
     def activate(self, nickname, activation_key):
+
         url = 'http://localhost:8080/users/'
         response = requests.get(url, params={'nickname': nickname})
         if response.ok:

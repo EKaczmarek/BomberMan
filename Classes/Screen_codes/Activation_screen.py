@@ -31,12 +31,10 @@ class Activation(QDialog, Ui_Dialog):
         headers = {'Content-type': 'application/json'}
 
         conn = http.client.HTTPConnection('localhost', 8080)
-        print("nick: ", self.nick, " ,kod: ", code)
         conn.request('PATCH', '/users', params, headers)
-        print("oczekiwanie na odp")
+
         r1 = (conn.getresponse())
-        print("r1", r1)
-        #self.close()
+        print("r1", r1.status)
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):

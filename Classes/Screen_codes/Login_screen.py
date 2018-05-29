@@ -5,12 +5,9 @@ from pymongo import MongoClient
 from Classes.Screen_codes.Game_screen import Game
 from Classes.Screen_codes.Bad_data_screen import Bad_data
 from Classes.Screen_codes.Register_screen import Register
-from UserServiuce import UsersService
 import http.client
-
 import hashlib
 import sys
-import os
 
 qtCreatorFile = "Classes\GUI\login.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)

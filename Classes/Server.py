@@ -64,7 +64,6 @@ class Server:
         self.s.close()
 
 
-
 serwer = Server()
 serwer.connectWithClient()
 serwer.listening()
