@@ -1,10 +1,9 @@
+import pygame
 import Classes.Wall as w
 import Classes.Brick as b
 import Classes.Powerup as p
 import Classes.Button as btn
 import Classes.Client as client
-import pygame
-import random
 
 
 class Board(object):
@@ -26,8 +25,6 @@ class Board(object):
             "WWWWWWWWWWWWWWW",
         ]
 
-    # list_of_empty_field = []
-
     def __init__(self,):
 
         # Set up the display
@@ -46,16 +43,12 @@ class Board(object):
                 self.game[i][j] = 0
             print()
 
+        self.cl = client.Client()
+        self.cl.connectToSerwer('192.168.0.100')
+        self.cl.sendMessage("GET")
+        lev = self.cl.wait4Response()
 
-            """cl = client.Client()
-                cl.connectToSerwer('192.168.0.103')
-                cl.sendMessage("GET")
-                lev = cl.wait4Response()
-            
-                print("Dlugosc odp: ", len(lev))
-                print("Poziom: ", lev)
-            
-                self.level = map(''.join, zip(*[iter(lev)]*15))"""
+        self.level = map(''.join, zip(*[iter(lev)]*15))
 
         self.buttons()
         self.walls_bricks()
@@ -87,9 +80,6 @@ class Board(object):
 
                         # table_x, table_y = self.table_dimension(y, x)
                         self.powerups_array[table_x][table_y] = powerUP.get_powerup()
-                '''else:
-                    table_x, table_y = self.table_dimension(y, x)
-                    self.list_of_empty_field.append((table_x, table_y))'''
                 x += 50
             y += 50
             x = 450

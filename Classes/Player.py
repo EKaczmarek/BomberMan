@@ -21,27 +21,13 @@ class Player(object):
 
     lista = []
     images = []
-    # self.images = glob.glob(r"Classes/Pictures/ex*.png")
-    images.append(load_image(r"Classes/Pictures/ex1.png"))
-    images.append(load_image(r"Classes/Pictures/ex2.png"))
-    images.append(load_image(r"Classes/Pictures/ex3.png"))
-    images.append(load_image(r"Classes/Pictures/ex4.png"))
-    images.append(load_image(r"Classes/Pictures/ex5.png"))
-    images.append(load_image(r"Classes/Pictures/ex6.png"))
-    images.append(load_image(r"Classes/Pictures/ex7.png"))
-    images.append(load_image(r"Classes/Pictures/ex8.png"))
-
-    images = images
-    images_right = images
-    images_left = [pygame.transform.flip(image, True, False) for image in images]  # Flipping every image.
-    index = 0
-    image = images[index]
 
     def __init__(self, x, y, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
         # Position of player
         self.rect = pygame.Rect(x, y, 50, 50)
+        self.load_images()
         # Initialize board
         self.board = board.Board()
         # Initialize flags
@@ -51,6 +37,23 @@ class Player(object):
         self.left_bombs = 0
         # Main loop
         self.main_loop()
+        #client to sending message to server
+
+
+    def load_images(self):
+        self.images.append(load_image(r"Classes/Pictures/ex1.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex2.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex3.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex4.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex5.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex6.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex7.png"))
+        self.images.append(load_image(r"Classes/Pictures/ex8.png"))
+
+        images_right = self.images
+        images_left = [pygame.transform.flip(image, True, False) for image in self.images]  # Flipping every image.
+        index = 0
+        image = self.images[index]
 
     def main_loop(self):
         while (self.exit_key != True):
@@ -61,20 +64,34 @@ class Player(object):
     def handle_moves(self):
 
         for e in pygame.event.get():
-            # buttons
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT:
+                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+                    self.send_message_to_server(message)
+                    print("Ruszylem sie w lewo")
                     self.move(-50, 0)
                     Player.side = 1
                 if e.key == pygame.K_RIGHT:
+                    print("Ruszylem sie w prawo")
+                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+                    self.send_message_to_server(message)
                     self.move(50, 0)
                     Player.side = 0
                 if e.key == pygame.K_UP:
+                    print("Ruszylem sie w gore")
+                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+                    self.send_message_to_server(message)
                     self.move(0, -50)
                 if e.key == pygame.K_DOWN:
+                    print("Ruszylem sie w dol")
+                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+                    self.send_message_to_server(message)
                     self.move(0, 50)
                 if e.key == pygame.K_b:
+                    message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+                    self.send_message_to_server(message)
                     self.leave_bomb()
+                print("Wyslano do serwera: ", message)
 
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:
@@ -86,9 +103,12 @@ class Player(object):
                 if (self.board.exitBtn.button.collidepoint(mouse)):
                     self.exit_key = True
 
+    def send_message_to_server(self, message):
+        self.board.cl.sendMessage(message)
+
     def handle_bombs(self):
         powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
-        # bomb timer
+
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
 
@@ -106,11 +126,8 @@ class Player(object):
                 for i in self.board.list_to_destroy:
                     for x in range(8):
                         posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
-                        # print("posx:" + str(posx))
-                        # print("posy:" + str(posy))
                         self.board.screen.blit(self.images[x], (posy, posx))
                         pygame.display.flip()
-                        #time.sleep(0.1)
 
                     self.board.game[i[0]][i[1]] = 0
 
@@ -190,6 +207,7 @@ class Player(object):
             if(destroy_player != 0):
                 self.board.list_to_destroy.append(destroy_player)
             print(self.board.list_to_destroy)
+            return xx,yy
 
     def destroy_player(self, xx, yy):
 
