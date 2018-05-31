@@ -20,7 +20,7 @@ class Client:
 
 
     def connectToSerwer(self, host):
-        # ipadres serwera
+        # ip adres serwera
         self.host = host
         self.port = 50001
         self.size = 2048
@@ -50,6 +50,9 @@ class Client:
                 print("DAne: ", data[0:3])
                 if(data[0:3] == "GET"):
                     return data[4::]
+                elif(data[0:1] == "P"):
+                    return data[2::]
+
             except ConnectionRefusedError:
                 print("Blad przy otrzymywaniu odp od serwera")
 

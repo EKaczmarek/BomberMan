@@ -44,7 +44,7 @@ class Board(object):
             print()
 
         self.cl = client.Client()
-        self.cl.connectToSerwer('192.168.0.100')
+        self.cl.connectToSerwer('192.168.0.101')
         self.cl.sendMessage("GET")
         lev = self.cl.wait4Response()
 

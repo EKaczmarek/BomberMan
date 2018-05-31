@@ -21,6 +21,8 @@ class Player(object):
 
     lista = []
     images = []
+    last_X = ''
+    last_Y = ''
 
     def __init__(self, x, y, parent = None):
         # Initialise pygame
@@ -66,32 +68,17 @@ class Player(object):
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT:
-                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-                    self.send_message_to_server(message)
-                    print("Ruszylem sie w lewo")
                     self.move(-50, 0)
                     Player.side = 1
                 if e.key == pygame.K_RIGHT:
-                    print("Ruszylem sie w prawo")
-                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-                    self.send_message_to_server(message)
                     self.move(50, 0)
                     Player.side = 0
                 if e.key == pygame.K_UP:
-                    print("Ruszylem sie w gore")
-                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-                    self.send_message_to_server(message)
                     self.move(0, -50)
                 if e.key == pygame.K_DOWN:
-                    print("Ruszylem sie w dol")
-                    message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-                    self.send_message_to_server(message)
                     self.move(0, 50)
                 if e.key == pygame.K_b:
-                    message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-                    self.send_message_to_server(message)
                     self.leave_bomb()
-                print("Wyslano do serwera: ", message)
 
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:
@@ -105,6 +92,10 @@ class Player(object):
 
     def send_message_to_server(self, message):
         self.board.cl.sendMessage(message)
+
+    def get_response_from_server(self):
+        answer =self.board.cl.wait4Response()
+        print(answer)
 
     def handle_bombs(self):
         powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
@@ -253,11 +244,18 @@ class Player(object):
                         if dy < 0:  # Moving up; Hit the bottom side of the wall
                             self.rect.top = self.board.game[i][j].rect.bottom
 
+        self.last_X, self.last_Y = self.get_pos()
+        print("ASktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
+        message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+        self.send_message_to_server(message)
+        print("do serwera wyslano :" + message)
+        self.get_response_from_server()
+
     def get_pos(self):
-        # print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
+        print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
         xx = int((self.rect.x - 450) / 50)
         yy = int(self.rect.y / 50)
-        # print("Wspolrzedne2: ", xx, ", ", yy)
+        print("Wspolrzedne2: ", xx, ", ", yy)
         return xx, yy
 
 
