@@ -40,6 +40,12 @@ class Client:
             print(err)
 
         print("Czekam na odpowiedź od serwera ")
+    def get_board(self):
+        self.cl.sendMessage("GET")
+        lev = self.cl.wait4Response()
+
+        return map(''.join, zip(*[iter(lev)]*15))
+
 
     def wait4Response(self):
         while True:
@@ -52,11 +58,29 @@ class Client:
                     return data[4::]
                 elif(data[0:1] == "P"):
                     return data[2::]
+                elif(data[0:1] == "B"):
+                    return data[2::]
 
             except ConnectionRefusedError:
                 print("Blad przy otrzymywaniu odp od serwera")
 
+    def listening(self):
+        print("Zaczalem sluchac ")
+        while 1:
+            try:
+                packet, address = self.s.recvfrom(self.size)
+                if packet:
+                    packet = packet.decode("utf-8")
+                    print("wiadomosc odebrana", packet)
 
+                    if packet[0:1] == "P":
+                        if(packet[0:2] != "P "):
+                            print("Otrzymano info o pozycji innego klienta")
+                else:
+                    continue
+            except ConnectionRefusedError as err:
+                print(err)
+        print("inny watek")
 
     def closeConnection(self):
         self.stream.stop_stream()

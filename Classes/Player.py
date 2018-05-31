@@ -94,7 +94,7 @@ class Player(object):
         self.board.cl.sendMessage(message)
 
     def get_response_from_server(self):
-        answer =self.board.cl.wait4Response()
+        answer = self.board.cl.wait4Response()
         print(answer)
 
     def handle_bombs(self):
@@ -178,6 +178,15 @@ class Player(object):
 
         if (self.bomb_key == False):
             xx, yy = self.get_pos_to_bomb()
+
+            self.last_X, self.last_Y = self.get_pos()
+            print("ASktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
+            message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+            self.send_message_to_server(message)
+            print("do serwera wyslano :" + message)
+            self.get_response_from_server()
+
+
             self.bomb = bom.Bomb(xx, yy)
             self.left_bombs += 1
 

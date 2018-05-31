@@ -26,8 +26,6 @@ class Board(object):
         ]
 
     def __init__(self,):
-
-        # Set up the display
         self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
         pygame.mixer.music.load(r"Classes/Music/music.wav")
         # pygame.mixer.music.play(-1)
@@ -45,10 +43,7 @@ class Board(object):
 
         self.cl = client.Client()
         self.cl.connectToSerwer('192.168.0.101')
-        self.cl.sendMessage("GET")
-        lev = self.cl.wait4Response()
-
-        self.level = map(''.join, zip(*[iter(lev)]*15))
+        self.level = self.cl.get_board()
 
         self.buttons()
         self.walls_bricks()
@@ -58,6 +53,7 @@ class Board(object):
 
     def table_to_pixels(self, x, y):
         return int(x*50), int((y*50)+450)
+
 
     def walls_bricks(self):
         x = 450
@@ -123,13 +119,8 @@ class Board(object):
         return self.list_to_destroy
 
     def which_one(self, x_brick, y_brick):
-        # print("Jestem w metodzie which_one")
         if (self.game[x_brick][y_brick] != 0):
             if (self.game[x_brick][y_brick].desc == "brick"):
-                # print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
                 self.list_to_destroy.append((x_brick, y_brick))
         else:
-            # if (self.game[x_brick][y_brick].desc != "wall" and self.game[x_brick][y_brick].desc != "brick"):
-                # self.list_to_fire.append((x_brick, y_brick))
-                # print("list to fire: ", self.list_to_fire)
-                self.list_to_destroy.append((x_brick, y_brick))
+            self.list_to_destroy.append((x_brick, y_brick))
