@@ -40,13 +40,14 @@ class Server:
                             print("Otrzymano GET")
                             board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                             self.game_state.set_board(board)
-                            self.sendM("GET " + board, addr)
+                            player_position = "x5y1"
+                            self.sendM("GET " + player_position + board, addr)
                             print("Wyslano plansze")
 
                         # sending data about position to all
                         if (data[0:1] == "P"):
                             print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + data)
-                            self.game_state.set_player_position(addr[0], data)
+                            self.game_state.update_player_position(addr[0], data)
                             self.sendM(data, addr)
 
                         # sending data about bombs to all

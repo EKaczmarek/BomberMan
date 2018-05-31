@@ -23,12 +23,13 @@ class Client:
         except ConnectionRefusedError as err:
             print(err)
 
-        print("Czekam na odpowiedź od serwera ")
-    def get_board(self):
+    def get_board_player_pos(self):
         self.sendMessage("GET")
         lev = self.wait4Response()
-        return map(''.join, zip(*[iter(lev)]*15))
+        return lev[0:4], map(''.join, zip(*[iter(lev[4::])]*15))
 
+    def get_position_begin(self, data):
+        print("Pozycja poczatkowa gracza "+ data)
 
     def wait4Response(self):
         while True:
@@ -38,6 +39,7 @@ class Client:
                 data = data.decode("utf-8")
                 print("Dane: ", data)
                 if(data[0:3] == "GET"):
+                    self.get_position_begin(data[4:8])
                     return data[4::]
                 elif(data[0:1] == "P"):
                     return data[2::]

@@ -24,9 +24,10 @@ class Board(object):
             "WBB B  B      W",
             "WWWWWWWWWWWWWWW",
         ]
-    list_to_destroy = []
 
     def __init__(self,):
+
+        # Set up the display
         self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
         pygame.mixer.music.load(r"Classes/Music/music.wav")
         # pygame.mixer.music.play(-1)
@@ -44,17 +45,16 @@ class Board(object):
 
         self.cl = client.Client()
         self.cl.connectToSerwer('192.168.0.101')
-        self.level = self.cl.get_board()
+        self.player_pos, self.level = self.cl.get_board_player_pos()
+
 
         self.buttons()
         self.walls_bricks()
 
-    @staticmethod
-    def table_dimension(x, y):
+    def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
-    @staticmethod
-    def table_to_pixels(x, y):
+    def table_to_pixels(self, x, y):
         return int(x*50), int((y*50)+450)
 
     def walls_bricks(self):
@@ -73,12 +73,17 @@ class Board(object):
                         powerUP = p.Powerup((x, y))
                         table_x, table_y = self.table_dimension(y, x)
                         self.game[table_x][table_y] = brick.get_brick()
+                        # rand = random.randint(0, 100)
+                        # if (rand > 0):
+
+                        # table_x, table_y = self.table_dimension(y, x)
                         self.powerups_array[table_x][table_y] = powerUP.get_powerup()
                 x += 50
             y += 50
             x = 450
 
     def buttons(self):
+        # Create buttons
         self.exitBtn = btn.Button("Pictures\exit.png", (200, 600))
         self.menuBtn = btn.Button("Pictures\menu.png", (400, 600))
 
@@ -89,3 +94,35 @@ class Board(object):
                     print(self.game[i][j].x, " ", self.game[i][j].y, " ", self.game[i][j].desc, end='\n')
             print()
 
+    def count(self, x_bomb, y_bomb):
+        self.list_to_destroy = []
+        xx, yy = self.table_dimension(y_bomb, x_bomb)
+        print("Bomba: ", xx, " ", yy)
+
+        x_brick_1, y_brick_1 = xx, yy + 1
+        self.which_one(x_brick_1, y_brick_1)
+        print("Cegla 1: ", x_brick_1, " ", y_brick_1)
+
+        x_brick_2, y_brick_2 = xx, yy - 1
+        self.which_one(x_brick_2, y_brick_2)
+        print("Cegla 2: ", x_brick_2, " ", y_brick_2)
+
+        x_brick_3, y_brick_3 = xx - 1, yy
+        self.which_one(x_brick_3, y_brick_3)
+        print("Cegla 3: ", x_brick_3, " ", y_brick_3)
+
+        x_brick_4, y_brick_4 = xx + 1, yy
+        self.which_one(x_brick_4, y_brick_4)
+        print("Cegla 4: ", x_brick_4, " ", y_brick_4)
+
+        self.list_to_destroy.append((xx, yy))
+        print("To destroy: ", self.list_to_destroy)
+
+        return self.list_to_destroy
+
+    def which_one(self, x_brick, y_brick):
+        if (self.game[x_brick][y_brick] != 0):
+            if (self.game[x_brick][y_brick].desc == "brick"):
+                self.list_to_destroy.append((x_brick, y_brick))
+        else:
+            self.list_to_destroy.append((x_brick, y_brick))

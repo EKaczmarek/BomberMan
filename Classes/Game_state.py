@@ -40,11 +40,6 @@ class Game_state:
                     table_x, table_y = self.table_dimension(y, x)
                     self.game[table_x][table_y] = brick.get_brick()
                     powerUP = p.Powerup((x, y))
-                    # rand = random.randint(0, 100)
-                    # if (rand > 0):
-
-                    # table_x, table_y = self.table_dimension(y, x)
-                    # self.powerups_array[table_x][table_y] = powerUP.get_powerup()
                 x += 50
             y += 50
             x = 450
@@ -55,8 +50,10 @@ class Game_state:
 
         self.show_board()
 
+    # from pixels to table dimenstion
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
+
 
     def show_board(self):
         print("w show_board")
@@ -69,7 +66,7 @@ class Game_state:
             print(end='\n')
 
     # position like 'P x1y2'
-    def set_player_position(self, player_ip, position):
+    def update_player_position(self, player_ip, position):
 
         x = int(re.search('P x(.*)y', position).group(1))
         y = int(re.search('y(.*)', position).group(1))

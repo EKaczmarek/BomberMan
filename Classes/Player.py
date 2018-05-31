@@ -6,6 +6,7 @@ import Classes.Bomb as bom
 import Classes.Wall as wal
 import Classes.Brick as brick
 import Classes.Powerup as powerup
+import re
 
 
 def load_image(name):
@@ -22,14 +23,19 @@ class Player(object):
     lista = []
     images = []
 
-    def __init__(self, x, y, parent = None):
+    def __init__(self, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
         # Position of player
-        self.rect = pygame.Rect(x, y, 50, 50)
+        #self.rect = pygame.Rect(x, y, 50, 50)
+
         self.load_images()
-        # Initialize board
+        # Initialize board, get info about position from server
         self.board = board.Board()
+        # set position of player from server
+        self.set_player_pos()
+        self.rect = pygame.Rect(self.x_px, self.y_px, 50, 50)
+
         # Initialize flags
         self.show_player = True
         self.exit_key = False
@@ -38,6 +44,16 @@ class Player(object):
         # Main loop
         self.main_loop()
         #client to sending message to server
+
+    def set_player_pos(self):
+        print("Pozycja gracza od serwera: " + self.board.player_pos)
+        y = int(re.search('x(.*)y', self.board.player_pos).group(1))
+        x = int(re.search('y(.*)', self.board.player_pos).group(1))
+        x_px, y_px = self.board.table_to_pixels(x, y)
+        print("Pikselowo: " + str(y_px) + " " + str(x_px))
+        self.x_px = y_px
+        self.y_px = x_px
+
 
     def load_images(self):
         self.images.append(load_image(r"Classes/Pictures/ex1.png"))
@@ -106,23 +122,15 @@ class Player(object):
         powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
-
-            if (seconds >= 2):
+            if (seconds >= 1.5):
                 self.bomb_key = False
                 ans = self.check_is_player_dead()
-
-                print("Lista do zniszczenia:", self.board.list_to_destroy)
-
                 for i in self.board.list_to_destroy:
                     for x in range(8):
                         posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
                         self.board.screen.blit(self.images[x], (posy, posx))
                         pygame.display.flip()
-
                     self.board.game[i[0]][i[1]] = 0
-
-                print(type(ans))
-                print("ODPOWIEDZIIII OD SERWERA " + str(ans))
                 if (ans):
                     self.show_player = False
 

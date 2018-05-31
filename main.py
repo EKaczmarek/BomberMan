@@ -10,10 +10,10 @@ if __name__ == "__main__":
     window = Login_screen()
     window.show()
     sys.exit(app.exec_())"""
-
     # powyzej do zakomentowania
-    # ponizej odkomentowania
-    p.Player(500, 50)
+
+    # ponizej do odkomentowania
+    p.Player()
 
 
 
