@@ -30,7 +30,7 @@ class Board(object):
         # Set up the display
         self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
         pygame.mixer.music.load(r"Classes/Music/music.wav")
-        # pygame.mixer.music.play(-1)
+
         # Board of game
         self.powerups_array = [[0 for columns in range(15)] for rows in range(15)]
         for i in range(len(self.powerups_array)):
@@ -93,36 +93,3 @@ class Board(object):
                 if(self.game[i][j] != 0):
                     print(self.game[i][j].x, " ", self.game[i][j].y, " ", self.game[i][j].desc, end='\n')
             print()
-
-    def count(self, x_bomb, y_bomb):
-        self.list_to_destroy = []
-        xx, yy = self.table_dimension(y_bomb, x_bomb)
-        print("Bomba: ", xx, " ", yy)
-
-        x_brick_1, y_brick_1 = xx, yy + 1
-        self.which_one(x_brick_1, y_brick_1)
-        print("Cegla 1: ", x_brick_1, " ", y_brick_1)
-
-        x_brick_2, y_brick_2 = xx, yy - 1
-        self.which_one(x_brick_2, y_brick_2)
-        print("Cegla 2: ", x_brick_2, " ", y_brick_2)
-
-        x_brick_3, y_brick_3 = xx - 1, yy
-        self.which_one(x_brick_3, y_brick_3)
-        print("Cegla 3: ", x_brick_3, " ", y_brick_3)
-
-        x_brick_4, y_brick_4 = xx + 1, yy
-        self.which_one(x_brick_4, y_brick_4)
-        print("Cegla 4: ", x_brick_4, " ", y_brick_4)
-
-        self.list_to_destroy.append((xx, yy))
-        print("To destroy: ", self.list_to_destroy)
-
-        return self.list_to_destroy
-
-    def which_one(self, x_brick, y_brick):
-        if (self.game[x_brick][y_brick] != 0):
-            if (self.game[x_brick][y_brick].desc == "brick"):
-                self.list_to_destroy.append((x_brick, y_brick))
-        else:
-            self.list_to_destroy.append((x_brick, y_brick))
