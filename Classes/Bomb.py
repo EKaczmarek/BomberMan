@@ -12,8 +12,6 @@ class Bomb(object):
         self.start_timer = pygame.time.get_ticks()
         print(self.start_timer)
 
-    def blow(self):
-        print("Wybuchaa!!!")
 
     def get_bomb(self):
         return self

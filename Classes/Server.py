@@ -2,9 +2,8 @@ import socket
 from Classes import Game_state as gs
 from threading import Thread
 
-class Server:
 
-    players = {}
+class Server:
 
     def __init__(self):
         print("Inicjalizacja klasy serwer")
@@ -29,11 +28,8 @@ class Server:
 
 
     def listening(self):
-        print("[*] Start listen")
         while True:
-            print("Slucham")
             try:
-                print("Proba polaczenia")
                 data, addr = self.s.recvfrom(self.size*2)
                 print("Otrzymalem: ", data, " od ", addr)
                 if data:
@@ -45,7 +41,7 @@ class Server:
                             board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                             self.game_state.set_board(board)
                             self.sendM("GET " + board, addr)
-                            print("Wyslano planse")
+                            print("Wyslano plansze")
 
                         # sending data about position to all
                         if (data[0:1] == "P"):
@@ -53,11 +49,25 @@ class Server:
                             self.game_state.set_player_position(addr[0], data)
                             self.sendM(data, addr)
 
-                        #sending data about bombs to all
+                        # sending data about bombs to all
                         if(data[0:1] == "B"):
                             print("Otrzymano info o pozostawionej bombie od " + addr[0] + " w postaci: ", data)
                             self.game_state.set_bomb(addr[0], data)
-                            self.sendM(data, addr)
+                            print("Lista do wybuchu: " + str(self.game_state.list_to_destroy))
+                            self.sendM(data + " l" + str(self.game_state.list_to_destroy), addr)
+                            self.game_state.list_to_destroy = []
+
+                        # request to check if player is dead
+                        if(data[0:1] == "D"):
+                            print("Otrzymano prosbe o sprawdzzenie czy gracz " + addr[0] + " zginal: ")
+                            answer = self.game_state.check_is_player_dead(addr[0])
+                            print("Gracz zginął: " + str(answer))
+                            self.sendM(("D " + str(answer)), addr)
+
+                        # player has left game
+                        if(data[0:1] == "EXIT"):
+                            print("Otrzymano info o wyjsciu z gry gracza " + addr[0])
+                            self.game_state.kill_player(addr[0])
 
                     except UnicodeDecodeError:
                         print("Bład dekodowania")
@@ -66,7 +76,6 @@ class Server:
                 print(err)
                 print("Bład połączenia")
                 break
-        print("[*] Stop listen")
 
 
     def stopConnection(self):

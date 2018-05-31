@@ -21,8 +21,6 @@ class Player(object):
 
     lista = []
     images = []
-    last_X = ''
-    last_Y = ''
 
     def __init__(self, x, y, parent = None):
         # Initialise pygame
@@ -40,7 +38,6 @@ class Player(object):
         # Main loop
         self.main_loop()
         #client to sending message to server
-
 
     def load_images(self):
         self.images.append(load_image(r"Classes/Pictures/ex1.png"))
@@ -83,34 +80,36 @@ class Player(object):
             # actions = clickig Exit, Menu
             if e.type == pygame.QUIT:
                 self.exit_key = True
+                self.send_message_to_server("EXIT")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 self.exit_key = True
+                self.send_message_to_server("EXIT")
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if (self.board.exitBtn.button.collidepoint(mouse)):
+                    self.send_message_to_server("EXIT")
                     self.exit_key = True
 
     def send_message_to_server(self, message):
         self.board.cl.sendMessage(message)
 
-    def get_response_from_server(self):
+    def check_is_player_dead(self):
+        message = "D "
+        self.send_message_to_server(message)
         answer = self.board.cl.wait4Response()
-        print(answer)
+        print("Odpowiedzialalalal " +  answer)
+        if (answer == "True"): return True
+        else: return False
+
 
     def handle_bombs(self):
         powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
-
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
 
-            if (seconds >= 1.5):
-                self.bomb.blow()
+            if (seconds >= 2):
                 self.bomb_key = False
-
-                '''for x in range(8):
-                    self.board.screen.blit(self.images[x], self.bomb.get_bomb())
-                    pygame.display.flip()
-                    time.sleep(0.05)'''
+                ans = self.check_is_player_dead()
 
                 print("Lista do zniszczenia:", self.board.list_to_destroy)
 
@@ -122,22 +121,10 @@ class Player(object):
 
                     self.board.game[i[0]][i[1]] = 0
 
-                    # self.board.screen.blit(powUP, (posy, posx))
-                    '''for px in range(len(self.board.game)):
-                        for py in range(len(self.board.game[px])):
-                            if (self.board.powerups_array[px][py] == self.board.game[px][py]):
-                                self.board.screen.blit(self.powUp, (posy, posx))
-                                # self.board.screen.blit(box2, self.board.game[i[0]][i[1]])'''
-
-                # pygame.mixer.music.unpause()
-                ans = self.destroy_player(self.bomb.xx, self.bomb.yy)
-                # print("ans zwraca: " + str(ans))
+                print(type(ans))
+                print("ODPOWIEDZIIII OD SERWERA " + str(ans))
                 if (ans):
-                    self.die()
-
-
-    def die(self):
-        self.show_player = False
+                    self.show_player = False
 
     def display_all(self):
         # Display screen
@@ -163,8 +150,6 @@ class Player(object):
                             self.board.screen.blit(bomba, self.bomb.rect)
                     elif(self.board.game[i][j].desc == "brick"):
                         self.board.screen.blit(box, self.board.game[i][j])
-
-                        # Display buttons
                 else:
                     pygame.draw.rect(self.board.screen, (255, 255, 255), self.rect)
 
@@ -173,58 +158,38 @@ class Player(object):
 
         pygame.display.flip()
 
+    def send_to_server_info_bomb(self):
+        self.board.list_to_destroy = []
+        print("Aktualna pozycja bomby x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
+        message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
+        self.send_message_to_server(message)
+        print("do serwera wyslano :" + message)
+        a = self.board.cl.wait4Response()
+        print("Serwer odpowiedzial: ")
+
+        for i in a:
+            print("Element " + str(i[0]) + " " + str(i[1]))
+            self.board.list_to_destroy.append((i[0], i[1]))
+
     def leave_bomb(self):
         BombExplode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
-
         if (self.bomb_key == False):
             xx, yy = self.get_pos_to_bomb()
+            print("xx " + str(xx) + " yy " + str(yy))
 
-            self.last_X, self.last_Y = self.get_pos()
-            print("ASktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
-            message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-            self.send_message_to_server(message)
-            print("do serwera wyslano :" + message)
-            self.get_response_from_server()
-
-
+            self.send_to_server_info_bomb()
             self.bomb = bom.Bomb(xx, yy)
+
             self.left_bombs += 1
 
             self.board.game[int(yy / 50)][int((xx - 450) / 50)] = self.bomb.get_bomb()
             self.bomb_key = True
 
-            # pygame.mixer.music.pause()
             pygame.mixer.Sound.play(BombExplode)
 
-            # Count which bricks explode
-            self.board.count(xx, yy)
-
-            # Count if player will be dead
-            destroy_player = self.destroy_player(xx, yy)
-
-            print(destroy_player)
-
-            if(destroy_player != 0):
-                self.board.list_to_destroy.append(destroy_player)
             print(self.board.list_to_destroy)
-            return xx,yy
 
-    def destroy_player(self, xx, yy):
 
-        x, y = self.get_pos()
-        # print("Player", x, " ", y)
-        xx = int((xx - 450) / 50)
-        yy = int(yy / 50)
-        # print("Bomba 1: ", xx, " ", yy)
-        if((x == xx and y == yy)
-           or (x == xx+1 and y == yy)
-           or (x == xx-1 and y == yy)
-           or (x == xx and y == yy+1)
-           or (x == xx and y == yy-1)):
-            # print("gracz:", x, " ", y)
-            return (y, x)
-        else:
-            return 0
 
     def move(self, dx, dy):
 
@@ -253,20 +218,18 @@ class Player(object):
                         if dy < 0:  # Moving up; Hit the bottom side of the wall
                             self.rect.top = self.board.game[i][j].rect.bottom
 
-        self.last_X, self.last_Y = self.get_pos()
         print("ASktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
         message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
         self.send_message_to_server(message)
         print("do serwera wyslano :" + message)
-        self.get_response_from_server()
+        self.board.cl.wait4Response()
 
     def get_pos(self):
-        print("Wspolrzedne1: ", self.rect.x, ", ",self.rect.y)
+        print("Wspolrzedne 1: ", self.rect.x, ", ",self.rect.y)
         xx = int((self.rect.x - 450) / 50)
         yy = int(self.rect.y / 50)
-        print("Wspolrzedne2: ", xx, ", ", yy)
+        print("Wspolrzedne 2: ", xx, ", ", yy)
         return xx, yy
-
 
     def get_pos_to_bomb(self):
         return self.rect.x, self.rect.y

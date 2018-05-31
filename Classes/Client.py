@@ -1,23 +1,7 @@
-import pyaudio
 import socket
-#from JaroEliCall.src.validation import Validator
 
 
-#class Client(Validator):
 class Client:
-    FORMAT = pyaudio.paInt16
-    CHUNK = 1024
-    WIDTH = 1
-    CHANNELS = 1
-    RATE = 8000
-    RECORD_SECONDS = 15
-    FACTOR = 2
-
-    #def __init__(self, priv, publ):
-
-    def __init__(self):
-        print("Inicjalizacja klasy Client")
-
 
     def connectToSerwer(self, host):
         # ip adres serwera
@@ -41,9 +25,8 @@ class Client:
 
         print("Czekam na odpowiedź od serwera ")
     def get_board(self):
-        self.cl.sendMessage("GET")
-        lev = self.cl.wait4Response()
-
+        self.sendMessage("GET")
+        lev = self.wait4Response()
         return map(''.join, zip(*[iter(lev)]*15))
 
 
@@ -53,19 +36,27 @@ class Client:
                 print("Oczekiwanie....")
                 data, addr2 = self.s.recvfrom(self.size)
                 data = data.decode("utf-8")
-                print("DAne: ", data[0:3])
+                print("Dane: ", data)
                 if(data[0:3] == "GET"):
                     return data[4::]
                 elif(data[0:1] == "P"):
                     return data[2::]
                 elif(data[0:1] == "B"):
+                    res = data.split(" l")
+                    for i in res:
+                        print(i)
+                    list_to_destroy = eval(res[1])
+                    print("list_to_destroy " + str(list_to_destroy))
+                    return list_to_destroy
+                elif(data[0:1] == "D"):
+                    print("dane zwrocone do klienta " + data[2::])
                     return data[2::]
 
             except ConnectionRefusedError:
                 print("Blad przy otrzymywaniu odp od serwera")
 
     def listening(self):
-        print("Zaczalem sluchac ")
+        print("Zaczalem sluchac na wiadomosc od serwera")
         while 1:
             try:
                 packet, address = self.s.recvfrom(self.size)

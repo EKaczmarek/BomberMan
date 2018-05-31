@@ -9,7 +9,6 @@ import Classes.Player_object_board as Player_ob
 class Game_state:
     level = []
     last_pos = ''
-    list_to_destroy = []
 
     def __init__(self):
         print("Inicjalizacja stanu gry")
@@ -83,6 +82,7 @@ class Game_state:
         self.last_pos = y, x
         self.show_board()
 
+
     # bomb position 'B x1y2'
     def set_bomb(self, player_ip, position):
         print(" w set_bomb")
@@ -93,9 +93,10 @@ class Game_state:
         self.show_board()
         self.count_where_blow(y,x)
 
-
+    #count where is it about to blow and send list client
     def count_where_blow(self, xx, yy):
         self.list_to_destroy = []
+        print(self.list_to_destroy)
         print("Bomba: ", xx, " ", yy)
 
         x_brick_1, y_brick_1 = xx, yy + 1
@@ -116,19 +117,58 @@ class Game_state:
 
         self.list_to_destroy.append((xx, yy))
         print("To destroy: ", self.list_to_destroy)
+        print(self.list_to_destroy)
 
 
     def which_one(self, x_brick, y_brick):
-        # print("Jestem w metodzie which_one")
         if (self.game[x_brick][y_brick] != 0):
             if (self.game[x_brick][y_brick].desc == "brick"):
-                # print("Powinno nie byc obiektu o wpolrzednych: ", x_brick, " ", y_brick)
                 self.list_to_destroy.append((x_brick, y_brick))
         else:
-            # if (self.game[x_brick][y_brick].desc != "wall" and self.game[x_brick][y_brick].desc != "brick"):
-            # self.list_to_fire.append((x_brick, y_brick))
-            # print("list to fire: ", self.list_to_fire)
             self.list_to_destroy.append((x_brick, y_brick))
+
+    def check_is_player_dead(self, address):
+        ans = self.get_player_pos()
+        xx, yy = self.get_bomb_pos()
+        if (ans == 0):
+            x,y = xx, yy
+        else:
+            x,y = ans[0], ans[1]
+
+        if ((x == xx and y == yy)
+            or (x == xx + 1 and y == yy)
+            or (x == xx - 1 and y == yy)
+            or (x == xx and y == yy + 1)
+            or (x == xx and y == yy - 1)):
+            print("Player", x, " ", y)
+            print("Bomba 1: ", xx, " ", yy)
+            self.kill_player(address)
+            return True
+        else:
+            return False
+
+    def kill_player(self, address):
+        i, j = self.get_player_pos()
+        self.game[i][j] = 0
+
+    def get_player_pos(self):
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if(self.game[i][j] != 0):
+                    if(self.game[i][j].desc == "player 1"):
+                        return i,j
+        return (self.get_bomb_pos())
+
+
+    def get_bomb_pos(self):
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if(self.game[i][j] != 0):
+                    if(self.game[i][j].desc == "BOMB"):
+                        return i,j
+
+        return 1, 1
+
 
 
 
