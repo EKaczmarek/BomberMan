@@ -54,7 +54,6 @@ class Game_state:
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
-
     def show_board(self):
         print("w show_board")
         for i in range(len(self.game)):
@@ -78,7 +77,6 @@ class Game_state:
         self.game[y][x] = Player_ob.Player_object_board((x, y), "player 1")
         self.last_pos = y, x
         self.show_board()
-
 
     # bomb position 'B x1y2'
     def set_bomb(self, player_ip, position):
@@ -115,7 +113,6 @@ class Game_state:
         self.list_to_destroy.append((xx, yy))
         print("To destroy: ", self.list_to_destroy)
         print(self.list_to_destroy)
-
 
     def which_one(self, x_brick, y_brick):
         if (self.game[x_brick][y_brick] != 0):
@@ -156,7 +153,6 @@ class Game_state:
                         return i,j
         return (self.get_bomb_pos())
 
-
     def get_bomb_pos(self):
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
@@ -164,7 +160,6 @@ class Game_state:
                     if(self.game[i][j].desc == "BOMB"):
                         return i,j
 
-        return 1, 1
 
 
 

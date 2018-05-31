@@ -54,7 +54,6 @@ class Player(object):
         self.x_px = y_px
         self.y_px = x_px
 
-
     def load_images(self):
         self.images.append(load_image(r"Classes/Pictures/ex1.png"))
         self.images.append(load_image(r"Classes/Pictures/ex2.png"))
