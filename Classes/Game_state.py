@@ -154,11 +154,15 @@ class Game_state:
         return (self.get_bomb_pos())
 
     def get_bomb_pos(self):
+
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if(self.game[i][j] != 0):
                     if(self.game[i][j].desc == "BOMB"):
-                        return i,j
+                        return i, j
+                    # below to change
+                    else:
+                        return 1,1
 
 
 
