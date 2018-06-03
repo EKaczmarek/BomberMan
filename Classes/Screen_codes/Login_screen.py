@@ -1,3 +1,4 @@
+import os.path
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
@@ -9,7 +10,7 @@ import http.client
 import hashlib
 import sys
 
-qtCreatorFile = "Classes\GUI\login.ui"
+qtCreatorFile = os.path.join("Classes", "GUI", "login.ui")
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 

@@ -1,3 +1,4 @@
+import os.path
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
@@ -6,7 +7,7 @@ from Classes.Screen_codes.Options_screen import Options
 from Classes.Screen_codes.Ranking_screen import Ranking
 
 
-qtCreatorFile = "Classes\GUI\game.ui"
+qtCreatorFile = os.path.join("Classes", "GUI", "game.ui")
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
