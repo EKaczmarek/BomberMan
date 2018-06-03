@@ -1,3 +1,4 @@
+import os.path
 import pygame
 import Classes.Wall as w
 import Classes.Brick as b
@@ -85,8 +86,8 @@ class Board(object):
 
     def buttons(self):
         # Create buttons
-        self.exitBtn = btn.Button("Pictures\exit.png", (200, 600))
-        self.menuBtn = btn.Button("Pictures\menu.png", (400, 600))
+        self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 600))
+        self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 600))
 
     def show_board(self):
         for i in range(len(self.game)):
