@@ -3,6 +3,7 @@ from Classes import Game_state as gs
 from threading import Thread
 import time
 
+
 class Server:
 
     dict_players = {}
@@ -16,7 +17,6 @@ class Server:
 
     def connectWithClient(self):
         print("Nawiazanie polaczenia")
-
         try:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.bind((self.host, self.port))
@@ -78,7 +78,7 @@ class Server:
                 self.s.sendto(("D " + str(answer)).encode("utf-8"), addr)
 
             # player has left game
-            if (data[0:1] == "EXIT"):
+            if (data[0:1] ==  "EXIT"):
                 print("Otrzymano info o wyjsciu z gry gracza " + addr[0])
                 self.game_state.kill_player(addr[0])
 
