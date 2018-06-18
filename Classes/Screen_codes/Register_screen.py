@@ -34,6 +34,7 @@ class Register(QDialog, Ui_Dialog):
         params = json.dumps(params)
         print(params)
         headers = {'Content-type': 'application/json'}
+
         if(password == repassword):
             conn = http.client.HTTPConnection('localhost', 8080)
             conn.request('POST', '/users', params, headers)

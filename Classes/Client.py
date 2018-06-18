@@ -73,7 +73,6 @@ class Client:
                     continue
             except ConnectionRefusedError as err:
                 print(err)
-        print("inny watek")
 
     def closeConnection(self):
         self.stream.stop_stream()

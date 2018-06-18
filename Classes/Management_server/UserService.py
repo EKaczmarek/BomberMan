@@ -72,7 +72,7 @@ class RankingService:
 
 def main():
     conf = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
-    # cherrypy.tree.mount(RankingService(), '/ranking/', conf)
+    cherrypy.tree.mount(RankingService(), '/ranking/', conf)
     cherrypy.quickstart(UsersService(), '/users/', conf)
 
 

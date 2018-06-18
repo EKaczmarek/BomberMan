@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>240</y>
+     <y>250</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -93,7 +93,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>240</y>
+     <y>250</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -172,6 +172,19 @@
    </property>
    <property name="flat">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_bad_data">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>220</y>
+     <width>241</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

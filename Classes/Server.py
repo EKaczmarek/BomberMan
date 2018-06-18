@@ -60,7 +60,10 @@ class Server:
             if (data[0:1] == "P"):
                 print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + data)
                 self.game_state.update_player_position(addr[0], data)
-                self.s.sendto(data.encode("utf-8"), addr)
+                print("Wysyalnie do innych graczy info o pozycji gracza ")
+                for i in self.dict_players:
+                    print(i, " ", self.dict_players[i])
+                    self.s.sendto(data.encode("utf-8"), self.dict_players[i])
 
             # sending data about bombs to all
             if (data[0:1] == "B"):

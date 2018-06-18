@@ -27,14 +27,14 @@ class Activation(QDialog, Ui_Dialog):
 
         params = [{'nickname': self.nick, 'activation_key': code}]
         params = json.dumps(params)
-
         headers = {'Content-type': 'application/json'}
 
-        conn = http.client.HTTPConnection('localhost', 8080)
-        conn.request('PATCH', '/users', params, headers)
+        conn = http.client.HTTPConnection('localhost', 9090)
+        conn.request('activate', '/users/', params, headers)
 
         r1 = (conn.getresponse())
         print("r1", r1.status)
+        print("odp: ", r1.read())
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):

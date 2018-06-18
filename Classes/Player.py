@@ -196,8 +196,6 @@ class Player(object):
 
             print(self.board.list_to_destroy)
 
-
-
     def move(self, dx, dy):
 
         if dx != 0:

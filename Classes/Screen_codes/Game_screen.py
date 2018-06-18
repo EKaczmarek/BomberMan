@@ -27,7 +27,7 @@ class Game(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_button_play_clicked(self):
         self.close()
-        p = Player(500, 50)
+        Player()
         print("ok")
 
     @pyqtSlot()
