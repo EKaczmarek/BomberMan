@@ -46,8 +46,8 @@ class Board(object):
 
         self.cl = client.Client()
         self.cl.connectToSerwer('192.168.0.102')
-        self.player_pos, self.level = self.cl.get_board_player_pos()
-        print("Pos" + self.player_pos + " self.level")
+        self.level,  self.player_pos, = self.cl.get_board_player_pos()
+        print("Pozycja gracza" + str(self.player_pos))
 
 
         self.buttons()

@@ -29,8 +29,8 @@ class Activation(QDialog, Ui_Dialog):
         params = json.dumps(params)
         headers = {'Content-type': 'application/json'}
 
-        conn = http.client.HTTPConnection('localhost', 9090)
-        conn.request('activate', '/users/', params, headers)
+        conn = http.client.HTTPConnection('localhost', 6060)
+        conn.request('ACTIVATE', '/', params, headers)
 
         r1 = (conn.getresponse())
         print("r1", r1.status)

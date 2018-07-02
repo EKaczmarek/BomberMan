@@ -5,7 +5,7 @@ import Classes.Powerup as p
 import Classes.Bomb as bomb
 import Classes.Button as btn
 import Classes.Player_object_board as Player_ob
-
+import json
 class Game_state:
     level = []
     last_pos = ''
@@ -66,9 +66,11 @@ class Game_state:
 
     # position like 'P x1y2'
     def update_player_position(self, player_ip, position):
-
-        x = int(re.search('P x(.*)y', position).group(1))
-        y = int(re.search('y(.*)', position).group(1))
+        print("position", position)
+        print("typ: ", type(position))
+        position = json.loads(position)
+        x = position["ME"]["x"]
+        y = position["ME"]["y"]
 
         # removing player from last position
         self.game[self.last_pos[0]][self.last_pos[1]] = 0
@@ -81,8 +83,12 @@ class Game_state:
     # bomb position 'B x1y2'
     def set_bomb(self, player_ip, position):
         print(" w set_bomb")
-        x = int(re.search('B x(.*)y', position).group(1))
-        y = int(re.search('y(.*)', position).group(1))
+        print("position", position)
+        print("typ: ", type(position))
+        position = json.loads(position)
+
+        x = position["B"]["x"]
+        y = position["B"]["y"]
 
         self.game[y][x] = bomb.Bomb(x, y)
         self.show_board()

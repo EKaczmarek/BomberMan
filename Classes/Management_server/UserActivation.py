@@ -12,7 +12,7 @@ class UserActivation:
     #    Bez autoryzacji możliwe byłoby wykonanie zapytania PATCH bezpośrednio
     #    do serwisów, zamiast poprzez "stronę" do aktywacji.
     @cherrypy.expose
-    def activate(self, nickname, activation_key):
+    def ACTIVATE(self, nickname, activation_key):
         url = 'http://localhost:8080/users/'
         response = requests.get(url, params={'nickname': nickname})
         if response.ok:
@@ -25,7 +25,7 @@ class UserActivation:
         return '{} {}'.format(response.status_code, response.reason)
 
 def main():
-    cherrypy.config.update({'server.socket_port': 9090})
+    cherrypy.config.update({'server.socket_port': 6060})
     cherrypy.quickstart(UserActivation(), '/')
 
 

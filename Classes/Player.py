@@ -7,6 +7,7 @@ import Classes.Wall as wal
 import Classes.Brick as brick
 import Classes.Powerup as powerup
 import re
+import json
 
 
 def load_image(name):
@@ -41,14 +42,15 @@ class Player(object):
         self.exit_key = False
         self.bomb_key = False
         self.left_bombs = 0
+
         # Main loop
         self.main_loop()
         #client to sending message to server
 
     def set_player_pos(self):
-        print("Pozycja gracza od serwera: " + self.board.player_pos)
-        y = int(re.search('x(.*)y', self.board.player_pos).group(1))
-        x = int(re.search('y(.*)', self.board.player_pos).group(1))
+        print("Pozycja gracza od serwera: " + str(self.board.player_pos))
+        y = self.board.player_pos[0]
+        x = self.board.player_pos[1]
         x_px, y_px = self.board.table_to_pixels(x, y)
         print("Pikselowo: " + str(y_px) + " " + str(x_px))
         self.x_px = y_px
@@ -168,12 +170,15 @@ class Player(object):
     def send_to_server_info_bomb(self):
         self.board.list_to_destroy = []
         print("Aktualna pozycja bomby x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
-        message = "B x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-        self.send_message_to_server(message)
-        print("do serwera wyslano :" + message)
-        a = self.board.cl.wait4Response()
-        print("Serwer odpowiedzial: ")
 
+        payload = {"type": "BOMB", "B": {"x": self.get_pos()[0], "y": self.get_pos()[1]}}
+        self.send_message_to_server(payload)
+        print("do serwera wyslano :" + str(payload))
+
+        a = self.board.cl.wait4Response()
+        print("odpowiedz serwera - lista do wybuchu: " + a)
+
+        # DODANIE DO LISTY DO WYBUCHU
         for i in a:
             print("Element " + str(i[0]) + " " + str(i[1]))
             self.board.list_to_destroy.append((i[0], i[1]))
@@ -223,11 +228,15 @@ class Player(object):
                         if dy < 0:  # Moving up; Hit the bottom side of the wall
                             self.rect.top = self.board.game[i][j].rect.bottom
 
-        print("ASktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
-        message = "P x" + str(self.get_pos()[0]) + "y" + str(self.get_pos()[1])
-        self.send_message_to_server(message)
-        print("do serwera wyslano :" + message)
-        self.board.cl.wait4Response()
+        print("Aktualna pozycja x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
+
+        {"type": "GET"}
+        payload = {"type": "POS", "ME": {"x": self.get_pos()[0], "y": self.get_pos()[1]}}
+
+        self.send_message_to_server(payload)
+        print("do serwera wyslano :" + str(payload))
+        xx, yy = self.board.cl.wait4Response()
+        print("odp: " + str(xx) + " " + str(yy))
 
     def get_pos(self):
         print("Wspolrzedne 1: ", self.rect.x, ", ",self.rect.y)

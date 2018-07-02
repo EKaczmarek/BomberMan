@@ -2,7 +2,8 @@ import socket
 from Classes import Game_state as gs
 from threading import Thread
 import time
-
+import json
+import ast
 
 class Server:
 
@@ -32,7 +33,7 @@ class Server:
                 data, addr = self.s.recvfrom(self.size*2)
                 print("Otrzymalem: ", data, " od ", addr)
                 if data:
-                    self.sending_to_client(data, addr)
+                    self.sending_to_client(data.decode("utf-8"), addr)
 
             except ConnectionRefusedError as err:
                 print(err)
@@ -40,25 +41,33 @@ class Server:
                 break
 
     def sending_to_client(self, data, addr):
-
         try:
-            data = data.decode("utf-8")
-            # sending board to player
-            if (data[0:3] == "GET"):
+            print(data)
+            print("typek", type(data))
+            received = json.loads(data)
+            print(received)
+            print(type(received))
+            c = (received['type'])
+
+            print(c)
+
+
+            if (c == "GET"):
                 self.dict_players[self.player_nr] = addr
                 print("Gracze: " + str(self.dict_players))
                 print("Otrzymano GET")
                 board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                 self.game_state.set_board(board)
-                player_position = "x1y1"
-                self.s.sendto(("GET " + player_position + board).encode("utf-8"), addr)
+
+                payload = {"type": "GET", "status": 200, "YOU": {"x": 1, "y":1}, "P1": {"x":13, "y": 1}, "board": board}
+                self.s.sendto((json.dumps(payload)).encode("utf-8"), addr)
                 self.player_nr += 1
 
                 print("Wyslano plansze")
 
             # sending data about position to all
-            if (data[0:1] == "P"):
-                print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + data)
+            elif (c == "POS"):
+                print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + str(data))
                 self.game_state.update_player_position(addr[0], data)
                 print("Wysyalnie do innych graczy info o pozycji gracza ")
                 for i in self.dict_players:
@@ -66,22 +75,22 @@ class Server:
                     self.s.sendto(data.encode("utf-8"), self.dict_players[i])
 
             # sending data about bombs to all
-            if (data[0:1] == "B"):
+            if (c == "BOMB"):
                 print("Otrzymano info o pozostawionej bombie od " + addr[0] + " w postaci: ", data)
                 self.game_state.set_bomb(addr[0], data)
                 print("Lista do wybuchu: " + str(self.game_state.list_to_destroy))
-                self.s.sendto((data + " l" + str(self.game_state.list_to_destroy)).encode("utf-8"), addr)
+                self.s.sendto((data).encode("utf-8"), addr)
                 self.game_state.list_to_destroy = []
 
             # request to check if player is dead
-            if (data[0:1] == "D"):
+            if (c == "D"):
                 print("Otrzymano prosbe o sprawdzzenie czy gracz " + addr[0] + " zginal: ")
                 answer = self.game_state.check_is_player_dead(addr[0])
                 print("Gracz zginął: " + str(answer))
                 self.s.sendto(("D " + str(answer)).encode("utf-8"), addr)
 
             # player has left game
-            if (data[0:1] ==  "EXIT"):
+            if (c ==  "EXIT"):
                 print("Otrzymano info o wyjsciu z gry gracza " + addr[0])
                 self.game_state.kill_player(addr[0])
 

@@ -6,14 +6,14 @@ from Classes.Screen_codes.Ranking_screen import Ranking
 
 if __name__ == "__main__":
 
-    """app = QApplication(sys.argv)
+    app = QApplication(sys.argv)
     window = Login_screen()
     window.show()
-    sys.exit(app.exec_())"""
+    sys.exit(app.exec_())
     # powyzej do zakomentowania
 
     # ponizej do odkomentowania
-    p.Player()
+    # p.Player()
 
 
 
