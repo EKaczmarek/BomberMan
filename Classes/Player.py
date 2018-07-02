@@ -111,10 +111,12 @@ class Player(object):
         self.board.cl.sendMessage(message)
 
     def check_is_player_dead(self):
-        message = "D "
+        x, y = self.get_pos()
+        message = {"type": "D", "ME": {"x": x, "y": y}}
+        print("Wiadomosc spr czy żyję ", message)
         self.send_message_to_server(message)
         answer = self.board.cl.wait4Response()
-        print("Odpowiedzialalalal " +  answer)
+        print("Odpowiedzialalalal " + str(answer))
         if (answer == "True"): return True
         else: return False
 
@@ -126,6 +128,7 @@ class Player(object):
             if (seconds >= 1.5):
                 self.bomb_key = False
                 ans = self.check_is_player_dead()
+                print("self.list_to_destroy ", self.board.list_to_destroy)
                 for i in self.board.list_to_destroy:
                     for x in range(8):
                         posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
@@ -176,12 +179,10 @@ class Player(object):
         print("do serwera wyslano :" + str(payload))
 
         a = self.board.cl.wait4Response()
-        print("odpowiedz serwera - lista do wybuchu: " + a)
+        print("odpowiedz serwera - lista do wybuchu: " + str(type(a)))
 
         # DODANIE DO LISTY DO WYBUCHU
-        for i in a:
-            print("Element " + str(i[0]) + " " + str(i[1]))
-            self.board.list_to_destroy.append((i[0], i[1]))
+        self.board.list_to_destroy.append(a)
 
     def leave_bomb(self):
         BombExplode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')

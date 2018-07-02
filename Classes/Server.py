@@ -87,7 +87,8 @@ class Server:
                 print("Otrzymano prosbe o sprawdzzenie czy gracz " + addr[0] + " zginal: ")
                 answer = self.game_state.check_is_player_dead(addr[0])
                 print("Gracz zginął: " + str(answer))
-                self.s.sendto(("D " + str(answer)).encode("utf-8"), addr)
+                payload = {'type': 'D', 'DEAD': False }
+                self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
             # user activation
             if(c == "MONGO"):

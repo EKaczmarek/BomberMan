@@ -50,17 +50,14 @@ class Client:
                 elif(data["type"] == "POS"):
                     return data["ME"]["x"], data["ME"]["y"]
                 elif(data["type"] == "BOMB"):
-                    print(data)
-                    res = data.split(" l")
-                    for i in res:
-                        print(i)
-                    list_to_destroy = eval(res[1])
-                    print("list_to_destroy " + str(list_to_destroy))
+                    list_to_destroy = (data['B']['x'], data['B']['y'])
                     return list_to_destroy
                 elif(data["type"] == "DATA"):
                     print("dane zwrocone do klienta " + data[2::])
                     return data[2::]
-
+                elif(data["type"] == "D"):
+                    print("Gracz nie żyje: ", data["DEAD"])
+                    return data["DEAD"]
             except ConnectionRefusedError:
                 print("Blad przy otrzymywaniu odp od serwera")
 
