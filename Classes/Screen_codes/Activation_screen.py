@@ -30,7 +30,7 @@ class Activation(QDialog, Ui_Dialog):
         headers = {'Content-type': 'application/json'}
 
         conn = http.client.HTTPConnection('localhost', 6060)
-        conn.request('ACTIVATE', '/', params, headers)
+        conn.request('POST', '/', params, headers)
 
         r1 = (conn.getresponse())
         print("r1", r1.status)

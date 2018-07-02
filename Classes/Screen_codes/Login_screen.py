@@ -50,6 +50,7 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         collection = db['Players']
         answer = ((collection.find({"nickname": nick, "password": sha_signature}).count()) == 1)
         print("answer: ", answer)
+
         if (answer): return 1
         else: return 0
 
@@ -76,10 +77,11 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
         if(self.check_if_activated(nickname, json_users)):
             if (self.checkWithMongo(nickname, password)):
-                self.close()
+                self.hide()
                 self.g = Game()
                 self.g.show()
             else:
+                self.hide()
                 self.b = Bad_data()
                 self.lineEdit_nickname.setText('')
                 self.lineEdit_password.setText('')

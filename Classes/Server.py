@@ -89,6 +89,11 @@ class Server:
                 print("Gracz zginął: " + str(answer))
                 self.s.sendto(("D " + str(answer)).encode("utf-8"), addr)
 
+            # user activation
+            if(c == "MONGO"):
+                print("Otrzymano komunikat dotyczacy bazy mongo of "+ addr[0])
+
+
             # player has left game
             if (c ==  "EXIT"):
                 print("Otrzymano info o wyjsciu z gry gracza " + addr[0])

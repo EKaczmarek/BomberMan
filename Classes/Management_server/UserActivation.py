@@ -25,7 +25,7 @@ class UserActivation:
         return '{} {}'.format(response.status_code, response.reason)
 
 def main():
-    cherrypy.config.update({'server.socket_port': 6060})
+    cherrypy.config.update({'server.socket_port': 9090})
     cherrypy.quickstart(UserActivation(), '/')
 
 
