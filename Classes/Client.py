@@ -13,15 +13,16 @@ class Client:
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.connect((self.host, self.port))
         except ConnectionRefusedError as err:
-            print(err)
+            # print(err)
             self.s.close()
 
     def sendMessage(self, data):
-        print(data)
+        # print(data)
         try:
             self.s.send(json.dumps(data).encode("utf-8"))
         except ConnectionRefusedError as err:
-            print(err)
+            pass
+            # print(err)
 
     def get_board_player_pos(self):
         self.sendMessage({"type": "GET"})
@@ -31,55 +32,68 @@ class Client:
         return map(''.join, zip(*[iter(level)]*15)), pos
 
     def get_position_begin(self, data):
-        print("Pozycja poczatkowa gracza "+"x " + str(data["x"]) + "y "+str(data["y"]))
+        pass
+        # print("Pozycja poczatkowa gracza "+"x " + str(data["x"]) + "y "+str(data["y"]))
+
 
     def wait4Response(self):
         while True:
             try:
-                print("Oczekiwanie....")
+                # print("Oczekiwanie....")
                 data, addr2 = self.s.recvfrom(self.size)
                 print("Dostalem: ", data)
 
                 data = data.decode("utf-8")
-                print(data)
+                # print(data)
                 data = json.loads(data)
-                print("Dane: ", data)
-                if(data["type"] == "GET"):
+                # print("Dane: ", data)
+                """  if(data["type"] == "GET"):
+                    list_of_players = []
                     self.get_position_begin(data["YOU"])
+                    for key, value in data.items():
+                        print(key)
+                        if(key.isdigit()):
+                            print("JEST INT!")
+                            list_of_players.append({key: value})"""
+                if(data["type"] == "GET"):
                     return data["board"], (data["YOU"]["x"], data["YOU"]["y"])
                 elif(data["type"] == "POS"):
+                    print("DOSTALEM POZYCJE GRACZAAAAAAAAAAAAAAAAAAAAA ", data)
                     return data["ME"]["x"], data["ME"]["y"]
                 elif(data["type"] == "BOMB"):
-                    list_to_destroy = (data['B']['x'], data['B']['y'])
+                    list_to_destroy = (data['B'])
                     return list_to_destroy
                 elif(data["type"] == "DATA"):
-                    print("dane zwrocone do klienta " + data[2::])
+                    # print("dane zwrocone do klienta " + data[2::])
                     return data[2::]
+
+                elif(data["type"] == "D"):
+                    # print("Gracz nie żyje: ", data["DEAD"])
+                    return data["DEAD"]
                 elif(data["type"] == "LIST_TO_BLOW"):
                     return data["LIST"]
-                elif(data["type"] == "D"):
-                    print("Gracz nie żyje: ", data["DEAD"])
-                    return data["DEAD"]
             except ConnectionRefusedError:
-                print("Blad przy otrzymywaniu odp od serwera")
+                pass
+                # print("Blad przy otrzymywaniu odp od serwera")
 
 
     def listening(self):
-        print("Zaczalem sluchac na wiadomosc od serwera")
         while 1:
             try:
                 packet, address = self.s.recvfrom(self.size)
                 if packet:
                     packet = packet.decode("utf-8")
                     packet = json.loads(packet)
-                    print("wiadomosc odebrana", packet)
+                    # print("wiadomosc odebrana", packet)
 
                     if packet["type"]== "POS":
-                        print("Otrzymano info o pozycji innego klienta")
+                        pass
+                        # print("Otrzymano info o pozycji innego klienta")
                 else:
                     continue
             except ConnectionRefusedError as err:
-                print(err)
+                pass
+                # print(err)
 
     def closeConnection(self):
         self.stream.stop_stream()

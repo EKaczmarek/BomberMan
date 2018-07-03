@@ -43,23 +43,23 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
     def checkWithMongo(self, nick, password):
         sha_signature = hashlib.sha256(password.encode()).hexdigest()
-        print(sha_signature)
+        # print(sha_signature)
 
         client = MongoClient('localhost', 27017)
         db = client['BomberMan']
         collection = db['Players']
         answer = ((collection.find({"nickname": nick, "password": sha_signature}).count()) == 1)
-        print("answer: ", answer)
+        # print("answer: ", answer)
 
         if (answer): return 1
         else: return 0
 
     def check_if_activated(self, nickname, data):
-        print("typ: ", type(data))
-        print(data)
+        # print("typ: ", type(data))
+        # print(data)
         obj = json.loads(data)
 
-        print("dla nazwy usera: ", str(nickname), obj[nickname]['activated'])
+        # print("dla nazwy usera: ", str(nickname), obj[nickname]['activated'])
         return obj[nickname]['activated']
 
 
@@ -73,7 +73,7 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
-        print(nickname, ", ", password)
+        # print(nickname, ", ", password)
 
         if(self.check_if_activated(nickname, json_users)):
             if (self.checkWithMongo(nickname, password)):

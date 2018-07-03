@@ -112,6 +112,7 @@ class Server:
                 for j in self.dict_players[i]:
                     print(j, ':', self.dict_players[i][j])
 
+
     def stopConnection(self):
         self.stream.stop_stream()
         self.stream.close()
@@ -123,5 +124,5 @@ serwer.connectWithClient()
 thread = Thread(target=serwer.listening, args=[])
 thread.start()
 
-#thread_other_players = Thread(target=serwer.send_players_pos, args = [])
-#thread_other_players.start()
+# thread_other_players = Thread(target=serwer.send_players_pos, args = [])
+# thread_other_players.start()
