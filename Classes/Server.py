@@ -79,8 +79,8 @@ class Server:
                 print("Otrzymano info o pozostawionej bombie od " + addr[0] + " w postaci: ", data)
                 self.game_state.set_bomb(addr[0], data)
                 print("Lista do wybuchu: " + str(self.game_state.list_to_destroy))
-                self.s.sendto((data).encode("utf-8"), addr)
-                self.game_state.list_to_destroy = []
+                payload = {'type': 'LIST_TO_BLOW', 'LIST': self.game_state.list_to_destroy}
+                self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
 
             # request to check if player is dead
             if (c == "D"):

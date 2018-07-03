@@ -55,6 +55,8 @@ class Client:
                 elif(data["type"] == "DATA"):
                     print("dane zwrocone do klienta " + data[2::])
                     return data[2::]
+                elif(data["type"] == "LIST_TO_BLOW"):
+                    return data["LIST"]
                 elif(data["type"] == "D"):
                     print("Gracz nie żyje: ", data["DEAD"])
                     return data["DEAD"]

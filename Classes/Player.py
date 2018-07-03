@@ -171,7 +171,7 @@ class Player(object):
         pygame.display.flip()
 
     def send_to_server_info_bomb(self):
-        self.board.list_to_destroy = []
+        # self.board.list_to_destroy = []
         print("Aktualna pozycja bomby x:" + str(self.get_pos()[0]) + " y:" + str(self.get_pos()[1]))
 
         payload = {"type": "BOMB", "B": {"x": self.get_pos()[0], "y": self.get_pos()[1]}}
@@ -182,7 +182,8 @@ class Player(object):
         print("odpowiedz serwera - lista do wybuchu: " + str(type(a)))
 
         # DODANIE DO LISTY DO WYBUCHU
-        self.board.list_to_destroy.append(a)
+        self.board.list_to_destroy = a
+        print(a)
 
     def leave_bomb(self):
         BombExplode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
@@ -216,9 +217,11 @@ class Player(object):
 
         for i in range(len(self.board.game)):
             for j in range(len(self.board.game[i])):
+
                 if((type(self.board.game[i][j]) is wal.Wall)
                    or (type(self.board.game[i][j]) is brick.Brick)
                    or (type(self.board.game[i][j]) is bom.Bomb)):
+
                     if self.rect.colliderect(self.board.game[i][j].rect):
                         if dx > 0:  # Moving right; Hit the left side of the wall
                             self.rect.right = self.board.game[i][j].rect.left
