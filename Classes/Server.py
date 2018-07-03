@@ -59,7 +59,7 @@ class Server:
                 board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                 self.game_state.set_board(board)
 
-                payload = {"type": "GET", "status": 200, "YOU": {"x": 1, "y":1}, "P1": {"x":13, "y": 1}, "board": board}
+                payload = {"type": "GET", "status": 200, "YOU": {"x": 1, "y":1}, 1: {"x":13, "y": 1}, 2: {"x":1 , "y": 13},"board": board}
                 self.s.sendto((json.dumps(payload)).encode("utf-8"), addr)
                 self.player_nr += 1
 

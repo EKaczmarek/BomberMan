@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9039ec18-2fc5-4cad-aa0a-c94839a12fe1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Board.py" afterPath="$PROJECT_DIR$/Classes/Board.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Client.py" afterPath="$PROJECT_DIR$/Classes/Client.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Player.py" afterPath="$PROJECT_DIR$/Classes/Player.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Server.py" afterPath="$PROJECT_DIR$/Classes/Server.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,63 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Login_screen.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Client.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Client.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="70" column="58" lean-forward="false" selection-start-line="70" selection-start-column="54" selection-end-line="70" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="81" column="56" lean-forward="false" selection-start-line="81" selection-start-column="52" selection-end-line="81" selection-end-column="56" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Player.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Classes/Player.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="116" column="43" lean-forward="false" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Board.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Board.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Classes/Board.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="8" column="34" lean-forward="true" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+            <state relative-caret-position="516">
+              <caret line="66" column="6" lean-forward="false" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -90,7 +37,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>{</find>
       <find>SEND</find>
       <find>SEN</find>
       <find>pay</find>
@@ -109,7 +55,6 @@
       <find>self.play</find>
       <find>self.board.player_pos</find>
       <find>list_to_destroy</find>
-      <find>get_board_player_pos</find>
       <find>BOMB</find>
       <find>des</find>
       <find>destr</find>
@@ -120,6 +65,8 @@
       <find>TO_DES</find>
       <find>0.</find>
       <find>DEAD</find>
+      <find>&quot;D&quot;</find>
+      <find>get_board_player_pos</find>
     </findStrings>
     <replaceStrings>
       <replace># print</replace>
@@ -154,10 +101,10 @@
         <option value="$PROJECT_DIR$/Classes/Management_server/UserActivation.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
-        <option value="$PROJECT_DIR$/Classes/Board.py" />
-        <option value="$PROJECT_DIR$/Classes/Server.py" />
-        <option value="$PROJECT_DIR$/Classes/Client.py" />
         <option value="$PROJECT_DIR$/Classes/Player.py" />
+        <option value="$PROJECT_DIR$/Classes/Client.py" />
+        <option value="$PROJECT_DIR$/Classes/Server.py" />
+        <option value="$PROJECT_DIR$/Classes/Board.py" />
       </list>
     </option>
   </component>
@@ -672,34 +619,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="81" column="56" lean-forward="false" selection-start-line="81" selection-start-column="52" selection-end-line="81" selection-end-column="56" />
+        <state relative-caret-position="0">
+          <caret line="63" column="13" lean-forward="true" selection-start-line="63" selection-start-column="13" selection-end-line="63" selection-end-column="13" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Board.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="70" column="58" lean-forward="false" selection-start-line="70" selection-start-column="54" selection-end-line="70" selection-end-column="58" />
+        <state relative-caret-position="423">
+          <caret line="37" column="52" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="37" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="116" column="43" lean-forward="false" selection-start-line="116" selection-start-column="43" selection-end-line="116" selection-end-column="43" />
+        <state relative-caret-position="160">
+          <caret line="37" column="16" lean-forward="false" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Board.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="66" column="6" lean-forward="false" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="6" />
           <folding />
         </state>
       </provider>

@@ -26,10 +26,22 @@ class Client:
 
     def get_board_player_pos(self):
         self.sendMessage({"type": "GET"})
-        level, pos = self.wait4Response()
+        data = self.wait4Response()
+        level= data["board"]
+        pos = (data["YOU"]["x"], data["YOU"]["y"])
+
+        list_of_players = []
+        for key, value in data.items():
+            print(key)
+            if (key.isdigit()):
+                print("JEST INT!")
+                list_of_players.append({key: value})
+
         print("level", level)
         print("pos", pos)
-        return map(''.join, zip(*[iter(level)]*15)), pos
+        print("inni gracze: " + str(list_of_players))
+
+        return map(''.join, zip(*[iter(level)]*15)), pos, list_of_players
 
     def get_position_begin(self, data):
         pass
@@ -56,7 +68,7 @@ class Client:
                             print("JEST INT!")
                             list_of_players.append({key: value})"""
                 if(data["type"] == "GET"):
-                    return data["board"], (data["YOU"]["x"], data["YOU"]["y"])
+                    return data
                 elif(data["type"] == "POS"):
                     print("DOSTALEM POZYCJE GRACZAAAAAAAAAAAAAAAAAAAAA ", data)
                     return data["ME"]["x"], data["ME"]["y"]

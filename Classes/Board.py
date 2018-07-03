@@ -46,9 +46,22 @@ class Board(object):
 
         self.cl = client.Client()
         self.cl.connectToSerwer('192.168.0.101')
-        self.level,  self.player_pos, = self.cl.get_board_player_pos()
+        self.level,  self.player_pos, self.others = self.cl.get_board_player_pos()
         print("Pozycja gracza" + str(self.player_pos))
 
+
+        print("Pozycja innych graczy: " + str(self.others) + str(type(self.others)))
+        for i in self.others:
+            print(i)
+            for key, value in i.items():
+                print(key)
+                print("value['x'] ", value['x'])
+                print("value['y'] ", value['y'])
+                xx, yy = self.table_to_pixels(value['x'], value['y'])
+
+
+            """ print("i['x']:", i['x'])
+            print("i['y']:", i['y'])"""
 
         self.buttons()
         self.walls_bricks()
