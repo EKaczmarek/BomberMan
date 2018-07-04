@@ -27,15 +27,34 @@ class Client:
     def get_board_player_pos(self):
         self.sendMessage({"type": "GET"})
         data = self.wait4Response()
-        level= data["board"]
-        pos = (data["YOU"]["x"], data["YOU"]["y"])
+        # {"type": "GET", "status": 200, 0: {"x": 1, "y": 1}, board": board}
+        print("Odpowiedz na GET: ", data)
+
+        self.my_id = 0
+        for key, value in data.items():
+            print(type(key))
+            if(key.isdigit()):
+                print(key)
+                self.my_id = key
+
+        print("MOJEEEE ID : ", self.my_id)
+        level = data["board"]
+        pos = (data[self.my_id]["x"], data[self.my_id]["y"])
 
         list_of_players = []
+
         for key, value in data.items():
             print(key)
-            if (key.isdigit()):
-                print("JEST INT!")
-                list_of_players.append({key: value})
+            if (key=="players"):
+                print("Są inni gracze!! ")
+                for k, v in value.items():
+                    print(str(k) + " " + str(v))
+                    print(str(k) + " " + str(self.my_id))
+                    print(str(k) == str(self.my_id))
+
+                    if(str(k) != str(self.my_id)):
+                        list_of_players.append({k: v})
+
 
         print("level", level)
         print("pos", pos)

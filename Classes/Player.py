@@ -24,6 +24,7 @@ class Player(object):
     lista = []
     images = []
 
+
     def __init__(self, parent = None):
         # Initialise pygame
         self.pygame = pygame.init()
@@ -35,7 +36,12 @@ class Player(object):
         self.board = board.Board()
         # set position of player from server
         self.set_player_pos()
+        print("Moje wspolrzedne to " + str(self.x_px) + " " + str(self.y_px))
         self.rect = pygame.Rect(self.x_px, self.y_px, 50, 50)
+
+        self.other_players_rects = []
+        diction = {}
+        print("self.board.others: ", self.board.others)
         for i in self.board.others:
             print("w konstruktorze playerd")
             print(i)
@@ -43,8 +49,17 @@ class Player(object):
                 print(key)
                 print("value['x'] ", value['x'])
                 print("value['y'] ", value['y'])
+                # diction[key] = pygame.Rect(int(value['x']), int(value['y']), 50, 50)
+                # self.other_players_rects.append(diction)
+                # diction = {}
 
 
+        for item in self.board.others:
+            for key, value in item.items():
+                print(key, " ", value)
+                self.other_players_rects.append({key: pygame.Rect(value['y'], value['x'], 50, 50)})
+
+        print("self.other_players_rects ", self.other_players_rects)
 
         # Initialize flags
         self.show_player = True
@@ -163,6 +178,15 @@ class Player(object):
                     if(self.board.game[i][j].desc == "wall"):
                         self.board.screen.blit(wall, self.board.game[i][j])
                         if (self.show_player):
+                            for item in self.other_players_rects:
+                                # print("item ", item)
+                                for k, v in item.items():
+                                    # print("k ", k)
+                                    # print("v ", v)
+                                    self.board.screen.blit(bombermanR, v)
+                                    # print("W display_all")
+                                    # print(item)
+
                             if(Player.side == 0):
                                 self.board.screen.blit(bombermanR, self.rect)
                             else:

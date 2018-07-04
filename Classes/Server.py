@@ -8,7 +8,8 @@ import ast
 class Server:
 
     dict_players = {}
-    player_nr = 1
+    players_to_send = {}
+    player_nr = 0
 
     def __init__(self):
         print("Inicjalizacja klasy serwer")
@@ -48,22 +49,39 @@ class Server:
             print(received)
             print(type(received))
             c = (received['type'])
-
+            lista_graczy = []
             print(c)
 
 
             if (c == "GET"):
+
                 self.dict_players[self.player_nr] = addr
-                print("Gracze: " + str(self.dict_players))
-                print("Otrzymano GET")
+                if (self.player_nr == 0):
+                    self.player_pos = {"x":1, "y": 1}
+                elif(self.player_nr == 1):
+                    self.player_pos =  {"x": 13, "y": 1}
+                elif (self.player_nr == 2):
+                    self.player_pos = {"x": 1, "y": 13}
+                elif (self.player_nr == 3):
+                    self.player_pos = {"x": 13, "y": 13}
+
+
+                self.players_to_send[self.player_nr] = self.player_pos
+                lista_graczy.append(self.dict_players)
+                print("Gracze: " + str(lista_graczy))
                 board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                 self.game_state.set_board(board)
-
-                payload = {"type": "GET", "status": 200, "YOU": {"x": 1, "y":1}, 1: {"x":13, "y": 1}, 2: {"x":1 , "y": 13},"board": board}
-                self.s.sendto((json.dumps(payload)).encode("utf-8"), addr)
                 self.player_nr += 1
 
-                print("Wyslano plansze")
+                # max 4 graczy
+                if(self.player_nr == 2):
+                    for key, value in self.dict_players.items():
+                        payload = {"type": "GET", "status": 200, key: self.players_to_send[key], "players": self.players_to_send,
+                                   "board": board}
+                        print("Do wyslania: ", self.players_to_send)
+                        self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
+
+
 
             # sending data about position to all
             elif (c == "POS"):

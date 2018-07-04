@@ -57,10 +57,7 @@ class Board(object):
                 print(key)
                 print("value['x'] ", value['x'])
                 print("value['y'] ", value['y'])
-                value['x'], value['y']= self.table_to_pixels(value['x'], value['y'])
-
-            """ print("i['x']:", i['x'])
-            print("i['y']:", i['y'])"""
+                value['x'], value['y']= self.table_to_pixels(value['y'], value['x'])
 
         self.buttons()
         self.walls_bricks()
