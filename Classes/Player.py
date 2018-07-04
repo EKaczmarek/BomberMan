@@ -36,6 +36,15 @@ class Player(object):
         # set position of player from server
         self.set_player_pos()
         self.rect = pygame.Rect(self.x_px, self.y_px, 50, 50)
+        for i in self.board.others:
+            print("w konstruktorze playerd")
+            print(i)
+            for key, value in i.items():
+                print(key)
+                print("value['x'] ", value['x'])
+                print("value['y'] ", value['y'])
+
+
 
         # Initialize flags
         self.show_player = True
