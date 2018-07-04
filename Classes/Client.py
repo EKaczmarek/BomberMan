@@ -1,6 +1,6 @@
 import socket
 import json
-
+from threading import Thread
 class Client:
 
     def connectToSerwer(self, host):
@@ -87,6 +87,8 @@ class Client:
                             print("JEST INT!")
                             list_of_players.append({key: value})"""
                 if(data["type"] == "GET"):
+                    thread = Thread(target=self.listening, args=[])
+                    thread.start()
                     return data
                 elif(data["type"] == "POS"):
                     print("DOSTALEM POZYCJE GRACZAAAAAAAAAAAAAAAAAAAAA ", data)
@@ -115,11 +117,7 @@ class Client:
                 if packet:
                     packet = packet.decode("utf-8")
                     packet = json.loads(packet)
-                    # print("wiadomosc odebrana", packet)
-
-                    if packet["type"]== "POS":
-                        pass
-                        # print("Otrzymano info o pozycji innego klienta")
+                    print("wiadomosc odebrana", packet)
                 else:
                     continue
             except ConnectionRefusedError as err:

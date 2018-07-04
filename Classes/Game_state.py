@@ -65,7 +65,7 @@ class Game_state:
             print(end='\n')
 
     # position like 'P x1y2'
-    def update_player_position(self, player_ip, position):
+    def update_player_position(self, id, position):
         print("position", position)
         print("typ: ", type(position))
         position = json.loads(position)
@@ -76,7 +76,8 @@ class Game_state:
         self.game[self.last_pos[0]][self.last_pos[1]] = 0
 
         # set current position of player
-        self.game[y][x] = Player_ob.Player_object_board((x, y), "player 1")
+        player_desc = "player " + str(id)
+        self.game[y][x] = Player_ob.Player_object_board((x, y), player_desc)
         self.last_pos = y, x
         self.show_board()
 

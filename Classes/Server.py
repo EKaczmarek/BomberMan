@@ -41,6 +41,14 @@ class Server:
                 print("Bład połączenia")
                 break
 
+
+    def get_player_id(self, addr):
+        for key, value in self.dict_players.items():
+            if(value == addr):
+                print("id tego gracza to: ", key)
+                return key
+
+
     def sending_to_client(self, data, addr):
         try:
             print(data)
@@ -85,12 +93,21 @@ class Server:
 
             # sending data about position to all
             elif (c == "POS"):
+                id = self.get_player_id(addr)
+                print("ID GRACZA: ", id)
+                # print(self.dict_players[self.player_nr] + " " + addr)
                 print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + str(data))
-                self.game_state.update_player_position(addr[0], data)
+                self.game_state.update_player_position(id, data)
                 print("Wysyalnie do innych graczy info o pozycji gracza ")
+
+                self.s.sendto(data.encode("utf-8"), addr)
+
                 for i in self.dict_players:
-                    print(i, " ", self.dict_players[i])
-                    self.s.sendto(data.encode("utf-8"), self.dict_players[i])
+                    if(i != id):
+                        print(str(i) + " " + str(id) + "WYSYLAMMMMM")
+                        print(i, " ", self.dict_players[i])
+                        payload = {"type": "POS",  "players": 13}
+                        self.s.sendto(json.dumps(payload).encode("utf-8"), self.dict_players[i])
 
             # sending data about bombs to all
             if (c == "BOMB"):
