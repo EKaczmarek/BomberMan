@@ -52,12 +52,8 @@ class Board(object):
 
         print("Pozycja innych graczy: " + str(self.others) + str(type(self.others)))
         for i in self.others:
-            print(i)
             for key, value in i.items():
-                print(key)
-                print("value['x'] ", value['x'])
-                print("value['y'] ", value['y'])
-                value['x'], value['y']= self.table_to_pixels(value['y'], value['x'])
+                value['x'], value['y'] = self.table_to_pixels(value['y'], value['x'])
 
         self.buttons()
         self.walls_bricks()

@@ -51,15 +51,11 @@ class Server:
 
     def sending_to_client(self, data, addr):
         try:
-            print(data)
-            print("typek", type(data))
             received = json.loads(data)
             print(received)
             print(type(received))
             c = (received['type'])
             lista_graczy = []
-            print(c)
-
 
             if (c == "GET"):
 
@@ -89,7 +85,12 @@ class Server:
                         print("Do wyslania: ", self.players_to_send)
                         self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
 
-
+                        print("KLUACZZZZ ", key)
+                        print(self.players_to_send[key]["x"])
+                        print(self.players_to_send[key]["y"])
+                        x = self.players_to_send[key]["x"]
+                        y = self.players_to_send[key]["y"]
+                        self.game_state.update_player_position(key, (x,y))
 
             # sending data about position to all
             elif (c == "POS"):
@@ -102,12 +103,12 @@ class Server:
 
                 self.s.sendto(data.encode("utf-8"), addr)
 
-                for i in self.dict_players:
+                """for i in self.dict_players:
                     if(i != id):
                         print(str(i) + " " + str(id) + "WYSYLAMMMMM")
                         print(i, " ", self.dict_players[i])
                         payload = {"type": "POS",  "players": 13}
-                        self.s.sendto(json.dumps(payload).encode("utf-8"), self.dict_players[i])
+                        self.s.sendto(json.dumps(payload).encode("utf-8"), self.dict_players[i])"""
 
             # sending data about bombs to all
             if (c == "BOMB"):

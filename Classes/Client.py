@@ -37,7 +37,6 @@ class Client:
                 print(key)
                 self.my_id = key
 
-        print("MOJEEEE ID : ", self.my_id)
         level = data["board"]
         pos = (data[self.my_id]["x"], data[self.my_id]["y"])
 
@@ -46,12 +45,7 @@ class Client:
         for key, value in data.items():
             print(key)
             if (key=="players"):
-                print("Są inni gracze!! ")
                 for k, v in value.items():
-                    print(str(k) + " " + str(v))
-                    print(str(k) + " " + str(self.my_id))
-                    print(str(k) == str(self.my_id))
-
                     if(str(k) != str(self.my_id)):
                         list_of_players.append({k: v})
 
@@ -87,8 +81,8 @@ class Client:
                             print("JEST INT!")
                             list_of_players.append({key: value})"""
                 if(data["type"] == "GET"):
-                    thread = Thread(target=self.listening, args=[])
-                    thread.start()
+                    """thread = Thread(target=self.listening, args=[])
+                    thread.start()"""
                     return data
                 elif(data["type"] == "POS"):
                     print("DOSTALEM POZYCJE GRACZAAAAAAAAAAAAAAAAAAAAA ", data)

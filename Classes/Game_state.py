@@ -46,7 +46,7 @@ class Game_state:
 
         if(self.last_pos == ''):
             self.game[1][1] = Player_ob.Player_object_board((1,1), 1)
-            self.last_pos = (1,1)
+            self.last_pos = (1, 1)
 
         self.show_board()
 
@@ -64,21 +64,20 @@ class Game_state:
                     print("empty", end="\t")
             print(end='\n')
 
-    # position like 'P x1y2'
     def update_player_position(self, id, position):
-        print("position", position)
-        print("typ: ", type(position))
-        position = json.loads(position)
-        x = position["ME"]["x"]
-        y = position["ME"]["y"]
+
+        x = position[0]
+        y = position[1]
 
         # removing player from last position
-        self.game[self.last_pos[0]][self.last_pos[1]] = 0
+        #self.game[self.last_pos[0]][self.last_pos[1]] = 0
 
         # set current position of player
         player_desc = "player " + str(id)
+        print(str(player_desc) + " pozycja " + str(x) + " " + str(y))
         self.game[y][x] = Player_ob.Player_object_board((x, y), player_desc)
         self.last_pos = y, x
+
         self.show_board()
 
     # bomb position 'B x1y2'
@@ -156,7 +155,7 @@ class Game_state:
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if(self.game[i][j] != 0):
-                    if(self.game[i][j].desc == "player 1"):
+                    if(self.game[i][j].desc.isdigit()):
                         return i,j
         return (self.get_bomb_pos())
 
