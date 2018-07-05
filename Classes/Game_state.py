@@ -64,21 +64,50 @@ class Game_state:
                     print("empty", end="\t")
             print(end='\n')
 
-    def update_player_position(self, id, position):
+    def find_last_position(self, player_id):
+
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if(self.game[i][j] != 0):
+                    player_desc = "player " + str(player_id)
+                    if(self.game[i][j].desc == player_desc):
+                        print(self.game[i][j].desc == player_desc)
+                        return j,i
+
+        if (player_id == 0):
+            return 1, 1
+        elif (player_id == 1):
+            return 13, 1
+        elif (player_id == 2):
+            return 1, 13
+        elif (player_id == 3):
+            return 13, 13
+
+
+    def update_player_position(self, player_id, position):
 
         x = position[0]
         y = position[1]
+        print("position ", position)
 
         # removing player from last position
-        #self.game[self.last_pos[0]][self.last_pos[1]] = 0
+        # self.game[self.last_pos[0]][self.last_pos[1]] = 0
+        self.last_pos = self.find_last_position(player_id)
+
+        print("lolololo " + str(self.last_pos))
+        self.game[self.last_pos[1]][self.last_pos[0]] = 0
 
         # set current position of player
-        player_desc = "player " + str(id)
+        player_desc = "player " + str(player_id)
         print(str(player_desc) + " pozycja " + str(x) + " " + str(y))
-        self.game[y][x] = Player_ob.Player_object_board((x, y), player_desc)
-        self.last_pos = y, x
+        print("Wynik ", self.table_to_pixels(x, y))
+        self.game[y][x] = Player_ob.Player_object_board(self.table_to_pixels(x, y), player_desc)
+        self.last_pos = y,x
 
         self.show_board()
+
+    def table_to_pixels(self, x, y):
+        return int(x * 50), int((y * 50) + 450)
 
     # bomb position 'B x1y2'
     def set_bomb(self, player_ip, position):

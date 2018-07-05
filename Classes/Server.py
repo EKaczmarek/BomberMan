@@ -78,7 +78,7 @@ class Server:
                 self.player_nr += 1
 
                 # max 4 graczy
-                if(self.player_nr == 2):
+                if(self.player_nr == 3):
                     for key, value in self.dict_players.items():
                         payload = {"type": "GET", "status": 200, key: self.players_to_send[key], "players": self.players_to_send,
                                    "board": board}
@@ -97,11 +97,14 @@ class Server:
                 id = self.get_player_id(addr)
                 print("ID GRACZA: ", id)
                 # print(self.dict_players[self.player_nr] + " " + addr)
-                print("Otrzymano pozycje od gracza " + addr[0] + " w postaci: " + str(data))
-                self.game_state.update_player_position(id, data)
+                print("Otrzymano pozycje od gracza " + str(addr[0]) + " w postaci: " + data)
+                data = json.loads(data)
+
+                x, y = int(data["ME"]["x"]), int(data["ME"]["y"])
+                self.game_state.update_player_position(id, (x,y))
                 print("Wysyalnie do innych graczy info o pozycji gracza ")
 
-                self.s.sendto(data.encode("utf-8"), addr)
+                self.s.sendto(json.dumps(data).encode("utf-8"), addr)
 
                 """for i in self.dict_players:
                     if(i != id):
