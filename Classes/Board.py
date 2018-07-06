@@ -5,6 +5,7 @@ import Classes.Brick as b
 import Classes.Powerup as p
 import Classes.Button as btn
 import Classes.Client as client
+from threading import Thread
 
 
 class Board(object):
@@ -46,6 +47,7 @@ class Board(object):
 
         self.cl = client.Client()
         self.cl.connectToSerwer('192.168.0.101')
+
         self.level,  self.player_pos, self.others = self.cl.get_board_player_pos()
         print("Pozycja gracza" + str(self.player_pos))
 

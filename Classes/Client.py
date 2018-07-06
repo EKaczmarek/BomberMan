@@ -81,19 +81,17 @@ class Client:
                             print("JEST INT!")
                             list_of_players.append({key: value})"""
                 if(data["type"] == "GET"):
-                    """thread = Thread(target=self.listening, args=[])
-                    thread.start()"""
+                    thread = Thread(target=self.listening, args=[])
+                    thread.start()
                     return data
                 elif(data["type"] == "POS"):
-                    print("DOSTALEM POZYCJE GRACZAAAAAAAAAAAAAAAAAAAAA ", data)
+                    print("DOSTALEM POZYCJE SWOJĄ ", data)
                     return data["ME"]["x"], data["ME"]["y"]
                 elif(data["type"] == "BOMB"):
                     list_to_destroy = (data['B'])
                     return list_to_destroy
                 elif(data["type"] == "DATA"):
-                    # print("dane zwrocone do klienta " + data[2::])
                     return data[2::]
-
                 elif(data["type"] == "D"):
                     # print("Gracz nie żyje: ", data["DEAD"])
                     return data["DEAD"]
@@ -105,8 +103,10 @@ class Client:
 
 
     def listening(self):
+        print("Zaczynam słuchac...")
         while 1:
             try:
+                print("Probuje odebrac ...")
                 packet, address = self.s.recvfrom(self.size)
                 if packet:
                     packet = packet.decode("utf-8")
@@ -122,5 +122,7 @@ class Client:
         self.stream.stop_stream()
         self.stream.close()
         self.s.close()
+
+
 
 

@@ -34,13 +34,13 @@ class Player(object):
         self.load_images()
         # Initialize board, get info about position from server
         self.board = board.Board()
+
         # set position of player from server
         self.set_player_pos()
         print("Moje wspolrzedne to " + str(self.x_px) + " " + str(self.y_px))
         self.rect = pygame.Rect(self.x_px, self.y_px, 50, 50)
 
         self.other_players_rects = []
-        diction = {}
         print("self.board.others: ", self.board.others)
         for i in self.board.others:
             print("w konstruktorze playerd")
@@ -49,10 +49,6 @@ class Player(object):
                 print(key)
                 print("value['x'] ", value['x'])
                 print("value['y'] ", value['y'])
-                # diction[key] = pygame.Rect(int(value['x']), int(value['y']), 50, 50)
-                # self.other_players_rects.append(diction)
-                # diction = {}
-
 
         for item in self.board.others:
             for key, value in item.items():
