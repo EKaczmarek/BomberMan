@@ -6,7 +6,7 @@ import Classes.Powerup as p
 import Classes.Button as btn
 import Classes.Client as client
 from threading import Thread
-
+import Classes.BetweenThreads as BetweenThreads
 
 class Board(object):
     level = [
@@ -49,8 +49,12 @@ class Board(object):
         self.cl.connectToSerwer('192.168.0.101')
 
         self.level,  self.player_pos, self.others = self.cl.get_board_player_pos()
-        print("Pozycja gracza" + str(self.player_pos))
 
+        self.semaphore = BetweenThreads.ClassBetweenhreads()
+        self.thread = Thread(target=self.waiting_for_update, args=[])
+        self.thread.start()
+
+        print("Pozycja graczaaaaaaaaaaaaaaaaaa" + str(self.player_pos))
 
         print("Pozycja innych graczy: " + str(self.others) + str(type(self.others)))
         for i in self.others:
@@ -59,6 +63,16 @@ class Board(object):
 
         self.buttons()
         self.walls_bricks()
+
+    def read(self):
+        print("Odczytalem ", self.semaphore.received)
+
+
+    def waiting_for_update(self):
+        with self.semaphore.lock:
+            self.cl.listening(self.semaphore)
+            self.read()
+
 
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)

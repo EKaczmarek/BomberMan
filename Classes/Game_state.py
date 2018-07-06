@@ -72,7 +72,7 @@ class Game_state:
                     player_desc = "player " + str(player_id)
                     if(self.game[i][j].desc == player_desc):
                         print(self.game[i][j].desc == player_desc)
-                        return j,i
+                        return j, i
 
         if (player_id == 0):
             return 1, 1
