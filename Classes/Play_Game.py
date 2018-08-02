@@ -5,7 +5,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import QtCore
 from threading import Thread
-
+import ast
 
 class PlayGame(QtCore.QObject):
 
@@ -53,10 +53,12 @@ class PlayGame(QtCore.QObject):
         print("Wsylano wiadomosc")
 
 
-    def handle_serwer_ans_on_get(self, answer):
-        print("jestem w handle_serwer_ans_on_get")
-        print(answer)
+    def handle_serwer_ans_on_get(self, answer_on_get):
         self.my_id = 0
+
+        # I know it's dangerous but on windows json.loads doesnt work here :(
+        answer = ast.literal_eval(answer_on_get)
+
         for key, value in answer.items():
             print(type(key))
             if(key.isdigit()):
@@ -69,7 +71,6 @@ class PlayGame(QtCore.QObject):
         list_of_players = []
 
         for key, value in answer.items():
-            print(key)
             if (key=="players"):
                 for k, v in value.items():
                     if(str(k) != str(self.my_id)):
@@ -81,14 +82,14 @@ class PlayGame(QtCore.QObject):
         print("inni gracze: " + str(list_of_players))
 
         self.level, self.pos, self.list_of_player =  map(''.join, zip(*[iter(level)]*15)), pos, list_of_players
-        print("Koniec funckji .....")
+
 
     @pyqtSlot(bool, str)
     def have_map_params(self, value, params_json):
         if value:
             print(".... have_map_params ", value)
             print("Odpowiedz serwera to : ", params_json)
-            #self.handle_serwer_ans_on_get(params_json)
+            self.handle_serwer_ans_on_get(params_json)
         else:
             print(".... have_map_params ", value)
 

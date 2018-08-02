@@ -84,8 +84,12 @@ class Server:
                 print("Gracze: " + str(lista_graczy))
                 board = "WWWWWWWWWWWWWWWW    BB       WW W W WBW W W WW       B     WWBW W W W W W WW    BBB    BBWW W W W W W WBWW      BB BB  WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
                 self.game_state.set_board(board)
-                self.player_nr += 1
+
+                # TO DO
+                self.player_nr = 1
                 print("player_nr ", self.player_nr)
+
+
                 # ograniczenie tutaj max 1 graczy
                 if(self.player_nr == 1):
                     for key, value in self.dict_players.items():
