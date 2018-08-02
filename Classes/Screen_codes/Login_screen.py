@@ -1,35 +1,31 @@
 import os.path
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5 import QtCore
+
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
 from pymongo import MongoClient
-from Classes.Screen_codes.Game_screen import Game
-from Classes.Screen_codes.Bad_data_screen import Bad_data
-from Classes.Screen_codes.Register_screen import Register
 import http.client
 import hashlib
-import sys
-from Classes.Screen_codes.Activation_screen import Activation
+import requests
 
 import json
 qtCreatorFile = os.path.join("Classes", "GUI", "login.ui")
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
-class MyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, (bytes, bytearray)):
-            return obj.decode("ASCII") # <- or any other encoding of your choice
-        # Let the base class default method raise the TypeError
-        return json.JSONEncoder.default(self, obj)
-
-
 class Login_screen(QMainWindow, Ui_MainWindow):
+    URL = 'http://localhost:8080/api/users/'
+
+    logging_signal = QtCore.pyqtSignal(bool)
+    activation_signal = QtCore.pyqtSignal(bool)
+
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
         self.connectWithMongo()
+
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
 
@@ -41,60 +37,67 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
         # pass
 
-    def checkWithMongo(self, nick, password):
+    def log_in(self, nick, password):
         sha_signature = hashlib.sha256(password.encode()).hexdigest()
         # print(sha_signature)
 
         client = MongoClient('localhost', 27017)
-        db = client['BomberMan']
-        collection = db['Players']
+        db = client['bomberman']
+        collection = db['players']
         answer = ((collection.find({"nickname": nick, "password": sha_signature}).count()) == 1)
         # print("answer: ", answer)
 
-        if (answer): return 1
+        if answer: return 1
         else: return 0
 
-    def check_if_activated(self, nickname, data):
-        # print("typ: ", type(data))
-        # print(data)
-        obj = json.loads(data)
+    def get_players(self):
+        self.all_players = ''
 
-        # print("dla nazwy usera: ", str(nickname), obj[nickname]['activated'])
-        return obj[nickname]['activated']
+        response = requests.get(self.URL)
+        if response.ok:
+            self.all_players = json.loads(response.content.decode())
+            print(json.dumps(self.all_players, indent=4))
+            print()
 
-
+    def check_if_player_is_activated(self, player):
+        print("check if player activated")
+        response = requests.get(self.URL, params={'nickname': player})
+        # Alternatively, more REST-like style:
+        # response = requests.get(requests.compat.urljoin(URL, PLAYER))
+        if response.ok:
+            player = json.loads(response.content.decode())
+            print(json.dumps(player, indent=4))
+            print()
+            return True
+        else: return False
 
     @pyqtSlot()
     def on_button_ok_clicked(self):
-        conn = http.client.HTTPConnection("localhost", 8080)
-        conn.request("GET", "/users")
-        r1 = (conn.getresponse())
-        json_users = r1.read()
+        # TO DO
+        self.get_players()
 
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
-        # print(nickname, ", ", password)
+        print(nickname, ", ", password)
+        # print("all_player ", self.all_players)
 
-        if(self.check_if_activated(nickname, json_users)):
-            if (self.checkWithMongo(nickname, password)):
-                self.hide()
-                self.g = Game()
-                self.g.show()
+        # TO DO
+        # if self.check_if_player_is_activated(nickname):
+        if True:
+            if self.log_in(nickname, password):
+                self.logging_signal.emit(True)
             else:
-                self.hide()
-                self.b = Bad_data()
-                self.lineEdit_nickname.setText('')
-                self.lineEdit_password.setText('')
-                self.b.show()
+                self.logging_signal.emit(False)
         else:
-            self.activ = Activation(nickname)
-            self.activ.show()
+            self.activation_signal.emit(True)
 
     @pyqtSlot()
     def on_register_button_clicked(self):
-        self.r = Register()
-        self.r.show()
+        pass
+        # self.r = Register()
+        # self.r.show()
 
     @pyqtSlot()
     def on_exit_button_clicked(self):
-        sys.exit(self.app.exec_())
+        pass
+        # sys.exit(self.app.exec_())

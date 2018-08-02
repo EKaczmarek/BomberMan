@@ -2,9 +2,7 @@ import os.path
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import uic
-from Classes.Player import Player
-from Classes.Screen_codes.Options_screen import Options
-from Classes.Screen_codes.Ranking_screen import Ranking
+from PyQt5 import QtCore
 
 
 qtCreatorFile = os.path.join("Classes", "GUI", "game.ui")
@@ -12,6 +10,12 @@ Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
 class Game(QDialog, Ui_Dialog):
+
+    play_signal = QtCore.pyqtSignal(bool)
+    ranking_service_signal = QtCore.pyqtSignal(bool)
+    options_signal = QtCore.pyqtSignal(bool)
+    exit_signal = QtCore.pyqtSignal(bool)
+
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -26,21 +30,17 @@ class Game(QDialog, Ui_Dialog):
 
     @pyqtSlot()
     def on_button_play_clicked(self):
-        self.close()
-        Player()
-        print("ok")
+        self.play_signal.emit(True)
 
     @pyqtSlot()
     def on_ranking_button_clicked(self):
-        self.rank = Ranking()
-        self.rank.show()
+        self.ranking_service_signal.emit(True)
 
     @pyqtSlot()
     def on_options_button_clicked(self):
-        self.op = Options()
-        self.op.show()
+        self.options_signal.emit(True)
 
     @pyqtSlot()
     def on_exit_button_clicked(self):
-        self.close()
+        self.exit_signal.emit(True)
 

@@ -86,8 +86,8 @@ class Server:
                 self.game_state.set_board(board)
                 self.player_nr += 1
 
-                # ograniczenie tutaj max 2 graczy
-                if(self.player_nr == 2):
+                # ograniczenie tutaj max 1 graczy
+                if(self.player_nr == 1):
                     for key, value in self.dict_players.items():
                         payload = {"type": "GET", "status": 200, key: self.players_to_send[key], "players": self.players_to_send,
                                    "board": board}

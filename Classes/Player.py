@@ -17,38 +17,42 @@ def load_image(name):
 
 class Player(object):
 
+    # client to connect with server
+
     walls = []  # List to hold walls
     bricks = []  # List to hold bricks
     side = 0
 
     lista = []
     images = []
+    other_players_rects = []
+
+    PLAYER_DIMENSION = 50
+
+    # Initialize flags
+    show_player = True
+    exit_key = False
+    bomb_key = False
+    left_bombs = 0
 
 
-    def __init__(self, parent = None):
+    def __init__(self):
         # Initialise pygame
-        self.pygame = pygame.init()
-        # Position of player
-        # self.rect = pygame.Rect(x, y, 50, 50)
+        # self.pygame = pygame.init()
 
-        self.load_images()
+        """self.load_images()
+
         # Initialize board, get info about position from server
         self.board = board.Board()
 
         # set position of player from server
         self.set_player_pos()
-        print("Moje wspolrzedne to " + str(self.x_px) + " " + str(self.y_px))
-        self.rect = pygame.Rect(self.x_px, self.y_px, 50, 50)
 
-        self.other_players_rects = []
+        print("Moje wspolrzedne to " + str(self.x_px) + " " + str(self.y_px))
+        self.rect = pygame.Rect(self.x_px, self.y_px, self.PLAYER_DIMENSION, self.PLAYER_DIMENSION)
+
         print("self.board.others: ", self.board.others)
-        for i in self.board.others:
-            print("w konstruktorze playerd")
-            print(i)
-            for key, value in i.items():
-                print(key)
-                print("value['x'] ", value['x'])
-                print("value['y'] ", value['y'])
+
 
         for item in self.board.others:
             for key, value in item.items():
@@ -57,15 +61,12 @@ class Player(object):
 
         print("self.other_players_rects ", self.other_players_rects)
 
-        # Initialize flags
-        self.show_player = True
-        self.exit_key = False
-        self.bomb_key = False
-        self.left_bombs = 0
 
-        # Main loop
-        self.main_loop()
+        # Main loop"""
+        # self.main_loop()
         #client to sending message to server
+        
+
 
     def set_player_pos(self):
         # print("Pozycja gracza od serwera: " + str(self.board.player_pos))

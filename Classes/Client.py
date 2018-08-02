@@ -1,31 +1,51 @@
 import socket
 import json
-from threading import Thread
 from time import sleep
+from threading import Thread
+from PyQt5 import QtCore
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QDialog
+import json
 
-class Client:
+class Client(QtCore.QObject):
 
-    def connectToSerwer(self, host):
-        # ip adres serwera
+    get_map_params_from_server = QtCore.pyqtSignal(bool, str)
+
+    def __init__(self):
+        super(Client, self).__init__()
+
+        print("Konstruktor Klient")
+        self.host = None
+        self.port = None
+        self.size = None
+        self.server = None
+
+    def connect_to_serwer(self, host):
         self.host = host
         self.port = 50001
         self.size = 2048
 
         try:
-            self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.s.connect((self.host, self.port))
-            self.s.settimeout(1000000)
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.server.connect((self.host, self.port))
+
+            thread = Thread(target=self.listening, args=[])
+            thread.start()
+
         except ConnectionRefusedError as err:
-            self.s.close()
+            self.server.close()
 
     def sendMessage(self, data):
         try:
-            self.s.send(json.dumps(data).encode("utf-8"))
+            self.server.send(json.dumps(data).encode("utf-8"))
         except ConnectionRefusedError as err:
             pass
 
+
+
     def get_board_player_pos(self):
         self.sendMessage({"type": "GET"})
+
         data = self.wait4Response()
         # zmienna data w stylu {"type": "GET", "status": 200, 0: {"x": 1, "y": 1}, board": board}
         print("Odpowiedz na GET: ", data)
@@ -60,12 +80,13 @@ class Client:
     def wait4Response(self):
         while True:
             try:
-                recv, addr2 = self.s.recvfrom(self.size)
+                recv, addr2 = self.server.recvfrom(self.size)
                 print("Dostalem: ", recv)
                 data = json.loads(recv.decode("utf-8"))
 
                 if(data["type"] == "GET"):
-                    return data
+                    self.get_map_params_from_server.emit(True, str(data))
+                    # return data
                 elif(data["type"] == "POS"):
                     print("DOSTALEM POZYCJE SWOJĄ ", data)
                     return data["ME"]["x"], data["ME"]["y"]
@@ -89,20 +110,19 @@ class Client:
                 continue
 
     # wątek umożliwiający odbieranie wiadomosci o aktualizacji pozycji gracza/ bomby
-    def listening(self, toThreaad):
+    def listening(self):
         while 1:
             try:
                 print("Probuje odebrac ...")
-                packet, address = self.s.recvfrom(self.size)
-                with toThreaad.lock:
-                    if packet:
-                        print("Jestem zablokowany :(")
-                        packet = packet.decode("utf-8")
-                        packet = json.loads(packet)
-                        toThreaad.users = packet
-                        print(toThreaad.users)
-                    else:
-                        continue
+                packet, address = self.server.recvfrom(self.size)
+                if packet:
+                    packet = packet.decode("utf-8")
+                    packet = json.loads(packet)
+                    print("Odebrałem: ", packet)
+                    if (packet["type"] == "GET"):
+                        self.get_map_params_from_server.emit(True, str(packet))
+                else:
+                    continue
             except ConnectionRefusedError as err:
                 print(err)
                 pass
@@ -113,9 +133,7 @@ class Client:
 
 
     def closeConnection(self):
-        self.stream.stop_stream()
-        self.stream.close()
-        self.s.close()
+        self.server.close()
 
 
 

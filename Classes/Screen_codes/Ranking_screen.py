@@ -16,7 +16,9 @@ class Ranking(QDialog, Ui_Dialog):
 
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
-        self.getFromMongo()
+
+        #self.getFromMongo()
+
         self.button_search.clicked.connect(self.on_button_search_clicked)
         self.button_back.clicked.connect(self.on_button_back_clicked)
 

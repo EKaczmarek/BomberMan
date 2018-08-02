@@ -6,7 +6,6 @@ import Classes.Powerup as p
 import Classes.Button as btn
 import Classes.Client as client
 from threading import Thread
-import Classes.BetweenThreads as BetweenThreads
 
 class Board(object):
     level = [
@@ -27,10 +26,11 @@ class Board(object):
             "WWWWWWWWWWWWWWW",
         ]
 
-    def __init__(self,):
-
+    def __init__(self):
+        print("Init map")
         # Set up the display
-        self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
+
+        """self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
         pygame.mixer.music.load(r"Classes/Music/music.wav")
 
         # Board of game
@@ -44,15 +44,13 @@ class Board(object):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
             print()
-
+        
+        
         self.cl = client.Client()
-        self.cl.connectToSerwer('192.168.0.101')
+
+        self.cl.connectToSerwer('192.168.0.102')
 
         self.level,  self.player_pos, self.others = self.cl.get_board_player_pos()
-
-        self.semaphore = BetweenThreads.ClassBetweenhreads()
-        self.thread = Thread(target=self.waiting_for_update, args=[])
-        self.thread.start()
 
         print("Pozycja graczaaaaaaaaaaaaaaaaaa" + str(self.player_pos))
 
@@ -62,17 +60,7 @@ class Board(object):
                 value['x'], value['y'] = self.table_to_pixels(value['y'], value['x'])
 
         self.buttons()
-        self.walls_bricks()
-
-    def read(self):
-        print("Odczytalem ", self.semaphore.received)
-
-
-    def waiting_for_update(self):
-        with self.semaphore.lock:
-            self.cl.listening(self.semaphore)
-            self.read()
-
+        self.walls_bricks()"""
 
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)

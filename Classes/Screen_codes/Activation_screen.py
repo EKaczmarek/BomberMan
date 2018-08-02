@@ -10,13 +10,14 @@ Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class Activation(QDialog, Ui_Dialog):
 
-    def __init__(self, nickname, parent = None):
+    # def __init__(self, nickname, parent = None):
+    def __init__(self,  parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
-        self.nick = nickname
+        #self.nick = nickname
         self.button_ok.clicked.connect(self.on_button_ok_clicked)
         self.button_cancel.clicked.connect(self.on_button_cancel_clicked)
 

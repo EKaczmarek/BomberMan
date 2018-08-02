@@ -4,16 +4,9 @@ import cherrypy
 import requests
 
 class UserActivation:
-    # Pomysły na zabezpieczenie:
-    # 1. Stworzyć zahashowany token (np. jwt) i go przekazywać w argumencie,
-    #    zamiast jawnych parametrów.
-    # 2. PATCH wymagający autoryzacji; akceptujący
-    #    jedynie autoryzację kredencjałami konta administracyjnego.
-    #    Bez autoryzacji możliwe byłoby wykonanie zapytania PATCH bezpośrednio
-    #    do serwisów, zamiast poprzez "stronę" do aktywacji.
     @cherrypy.expose
-    def ACTIVATE(self, nickname, activation_key):
-        url = 'http://localhost:8080/users/'
+    def activate(self, nickname, activation_key):
+        url = 'http://localhost:8080/api/users/'
         response = requests.get(url, params={'nickname': nickname})
         if response.ok:
             found_user = json.loads(response.content.decode())
@@ -27,7 +20,6 @@ class UserActivation:
 def main():
     cherrypy.config.update({'server.socket_port': 9090})
     cherrypy.quickstart(UserActivation(), '/')
-
 
 if __name__ == '__main__':
     main()
