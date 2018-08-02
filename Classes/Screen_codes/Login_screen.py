@@ -74,7 +74,7 @@ class Login_screen(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_button_ok_clicked(self):
         # TO DO
-        self.get_players()
+        # self.get_players()
 
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()

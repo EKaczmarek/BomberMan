@@ -4,6 +4,7 @@ from Classes.Client import Client
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 from PyQt5 import QtCore
+from threading import Thread
 
 
 class PlayGame(QtCore.QObject):
@@ -35,6 +36,9 @@ class PlayGame(QtCore.QObject):
         self.get_map()
         print("after main game")
 
+        thread = Thread(target=self.client.listening, args=[])
+        thread.start()
+
     def setup_player(self, player):
         self.player = player
 
@@ -46,11 +50,47 @@ class PlayGame(QtCore.QObject):
 
     def get_map(self):
         self.client.sendMessage({"type": "GET"})
+        print("Wsylano wiadomosc")
+
+
+    def handle_serwer_ans_on_get(self, answer):
+        print("jestem w handle_serwer_ans_on_get")
+        print(answer)
+        self.my_id = 0
+        for key, value in answer.items():
+            print(type(key))
+            if(key.isdigit()):
+                print(key)
+                self.my_id = key
+
+        level = answer["board"]
+        pos = (answer[self.my_id]["x"], answer[self.my_id]["y"])
+
+        list_of_players = []
+
+        for key, value in answer.items():
+            print(key)
+            if (key=="players"):
+                for k, v in value.items():
+                    if(str(k) != str(self.my_id)):
+                        list_of_players.append({k: v})
+
+
+        print("plansza: ", level)
+        print("moja pozycja: ", pos)
+        print("inni gracze: " + str(list_of_players))
+
+        self.level, self.pos, self.list_of_player =  map(''.join, zip(*[iter(level)]*15)), pos, list_of_players
+        print("Koniec funckji .....")
 
     @pyqtSlot(bool, str)
     def have_map_params(self, value, params_json):
         if value:
             print(".... have_map_params ", value)
             print("Odpowiedz serwera to : ", params_json)
+            #self.handle_serwer_ans_on_get(params_json)
         else:
             print(".... have_map_params ", value)
+
+
+

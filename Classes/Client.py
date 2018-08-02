@@ -29,8 +29,6 @@ class Client(QtCore.QObject):
             self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.server.connect((self.host, self.port))
 
-            thread = Thread(target=self.listening, args=[])
-            thread.start()
 
         except ConnectionRefusedError as err:
             self.server.close()
@@ -85,7 +83,8 @@ class Client(QtCore.QObject):
                 data = json.loads(recv.decode("utf-8"))
 
                 if(data["type"] == "GET"):
-                    self.get_map_params_from_server.emit(True, str(data))
+                    print("lololol")
+                    #self.get_map_params_from_server.emit(True, str(data))
                     # return data
                 elif(data["type"] == "POS"):
                     print("DOSTALEM POZYCJE SWOJĄ ", data)
@@ -119,15 +118,11 @@ class Client(QtCore.QObject):
                     packet = packet.decode("utf-8")
                     packet = json.loads(packet)
                     print("Odebrałem: ", packet)
-                    if (packet["type"] == "GET"):
+                    if packet["type"] == "GET":
                         self.get_map_params_from_server.emit(True, str(packet))
-                else:
-                    continue
-            except ConnectionRefusedError as err:
-                print(err)
+                        print("Wyemitowano sygnal")
+            except ConnectionRefusedError:
                 pass
-            except socket.error:
-                continue
         print("Koniec słuchania...")
 
 

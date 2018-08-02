@@ -30,6 +30,10 @@ class Board(object):
         print("Init map")
         # Set up the display
 
+
+
+    def show_map(self, serwer_response_on_get):
+
         """self.screen = pygame.display.set_mode((1200, 750), pygame.RESIZABLE)
         pygame.mixer.music.load(r"Classes/Music/music.wav")
 
