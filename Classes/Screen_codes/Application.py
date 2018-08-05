@@ -12,7 +12,7 @@ from Classes.Screen_codes.Register_screen import Register
 
 from Classes.Play_Game import PlayGame
 from PyQt5.QtCore import pyqtSlot
-
+import time
 
 class Application(QApplication):
 
@@ -62,7 +62,8 @@ class Application(QApplication):
         if value:
             print(".... play_signal_response ", value)
             self.hide_game_window()
-            self.play_game.run_game()
+            if self.play_game.is_running == False:
+                self.play_game.run_game()
         else:
             print(".... play_signal_response ", value)
 

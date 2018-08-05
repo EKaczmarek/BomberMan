@@ -6,7 +6,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 import json
-
+import time
 class Client(QtCore.QObject):
 
     get_map_params_from_server = QtCore.pyqtSignal(bool, str)
@@ -39,43 +39,7 @@ class Client(QtCore.QObject):
         except ConnectionRefusedError as err:
             pass
 
-
-
-    def get_board_player_pos(self):
-        self.sendMessage({"type": "GET"})
-
-        data = self.wait4Response()
-        # zmienna data w stylu {"type": "GET", "status": 200, 0: {"x": 1, "y": 1}, board": board}
-        print("Odpowiedz na GET: ", data)
-
-        self.my_id = 0
-        for key, value in data.items():
-            print(type(key))
-            if(key.isdigit()):
-                print(key)
-                self.my_id = key
-
-        level = data["board"]
-        pos = (data[self.my_id]["x"], data[self.my_id]["y"])
-
-        list_of_players = []
-
-        for key, value in data.items():
-            print(key)
-            if (key=="players"):
-                for k, v in value.items():
-                    if(str(k) != str(self.my_id)):
-                        list_of_players.append({k: v})
-
-
-        print("plansza: ", level)
-        print("moja pozycja: ", pos)
-        print("inni gracze: " + str(list_of_players))
-
-        return map(''.join, zip(*[iter(level)]*15)), pos, list_of_players
-
-
-    def wait4Response(self):
+    """def wait4Response(self):
         while True:
             try:
                 recv, addr2 = self.server.recvfrom(self.size)
@@ -106,7 +70,7 @@ class Client(QtCore.QObject):
                 pass
             except socket.error:
                 sleep(1)
-                continue
+                continue"""
 
     # wątek umożliwiający odbieranie wiadomosci o aktualizacji pozycji gracza/ bomby
     def listening(self):
@@ -120,6 +84,7 @@ class Client(QtCore.QObject):
                     print("Odebrałem: ", packet)
                     if packet["type"] == "GET":
                         self.get_map_params_from_server.emit(True, str(packet))
+                        time.sleep(200)
                         print("Wyemitowano sygnal")
             except ConnectionRefusedError:
                 pass

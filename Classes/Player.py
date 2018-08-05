@@ -10,9 +10,6 @@ import re
 import json
 
 
-def load_image(name):
-    image = pygame.image.load(name)
-    return image
 
 
 class Player(object):
@@ -35,68 +32,47 @@ class Player(object):
     bomb_key = False
     left_bombs = 0
 
+    rect = None
+
 
     def __init__(self):
         # Initialise pygame
-        # self.pygame = pygame.init()
+        pass
 
-        """self.load_images()
 
-        # Initialize board, get info about position from server
-        self.board = board.Board()
+    def table_to_pixels(self, x, y):
+        return int((x*50)+450), int(y*50)
 
+    def set_players_pos(self, pos, list_of_players):
+
+        print("w set platers")
         # set position of player from server
-        self.set_player_pos()
+        self.x, self.y = pos
+        print("my position: ", pos)
+        print("other players' position: ", list_of_players)
 
-        print("Moje wspolrzedne to " + str(self.x_px) + " " + str(self.y_px))
-        self.rect = pygame.Rect(self.x_px, self.y_px, self.PLAYER_DIMENSION, self.PLAYER_DIMENSION)
+        print("Moje wspolrzedne to " + str(self.x) + " " + str(self.y))
+        x_pixels, y_pixels = self.table_to_pixels(self.x, self.y)
+        print("Pikselowo " + str(x_pixels) + " " + str(y_pixels))
+        self.rect = pygame.Rect(x_pixels, y_pixels, self.PLAYER_DIMENSION, self.PLAYER_DIMENSION)
 
-        print("self.board.others: ", self.board.others)
-
-
-        for item in self.board.others:
+        for item in list_of_players:
             for key, value in item.items():
                 print(key, " ", value)
-                self.other_players_rects.append({key: pygame.Rect(value['y'], value['x'], 50, 50)})
+                self.other_players_rects.append({key: pygame.Rect(self.x, self.y, 50, 50)})
 
         print("self.other_players_rects ", self.other_players_rects)
 
 
-        # Main loop"""
-        # self.main_loop()
-        #client to sending message to server
-        
+    def init_game(self):
+        self.main_loop()
 
-
-    def set_player_pos(self):
-        # print("Pozycja gracza od serwera: " + str(self.board.player_pos))
-        y = self.board.player_pos[0]
-        x = self.board.player_pos[1]
-        x_px, y_px = self.board.table_to_pixels(x, y)
-        # print("Pikselowo: " + str(y_px) + " " + str(x_px))
-        self.x_px = y_px
-        self.y_px = x_px
-
-    def load_images(self):
-        self.images.append(load_image(r"Classes/Pictures/ex1.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex2.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex3.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex4.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex5.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex6.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex7.png"))
-        self.images.append(load_image(r"Classes/Pictures/ex8.png"))
-
-        images_right = self.images
-        images_left = [pygame.transform.flip(image, True, False) for image in self.images]  # Flipping every image.
-        index = 0
-        image = self.images[index]
 
     def main_loop(self):
         while (self.exit_key != True):
             self.handle_moves()
-            self.handle_bombs()
-            self.display_all()
+            # self.handle_bombs()
+            print("end of handle moves begin of display all")
 
     def handle_moves(self):
 
@@ -124,7 +100,7 @@ class Player(object):
                 self.send_message_to_server("EXIT")
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 mouse = pygame.mouse.get_pos()
-                if (self.board.exitBtn.button.collidepoint(mouse)):
+                if self.board.exitBtn.button.collidepoint(mouse):
                     self.send_message_to_server("EXIT")
                     self.exit_key = True
 
@@ -143,7 +119,8 @@ class Player(object):
 
 
     def handle_bombs(self):
-        powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
+        # powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
+
         if (self.bomb_key == True):
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
             if (seconds >= 1.5):
@@ -159,46 +136,7 @@ class Player(object):
                 if (ans):
                     self.show_player = False
 
-    def display_all(self):
-        # Display screen
-        wall = pygame.image.load(r"Classes/Pictures/wall.png").convert()
-        box = pygame.image.load(r"Classes/Pictures/box.png").convert()
-        bomba = pygame.image.load(r"Classes/Pictures/bomb.png")
-        bombermanL = pygame.image.load(r"Classes/Pictures/playerL.png").convert()
-        bombermanR = pygame.image.load(r"Classes/Pictures/playerR.png").convert()
 
-        self.board.screen.fill((255, 255, 255))
-
-        for i in range(len(self.board.game)):
-            for j in range(len(self.board.game[i])):
-                if(self.board.game[i][j] != 0):
-                    if(self.board.game[i][j].desc == "wall"):
-                        self.board.screen.blit(wall, self.board.game[i][j])
-                        if (self.show_player):
-                            for item in self.other_players_rects:
-                                # print("item ", item)
-                                for k, v in item.items():
-                                    # print("k ", k)
-                                    # print("v ", v)
-                                    self.board.screen.blit(bombermanR, v)
-                                    # print("W display_all")
-                                    # print(item)
-
-                            if(Player.side == 0):
-                                self.board.screen.blit(bombermanR, self.rect)
-                            else:
-                                self.board.screen.blit(bombermanL, self.rect)
-                        if (self.bomb_key):
-                            self.board.screen.blit(bomba, self.bomb.rect)
-                    elif(self.board.game[i][j].desc == "brick"):
-                        self.board.screen.blit(box, self.board.game[i][j])
-                else:
-                    pygame.draw.rect(self.board.screen, (255, 255, 255), self.rect)
-
-        self.board.exitBtn.show(self.board.screen)
-        self.board.menuBtn.show(self.board.screen)
-
-        pygame.display.flip()
 
     def send_to_server_info_bomb(self):
         # self.board.list_to_destroy = []

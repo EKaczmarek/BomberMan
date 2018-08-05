@@ -86,7 +86,7 @@ class Server:
                 self.game_state.set_board(board)
 
                 # TO DO
-                self.player_nr = 1
+                self.player_nr =+ 1
                 print("player_nr ", self.player_nr)
 
 
