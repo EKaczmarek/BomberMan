@@ -7,6 +7,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 import json
 import time
+
 class Client(QtCore.QObject):
 
     get_map_params_from_server = QtCore.pyqtSignal(bool, str)

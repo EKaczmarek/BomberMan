@@ -35,13 +35,8 @@ class Board(object):
     rect = None
 
     def __init__(self):
-        print("Init map")
         self.load_images()
-
         self.screen = None
-
-        print("po screen.init ")
-
 
         self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 600))
         self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 600))
@@ -49,9 +44,6 @@ class Board(object):
         self.powerups_array = [[0 for columns in range(15)] for rows in range(15)]
 
         self.game = [[0 for col in range(15)] for row in range(15)]
-
-
-        # Set up the display
 
     def set_player_number(self, answer):
         for key, value in answer.items():
@@ -67,10 +59,6 @@ class Board(object):
     def set_player_position(self, answer):
         self.pos = (answer[self.my_id]["x"], answer[self.my_id]["y"])
         player_to_game = Player_object((self.table_to_pixels(self.pos[0], self.pos[1])), self.my_id)
-        print("self.pos ", self.pos)
-        print("player_to_game.x ", player_to_game.x)
-        print("player_to_game.y ", player_to_game.y)
-        print("player_to_game.desc ", player_to_game.desc)
         self.game[self.pos[0]][self.pos[1]] = player_to_game.get_player()
 
     def set_list_of_players(self, answer):
@@ -80,8 +68,8 @@ class Board(object):
                 for k, v in value.items():
                     if str(k) != str(self.my_id):
                         self.list_of_players.append({k: v})
-                        print("k: ", k)
-                        print("v: ", v)
+                        player_to_game = Player_object((self.table_to_pixels(v["x"], v["y"])), k)
+                        self.game[v["x"]][v["y"]] = player_to_game.get_player()
 
     def handle_serwer_ans_on_get(self, answer_on_get):
         # I know it's dangerous but on windows json.loads doesnt work here :(
@@ -102,11 +90,6 @@ class Board(object):
         self.screen = pygame.display.set_mode((1200, 750))
         self.screen.fill((255, 255, 255))
         pygame.mixer.music.load(r"Classes/Music/music.wav")
-
-        """print("Moje dane caly czas te same")
-        print("self.other_players ", self.list_of_players)
-        print("self.pos[0] ", self.pos[0])
-        print("self.pos[1] ", self.pos[1])"""
 
         # Powerups
         for i in range(len(self.powerups_array)):

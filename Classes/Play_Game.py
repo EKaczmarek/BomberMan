@@ -55,33 +55,28 @@ class PlayGame(QtCore.QObject):
         print("Wylano wiadomosc z get_mapp!!!!!! lololo")
 
     @pyqtSlot(bool, str)
-    def have_map_params(self, value, params_json):
+    def have_map_params_response(self, value, params_json):
         if value:
             print(".... have_map_params ", value)
             print("Odpowiedz serwera to : ", params_json)
             self.map_game.init_map()
             self.map_game.set_objects_on_map()
-
             self.map_game.handle_serwer_ans_on_get(params_json)
-
             self.player.set_players_pos(self.map_game.pos, self.map_game.list_of_players)
             # player position self.player.x, self.player.y,
             # !!!!!!!!!!!! Rect object self.player.rect
             # !!!!!!!!!!!! other players self.player.other_players_rects
-
             self.map_game.display_all()
 
-            """self.game = self.map_game.game
-
-            self.map_game.load()
-
-            self.player.init_game()
-
-            self.map_game.display_all(self.pygame, self.game)
-
-            self.map_game.show_map()"""
+            self.player.main_loop()
         else:
             print(".... have_map_params ", value)
 
+    @pyqtSlot(bool, int, int, int)
+    def player_has_moved_response(self, value, player_id, player_x, player_y):
+        if value:
+            print("player ",  player_id)
+            print("X ", player_x)
+            print("Y ", player_y)
 
 

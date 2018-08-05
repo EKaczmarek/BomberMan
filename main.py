@@ -27,8 +27,9 @@ if __name__ == "__main__":
 
 
     # signals from game
-    application.play_game.client.get_map_params_from_server.connect(application.play_game.have_map_params)
+    application.play_game.client.get_map_params_from_server.connect(application.play_game.have_map_params_response)
 
+    application.play_game.player.player_has_moved.connect(application.play_game.player_has_moved_response)
     # powyzej do zakomentowania
 
     # ponizej do odkomentowania

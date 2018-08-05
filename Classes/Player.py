@@ -8,11 +8,12 @@ import Classes.Brick as brick
 import Classes.Powerup as powerup
 import re
 import json
+from PyQt5 import QtCore
+from PyQt5.QtCore import pyqtSlot
 
 
 
-
-class Player(object):
+class Player(QtCore.QObject):
 
     # client to connect with server
 
@@ -34,9 +35,10 @@ class Player(object):
 
     rect = None
 
+    player_has_moved = QtCore.pyqtSignal(bool, int, int, int)
 
     def __init__(self):
-        # Initialise pygame
+        super(Player, self).__init__()
         pass
 
 
@@ -63,16 +65,13 @@ class Player(object):
 
         print("self.other_players_rects ", self.other_players_rects)
 
-
     def init_game(self):
         self.main_loop()
 
-
     def main_loop(self):
-        while (self.exit_key != True):
+        while self.exit_key != True:
             self.handle_moves()
             # self.handle_bombs()
-            print("end of handle moves begin of display all")
 
     def handle_moves(self):
 
@@ -183,7 +182,9 @@ class Player(object):
         self.rect.x += dx
         self.rect.y += dy
 
-        for i in range(len(self.board.game)):
+        self.player_has_moved.emit(True, 0, dx, dy)
+
+        """for i in range(len(self.board.game)):
             for j in range(len(self.board.game[i])):
 
                 if((type(self.board.game[i][j]) is wal.Wall)
@@ -207,7 +208,7 @@ class Player(object):
         self.send_message_to_server(payload)
         print("do serwera wyslano :" + str(payload))
         xx, yy = self.board.cl.wait4Response()
-        print("odp: " + str(xx) + " " + str(yy))
+        print("odp: " + str(xx) + " " + str(yy))"""
 
     def get_pos(self):
         # print("Wspolrzedne 1: ", self.rect.x, ", ",self.rect.y)

@@ -69,13 +69,13 @@ class Server:
             if (c == "GET"):
 
                 self.dict_players[self.player_nr] = addr
-                if (self.player_nr == 0):
-                    self.player_pos = {"x":1, "y": 1}
-                elif(self.player_nr == 1):
-                    self.player_pos =  {"x": 13, "y": 1}
-                elif (self.player_nr == 2):
+                if self.player_nr == 0:
+                    self.player_pos = {"x": 1, "y": 1}
+                elif self.player_nr == 1:
                     self.player_pos = {"x": 1, "y": 13}
-                elif (self.player_nr == 3):
+                elif self.player_nr == 2:
+                    self.player_pos = {"x": 13, "y": 1}
+                elif self.player_nr == 3:
                     self.player_pos = {"x": 13, "y": 13}
 
 
@@ -86,14 +86,16 @@ class Server:
                 self.game_state.set_board(board)
 
                 # TO DO
-                self.player_nr =+ 1
+                self.player_nr += 1
                 print("player_nr ", self.player_nr)
 
 
                 # ograniczenie tutaj max 1 graczy
-                if(self.player_nr == 1):
+                if self.player_nr == 2:
                     for key, value in self.dict_players.items():
-                        payload = {"type": "GET", "status": 200, key: self.players_to_send[key], "players": self.players_to_send,
+                        payload = {"type": "GET",
+                                   "status": 200, key: self.players_to_send[key],
+                                   "players": self.players_to_send,
                                    "board": board}
                         print("Do wyslania: ", self.players_to_send)
                         self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
