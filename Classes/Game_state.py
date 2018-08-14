@@ -6,6 +6,8 @@ import Classes.Bomb as bomb
 import Classes.Button as btn
 import Classes.Player_object_board as Player_ob
 import json
+
+
 class Game_state:
     level = []
     last_pos = ''
@@ -48,14 +50,13 @@ class Game_state:
             self.game[1][1] = Player_ob.Player_object_board((1,1), 1)
             self.last_pos = (1, 1)
 
-        self.show_board()
 
     # from pixels to table dimenstion
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
 
     def show_board(self):
-        print("w show_board")
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~Ćala plansza~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if(self.game[i][j] != 0):
@@ -74,16 +75,16 @@ class Game_state:
                         print(self.game[i][j].desc == player_desc)
                         return j, i
 
-        if (player_id == 0):
+        if player_id == 0:
             return 1, 1
-        elif (player_id == 1):
+        elif player_id == 1:
             return 13, 1
-        elif (player_id == 2):
+        elif player_id == 2:
             return 1, 13
-        elif (player_id == 3):
+        elif player_id == 3:
             return 13, 13
 
-
+    # position nowa pozycja garcza w tablicy
     def update_player_position(self, player_id, position):
 
         x = position[0]
@@ -94,17 +95,15 @@ class Game_state:
         # self.game[self.last_pos[0]][self.last_pos[1]] = 0
         self.last_pos = self.find_last_position(player_id)
 
-        print("lolololo " + str(self.last_pos))
         self.game[self.last_pos[1]][self.last_pos[0]] = 0
 
         # set current position of player
         player_desc = "player " + str(player_id)
         print(str(player_desc) + " pozycja " + str(x) + " " + str(y))
-        print("Wynik ", self.table_to_pixels(x, y))
         self.game[y][x] = Player_ob.Player_object_board(self.table_to_pixels(x, y), player_desc)
-        self.last_pos = y,x
+        self.last_pos = (y, x)
 
-        self.show_board()
+        #self.show_board()
 
     def table_to_pixels(self, x, y):
         return int(x * 50), int((y * 50) + 450)
@@ -120,8 +119,8 @@ class Game_state:
         y = position["B"]["y"]
 
         self.game[y][x] = bomb.Bomb(x, y)
-        self.show_board()
-        self.count_where_blow(y,x)
+        #self.show_board()
+        self.count_where_blow(y, x)
 
     #count where is it about to blow and send list client
     def count_where_blow(self, xx, yy):
@@ -180,13 +179,29 @@ class Game_state:
         i, j = self.get_player_pos()
         self.game[i][j] = 0
 
-    def get_player_pos(self):
+    """def get_player_pos(self):
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if(self.game[i][j] != 0):
                     if(self.game[i][j].desc.isdigit()):
                         return i,j
-        return (self.get_bomb_pos())
+        return (self.get_bomb_pos())"""
+
+    def get_player_pos(self, player_id):
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if self.game[i][j] != 0:
+                    if self.game[i][j].desc == ("player " + str(player_id)):
+                        return j, i
+
+    def find_new_player_position(self, last_pos, dx, dy):
+        x, y = last_pos[0] + dx, last_pos[1] + dy
+        if self.game[y][x] == 0:
+            return x, y
+        else:
+            return last_pos
+
+
 
     def get_bomb_pos(self):
         for i in range(len(self.game)):

@@ -5,6 +5,7 @@ import requests
 
 # Get all players
 URL = 'http://localhost:8080/api/users/'
+
 response = requests.get(URL)
 if response.ok:
     all_players = json.loads(response.content.decode())
@@ -53,4 +54,4 @@ if response.ok:
     print()
 
 
-# Account activation (PATCH method) can be found in user_activation.py
+# Account activation (PATCH method) can be found in user_activation.py"""

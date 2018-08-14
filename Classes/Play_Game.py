@@ -2,11 +2,10 @@ from Classes.Player import Player
 from Classes.Board import Board
 from Classes.Client import Client
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QDialog
 from PyQt5 import QtCore
 from threading import Thread
 import ast
-import pygame
+
 
 class PlayGame(QtCore.QObject):
 
@@ -30,12 +29,12 @@ class PlayGame(QtCore.QObject):
         self.client = client
 
     def run_game(self):
-        print("In main game")
-        self.client.connect_to_serwer("192.168.1.12")
+        # print("In main game")
+        self.client.connect_to_serwer("192.168.0.102")
 
         # get map from server
         self.get_map()
-        print("after main game")
+        # print("after main game")
 
         thread = Thread(target=self.client.listening, args=[])
         thread.start()
@@ -52,31 +51,65 @@ class PlayGame(QtCore.QObject):
     def get_map(self):
         self.is_running = True
         self.client.sendMessage({"type": "GET"})
-        print("Wylano wiadomosc z get_mapp!!!!!! lololo")
 
-    @pyqtSlot(bool, str)
-    def have_map_params_response(self, value, params_json):
+    @pyqtSlot(bool, str, str)
+    def have_map_params_response(self, value, params_json, flag):
         if value:
-            print(".... have_map_params ", value)
-            print("Odpowiedz serwera to : ", params_json)
-            self.map_game.init_map()
-            self.map_game.set_objects_on_map()
-            self.map_game.handle_serwer_ans_on_get(params_json)
-            self.player.set_players_pos(self.map_game.pos, self.map_game.list_of_players)
-            # player position self.player.x, self.player.y,
-            # !!!!!!!!!!!! Rect object self.player.rect
-            # !!!!!!!!!!!! other players self.player.other_players_rects
-            self.map_game.display_all()
-
-            self.player.main_loop()
+            if flag == "GET":
+                self.handle_get_from_server(params_json)
+            elif flag == "MY_POS":
+                self.handle_my_pos_from_server(params_json)
+                self.map_game.display_all()
+            elif flag == "OTHERS_POS":
+                self.handle_others_pos_from_server(params_json)
+                self.map_game.display_all()
         else:
-            print(".... have_map_params ", value)
+            pass
+            # print(".... have_map_params ", value)
 
-    @pyqtSlot(bool, int, int, int)
-    def player_has_moved_response(self, value, player_id, player_x, player_y):
+    def handle_get_from_server(self, params_json):
+        # print(".... have_map_params ", value)
+        # print("Odpowiedz serwera to : ", params_json)
+
+        self.map_game.init_map()
+        self.map_game.handle_serwer_ans_on_get(params_json)
+
+        self.map_game.set_objects_on_map()
+        self.player.set_players_pos(self.map_game.pos,
+                                    self.map_game.list_of_players,
+                                    self.map_game.my_id)
+        # player position self.player.x, self.player.y,
+        # !!!!!!!!!!!! Rect object self.player.rect
+        # !!!!!!!!!!!! other players self.player.other_players_rects
+
+        self.thread = Thread(target=self.main_loop, args=[])
+        self.thread.start()
+
+        self.map_game.display_all()
+
+    def main_loop(self):
+        while True:
+            self.player.handle_moves()
+
+    def handle_my_pos_from_server(self, params_json):
+        answer = ast.literal_eval(params_json)
+        print(answer[self.player.my_id])
+        self.map_game.update_player_position(self.player.my_id, answer[self.player.my_id])
+        self.map_game.display_all()
+
+    def handle_others_pos_from_server(self, params_json):
+        answer = ast.literal_eval(params_json)
+        for k, v in answer.items():
+            if k.isdigit():
+                self.map_game.update_player_position(k, v)
+
+        self.map_game.display_all()
+
+
+    @pyqtSlot(bool, str, int, int)
+    def player_has_moved_response(self, value, player_id,  dx, dy):
         if value:
-            print("player ",  player_id)
-            print("X ", player_x)
-            print("Y ", player_y)
+            self.client.send_position_update(player_id, dx/50, dy/50)
+
 
 

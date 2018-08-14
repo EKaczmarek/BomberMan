@@ -1,6 +1,7 @@
-import Classes.Player as p
 import sys
 from Classes.Screen_codes.Application import Application
+from PyQt5 import QtCore
+from PyQt5.QtCore import pyqtSlot
 
 if __name__ == "__main__":
 
@@ -27,13 +28,14 @@ if __name__ == "__main__":
 
 
     # signals from game
-    application.play_game.client.get_map_params_from_server.connect(application.play_game.have_map_params_response)
 
+    # client received information from server
+    # GET - map from server
+    # POS - position of player
+    application.play_game.client.get_info_from_server.connect(application.play_game.have_map_params_response)
+
+    # signal when player has moved
     application.play_game.player.player_has_moved.connect(application.play_game.player_has_moved_response)
-    # powyzej do zakomentowania
-
-    # ponizej do odkomentowania
-    # p.Player()
 
     sys.exit(application.exec_())
 

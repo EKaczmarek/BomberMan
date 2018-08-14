@@ -5,27 +5,12 @@ import Classes.Brick as b
 import Classes.Powerup as p
 import Classes.Button as btn
 from Classes.Player_object import Player_object
+from Classes.Game_state import Game_state
+
 import ast
 
 class Board(object):
-    level = [
-            "WWWWWWWWWWWWWWW",
-            "W    BBBBBBB  W",
-            "WBW W W W W W W",
-            "WB  B   BBB   W",
-            "WBW WBW W W W W",
-            "W   BBBBBBBB  W",
-            "W W W W W W W W",
-            "W  BB         W",
-            "W W W W W W W W",
-            "W BBBBBBBBBB  W",
-            "W W W WBWBW W W",
-            "WB  BBBBBB    W",
-            "WBW W WBW W W W",
-            "WBB B  B      W",
-            "WWWWWWWWWWWWWWW",
-        ]
-
+    level = None
     my_id = 0
     pos = None
     list_of_players = []
@@ -33,6 +18,7 @@ class Board(object):
     images = []
     show_player = True
     rect = None
+
 
     def __init__(self):
         self.load_images()
@@ -45,31 +31,36 @@ class Board(object):
 
         self.game = [[0 for col in range(15)] for row in range(15)]
 
+        self.game_state = None
+
     def set_player_number(self, answer):
         for key, value in answer.items():
-            print(type(key))
+            # print(type(key))
             if key.isdigit():
-                print(key)
+                # print(key)
                 self.my_id = key
 
     def set_map_level(self, map_level):
-        level = map_level
-        self.level = map(''.join, zip(*[iter(level)] * 15))
+        lev = map_level
+        self.level = map(''.join, zip(*[iter(lev)] * 15))
 
     def set_player_position(self, answer):
-        self.pos = (answer[self.my_id]["x"], answer[self.my_id]["y"])
-        player_to_game = Player_object((self.table_to_pixels(self.pos[0], self.pos[1])), self.my_id)
-        self.game[self.pos[0]][self.pos[1]] = player_to_game.get_player()
+        x, y = (answer[self.my_id]["x"], answer[self.my_id]["y"])
+        x_pixels, y_pixels = self.table_to_pixels(x, y)
+        player_to_game = Player_object((x_pixels, y_pixels), self.my_id)
+        self.game[y][x] = player_to_game.get_player()
+        self.pos = x, y
+        print("player to same set player pos x y " + str(player_to_game.x) + " " + str(player_to_game.y))
 
     def set_list_of_players(self, answer):
-        print("Inni gracze:")
-        for key, value in answer.items():
-            if key == "players":
-                for k, v in value.items():
-                    if str(k) != str(self.my_id):
-                        self.list_of_players.append({k: v})
-                        player_to_game = Player_object((self.table_to_pixels(v["x"], v["y"])), k)
-                        self.game[v["x"]][v["y"]] = player_to_game.get_player()
+        for key, value in answer["players"].items():
+            x, y = value['x'], value['y']
+            if str(key) != str(self.my_id):
+                self.list_of_players.append({key: value})
+                x_pixels, y_pixels = self.table_to_pixels(x, y)
+                player_to_game = Player_object((x_pixels, y_pixels), key)
+                self.game[y][x] = player_to_game.get_player()
+                print("list of players x y " + str(player_to_game.x) + " " + str(player_to_game.y))
 
     def handle_serwer_ans_on_get(self, answer_on_get):
         # I know it's dangerous but on windows json.loads doesnt work here :(
@@ -80,10 +71,44 @@ class Board(object):
         self.set_player_position(answer)
         self.set_list_of_players(answer)
 
-        print("..... KONIEC PRZETWARZANIA ODPOWIEDZI SERWERA NA GET .....")
-        print("..... Plansza: ", self.level)
-        print("..... Moja pozycja: ", self.pos)
-        print("..... Inni gracze: " + str(self.list_of_players))
+
+        # print("..... KONIEC PRZETWARZANIA ODPOWIEDZI SERWERA NA GET .....")
+        # print("..... Plansza: ", self.level)
+        # print("..... Moja pozycja: ", self.pos)
+        # print("..... My id ", self.my_id)
+        # print("..... Inni gracze: " + str(self.list_of_players))
+
+    def find_last_position(self, player_id):
+
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if(self.game[i][j] != 0):
+                    player_desc = "player " + str(player_id)
+                    if(self.game[i][j].desc == player_desc):
+                        print(self.game[i][j].desc == player_desc)
+                        return j, i
+
+        if player_id == 0:
+            return 1, 1
+        elif player_id == 1:
+            return 13, 1
+        elif player_id == 2:
+            return 1, 13
+        elif player_id == 3:
+            return 13, 13
+
+    # position nowa pozycja garcza w tablicy
+    def update_player_position(self, player_id, position):
+        last_pos = self.find_last_position(player_id)
+        if last_pos[1] != position["y"] or last_pos[0] != position["x"]:
+            print("position before change " + str(last_pos))
+            self.game[position["y"]][position["x"]] = self.game[last_pos[1]][last_pos[0]]
+            self.game[position["y"]][position["x"]].x, self.game[position["y"]][position["x"]].y = self.table_to_pixels(position["x"], position["y"])
+            self.game[position["y"]][position["x"]].rect.x, self.game[position["y"]][position["x"]].rect.y = self.table_to_pixels(position["x"], position["y"])
+            self.game[last_pos[1]][last_pos[0]] = 0
+
+        #self.show_board()
+
 
     def init_map(self):
         pygame.init()
@@ -100,12 +125,12 @@ class Board(object):
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
-            print()
+            # print()
 
         # TO DO
         # dla pozostalych graczy na liscie
 
-        print(" po init map")
+        # print(" po init map")
 
     def set_objects_on_map(self):
         self.walls_bricks()
@@ -114,7 +139,7 @@ class Board(object):
         return int(x/50), int((y-450)/50)
 
     def table_to_pixels(self, x, y):
-        return int((y*50)+450), int(x*50)
+        return int((x*50)+450), int(y*50)
 
     def walls_bricks(self):
         x = 450
@@ -161,6 +186,7 @@ class Board(object):
         return image
 
     def display_all(self):
+
         # Display screen
         wall = pygame.image.load(r"Classes/Pictures/wall.png").convert()
         box = pygame.image.load(r"Classes/Pictures/box.png").convert()
@@ -174,42 +200,47 @@ class Board(object):
                 if self.game[i][j] != 0:
                     if self.game[i][j].desc == "wall":
                         self.screen.blit(wall, self.game[i][j])
-                        #if self.show_player:
 
                         """for item in self.list_of_players:
-                            print("item ", item)
+                            # print("item ", item)
                             for k, v in item.items():
-                                print("k ", k)
-                                print("v ", v)
+                                # print("k ", k)
+                                # print("v ", v)
                                 self.screen.blit(bombermanR, self.game[i][j].get_player)
-                                print("W display_all")
-                                print(item)"""
+                                # print("W display_all")
+                                # print(item)
 
                             #  if (Player.side == 0):
                             # self.screen.blit(bombermanR, self.rect)
                             # else:
                             #    self.board.screen.blit(bombermanL, self.rect)
                         # if (self.bomb_key):
-                            # self.board.screen.blit(bomba, self.bomb.rect)
+                            # self.board.screen.blit(bomba, self.bomb.rect)"""
                     elif self.game[i][j].desc == "brick":
                         self.screen.blit(box, self.game[i][j])
                     elif self.game[i][j].desc[0:6] == "player":
                         self.screen.blit(bombermanR, self.game[i][j])
-                """else:
-                    pygame.draw.rect(self.screen, (255, 255, 255), player_rect)"""
+                else:
+                    x, y = self.table_to_pixels(j, i)
+                    pygame.draw.rect(self.screen, (255, 255, 255), (x, y, 50, 50))
 
         self.exitBtn.show(self.screen)
         self.menuBtn.show(self.screen)
 
         pygame.display.flip()
+        pygame.display.update()
 
     def show_board(self):
-        a = self.game
+
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
-                    print(self.game[i][j].x, " ", self.game[i][j].y, " ", self.game[i][j].desc, end='\n')
-            print()
+                    print(self.game[i][j].desc, end="\t")
+                else:
+                    print("\t", end="\t")
+            print(end='\n')
+
+        print("\n")
 
 
 
