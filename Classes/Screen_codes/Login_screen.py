@@ -64,12 +64,16 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         response = requests.get(self.URL, params={'nickname': player})
         # Alternatively, more REST-like style:
         # response = requests.get(requests.compat.urljoin(URL, PLAYER))
+
         if response.ok:
+            # TO DO
+            # sprawdzenie atrybutu activated w jsonie
             player = json.loads(response.content.decode())
             print(json.dumps(player, indent=4))
             print()
             return True
-        else: return False
+        else:
+            return False
 
     @pyqtSlot()
     def on_button_ok_clicked(self):

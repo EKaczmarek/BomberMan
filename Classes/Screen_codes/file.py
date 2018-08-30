@@ -12,7 +12,7 @@ if response.ok:
     print(json.dumps(all_players, indent=4))
     print()
 
-
+"""
 # Add new player(s)
 new_player = {
     'nickname': 'Alice',
@@ -53,5 +53,5 @@ if response.ok:
     print(json.dumps(player, indent=4))
     print()
 
-
+"""
 # Account activation (PATCH method) can be found in user_activation.py"""

@@ -109,18 +109,25 @@ class Game_state:
         return int(x * 50), int((y * 50) + 450)
 
     # bomb position 'B x1y2'
-    def set_bomb(self, player_ip, position):
+    def set_bomb(self, addr, position, player_id):
         print(" w set_bomb")
         print("position", position)
         print("typ: ", type(position))
         position = json.loads(position)
 
-        x = position["B"]["x"]
-        y = position["B"]["y"]
+        x = position["ME"]["x"]
+        y = position["ME"]["y"]
 
-        self.game[y][x] = bomb.Bomb(x, y)
+        i, j = self.table_to_pixels(x, y)
+
+        print("table dimension " + str(x) + " " + str(y))
+        description_bomb = "player " + str(player_id)
+        self.game[y][x] = bomb.Bomb(i, j, description_bomb)
+
+        return x, y
+
         #self.show_board()
-        self.count_where_blow(y, x)
+        #self.count_where_blow(y, x)
 
     #count where is it about to blow and send list client
     def count_where_blow(self, xx, yy):
@@ -179,29 +186,25 @@ class Game_state:
         i, j = self.get_player_pos()
         self.game[i][j] = 0
 
-    """def get_player_pos(self):
-        for i in range(len(self.game)):
-            for j in range(len(self.game[i])):
-                if(self.game[i][j] != 0):
-                    if(self.game[i][j].desc.isdigit()):
-                        return i,j
-        return (self.get_bomb_pos())"""
-
     def get_player_pos(self, player_id):
+        a, b = '', ''
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
                     if self.game[i][j].desc == ("player " + str(player_id)):
                         return j, i
+                    elif self.game[i][j].desc == "bomb":
+                        if self.game[i][j].whose_bomb == ("player " + str(player_id)):
+                            a, b = j, i
+        return a, b
 
     def find_new_player_position(self, last_pos, dx, dy):
         x, y = last_pos[0] + dx, last_pos[1] + dy
+
         if self.game[y][x] == 0:
             return x, y
         else:
             return last_pos
-
-
 
     def get_bomb_pos(self):
         for i in range(len(self.game)):

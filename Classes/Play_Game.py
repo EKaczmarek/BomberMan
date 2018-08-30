@@ -63,9 +63,17 @@ class PlayGame(QtCore.QObject):
             elif flag == "OTHERS_POS":
                 self.handle_others_pos_from_server(params_json)
                 self.map_game.display_all()
+            elif flag == "BOMB":
+                self.handle_info_bomb_from_server(params_json)
+                self.map_game.display_all()
         else:
             pass
             # print(".... have_map_params ", value)
+
+    def handle_info_bomb_from_server(self, params_json):
+        print("Odebrano od serwera info o bomach ", params_json)
+        self.map_game.set_bomb_on_map(params_json)
+
 
     def handle_get_from_server(self, params_json):
         # print(".... have_map_params ", value)
@@ -105,11 +113,17 @@ class PlayGame(QtCore.QObject):
 
         self.map_game.display_all()
 
-
-    @pyqtSlot(bool, str, int, int)
-    def player_has_moved_response(self, value, player_id,  dx, dy):
+    @pyqtSlot(bool, int, int)
+    def player_has_moved_response(self, value, dx, dy):
         if value:
-            self.client.send_position_update(player_id, dx/50, dy/50)
+            self.client.send_position_update(dx/50, dy/50)
 
+    @pyqtSlot(bool, str)
+    def player_has_left_bomb_response(self, value, player_id):
+        if value:
+            x, y = self.map_game.get_player_position(player_id)
+            print("player id ", player_id)
+            print("player position x y " + str(x) + " " + str(y))
+            self.client.send_info_about_bomb(y, x)
 
 

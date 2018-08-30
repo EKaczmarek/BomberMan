@@ -37,6 +37,9 @@ if __name__ == "__main__":
     # signal when player has moved
     application.play_game.player.player_has_moved.connect(application.play_game.player_has_moved_response)
 
+    # signal when player has left bomb
+    application.play_game.player.player_has_left_bomb.connect(application.play_game.player_has_left_bomb_response)
+
     sys.exit(application.exec_())
 
 

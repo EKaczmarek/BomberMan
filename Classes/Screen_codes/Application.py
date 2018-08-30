@@ -12,7 +12,7 @@ from Classes.Screen_codes.Register_screen import Register
 
 from Classes.Play_Game import PlayGame
 from PyQt5.QtCore import pyqtSlot
-import time
+
 
 class Application(QApplication):
 

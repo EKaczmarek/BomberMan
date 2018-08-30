@@ -37,7 +37,7 @@ class Server:
                 data, addr = self.s.recvfrom(self.size*2)
                 # print("Otrzymalem: ", data, " od ", addr)
                 if data:
-                    self.sending_to_client(data.decode("utf-8"), addr)
+                     self.sending_to_client(data.decode("utf-8"), addr)
                 else:
                     continue
             except ConnectionRefusedError as err:
@@ -66,7 +66,7 @@ class Server:
             lista_graczy = []
 
             # wyslanie informacji o planszy, jaka pozycje ma zajac gracz, o pozycjach inn
-            if (c == "GET"):
+            if c == "GET":
 
                 self.dict_players[self.player_nr] = addr
                 if self.player_nr == 0:
@@ -91,7 +91,7 @@ class Server:
 
 
                 # ograniczenie tutaj max 1 graczy
-                if self.player_nr == 3:
+                if self.player_nr == 1:
                     for key, value in self.dict_players.items():
                         payload = {"type": "GET",
                                    "status": 200, key: self.players_to_send[key],
@@ -107,7 +107,7 @@ class Server:
             # wysłanie informacji o pozycji:
             #   do gracza od ktorego przyszla zwrotnej informacji ze jest ok
             #   do pozostałych informacji o tym że inny gracz wykonał ruch
-            elif (c == "POS"):
+            elif c == "POS":
                 id = self.get_player_id(addr)
                 print("ID GRACZA: ", id)
                 # # print(self.dict_players[self.player_nr] + " " + addr)
@@ -130,27 +130,34 @@ class Server:
 
                 data = {"type": "UPDATE_POS", id: {"x": new_pos[0], "y": new_pos[1]}}
 
+                self.game_state.show_board()
                 for i, k in self.dict_players.items():
-                    if(i != id):
-                        print("Wysylam: " + str(data) + " do " + str(self.dict_players[i]))
+                    if i != id:
                         self.s.sendto(json.dumps(data).encode("utf-8"), self.dict_players[i])
+                        print("Wysylam: " + str(data) + " do " + str(self.dict_players[i]))
 
             # wysłanie informacji o bombie
-            if (c == "BOMB"):
-                # print("Otrzymano info o pozostawionej bombie od " + addr[0] + " w postaci: ", data)
-                self.game_state.set_bomb(addr[0], data)
-                print("Lista do wybuchu: " + str(self.game_state.list_to_destroy))
-                payload = {'type': 'BOMB', 'POS': self.game_state.list_to_destroy}
-                self.s.sendto(json.dumps(payload).encode("utf-8"), addr)
-                print|("Wyslano ", payload)
+            if c == "BOMB":
+                print("Otrzymano info o pozostawionej bombie od " + addr[0] + " w postaci: ", data)
+                player_id = self.get_player_id(addr)
+
+                i, j = self.game_state.set_bomb(addr, data, player_id)
+
+                payload = {"type": "BOMB", "BOMB_POS": {"x": i, "y": j}, "whose_bomb": player_id}
+                for key, value in self.dict_players.items():
+                     self.s.sendto(json.dumps(payload).encode("utf-8"), value)
+                     print("Wyslano ", payload)
+
+                # print("Lista do wybuchu: " + str(self.game_state.list_to_destroy))
+                self.game_state.show_board()
 
             # aktywacja użytkownika
-            if(c == "MONGO"):
+            if c == "MONGO":
                 pass
                 # print("Otrzymano komunikat dotyczacy bazy mongo of "+ addr[0])
 
             # opuszczenie gry przez gracza
-            if (c ==  "EXIT"):
+            if c == "EXIT":
                 # print("Otrzymano info o wyjsciu z gry gracza " + addr[0])
                 self.game_state.kill_player(addr[0])
 

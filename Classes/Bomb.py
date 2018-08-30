@@ -3,15 +3,17 @@ import pygame
 
 class Bomb(object):
 
-    desc = "BOMB"
+    desc = "bomb"
+    whose_bomb = ""
 
-    def __init__(self, xx, yy):
-        self.xx = xx
-        self.yy = yy
-        self.rect = pygame.Rect(self.xx, self.yy, 50, 50)
-        self.start_timer = pygame.time.get_ticks()
-        print(self.start_timer)
+    def __init__(self, x, y, whose_bomb):
+        self.x = x
+        self.y = y
+        self.rect = pygame.Rect(self.x, self.y, 50, 50)
+        self.whose_bomb = whose_bomb
 
+        # self.start_timer = pygame.time.get_ticks()
+        # print(self.start_timer)
 
     def get_bomb(self):
         return self

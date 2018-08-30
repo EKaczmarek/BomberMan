@@ -17,10 +17,9 @@ class Activation(QDialog, Ui_Dialog):
 
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
-        #self.nick = nickname
+
         self.button_ok.clicked.connect(self.on_button_ok_clicked)
         self.button_cancel.clicked.connect(self.on_button_cancel_clicked)
-
 
     @pyqtSlot()
     def on_button_ok_clicked(self):

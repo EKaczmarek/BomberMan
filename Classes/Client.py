@@ -37,8 +37,12 @@ class Client(QtCore.QObject):
         except ConnectionRefusedError as err:
             pass
 
-    def send_position_update(self, player_id, player_x, player_y):
+    def send_position_update(self, player_x, player_y):
         payload = {"type": "POS", "ME": {"x": player_x, "y": player_y}}
+        self.sendMessage(payload)
+
+    def send_info_about_bomb(self, bomb_x, bomb_y):
+        payload = {"type": "BOMB", "ME": {"x": bomb_x, "y": bomb_y}}
         self.sendMessage(payload)
 
 
@@ -58,6 +62,8 @@ class Client(QtCore.QObject):
                         self.get_info_from_server.emit(True, str(packet), "MY_POS")
                     elif packet["type"] == "UPDATE_POS":
                         self.get_info_from_server.emit(True, str(packet), "OTHERS_POS")
+                    elif packet["type"] == "BOMB":
+                        self.get_info_from_server.emit(True, str(packet), "BOMB")
             except ConnectionRefusedError:
                 pass
 

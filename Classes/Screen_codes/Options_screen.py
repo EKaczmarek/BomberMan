@@ -24,4 +24,4 @@ class Options(QDialog, Ui_Dialog):
 
     @pyqtSlot()
     def on_button_apply_clicked(self):
-        pass
+        self.close()

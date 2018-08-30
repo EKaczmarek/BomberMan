@@ -35,7 +35,8 @@ class Player(QtCore.QObject):
 
     rect = None
 
-    player_has_moved = QtCore.pyqtSignal(bool, str, int, int)
+    player_has_moved = QtCore.pyqtSignal(bool, int, int)
+    player_has_left_bomb = QtCore.pyqtSignal(bool, str)
 
     def __init__(self):
         super(Player, self).__init__()
@@ -70,7 +71,8 @@ class Player(QtCore.QObject):
                 if e.key == pygame.K_DOWN:
                     self.move(0, 50)
                 if e.key == pygame.K_b:
-                    self.leave_bomb()
+                    self.send_to_server_info_bomb()
+
 
             # actions = clicking Exit, Menu
             if e.type == pygame.QUIT:
@@ -94,20 +96,19 @@ class Player(QtCore.QObject):
 
     def move_single_axis(self, dx, dy):
 
-        i = self.my_id
-
         self.rect.x += dx
         self.rect.y += dy
 
-        self.player_has_moved.emit(True, i, dx, dy)
+        self.player_has_moved.emit(True, dx, dy)
 
     def send_message_to_server(self, message):
         self.board.cl.sendMessage(message)
 
+
     def handle_bombs(self):
         # powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
 
-        if (self.bomb_key == True):
+        if self.bomb_key == True:
             seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
             if (seconds >= 1.5):
                 self.bomb_key = False
@@ -123,10 +124,15 @@ class Player(QtCore.QObject):
                     self.show_player = False
 
     def send_to_server_info_bomb(self):
-        bomb_pos = self.get_pos_to_bomb()
+        print(" w send info bomb player ", self.my_id)
+        player_id = self.my_id
+        print(type(player_id))
+        self.player_has_left_bomb.emit(True, player_id)
+
+        """bomb_pos = self.get_pos_to_bomb()
         payload = {"type": "BOMB", "B": {"x": bomb_pos[0], "y": bomb_pos[1]}}
         print("Wiadomosc o bombie do serwera: ", payload)
-        self.send_message_to_server(payload)
+        self.send_message_to_server(payload)"""
         # # print("do serwera wyslano :" + str(payload))
 
         # a = self.board.cl.wait4Response()
@@ -153,6 +159,3 @@ class Player(QtCore.QObject):
             pygame.mixer.Sound.play(BombExplode)
 
             # # print(self.board.list_to_destroy)
-
-    def get_pos_to_bomb(self):
-        return self.rect.x, self.rect.y
