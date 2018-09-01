@@ -127,3 +127,5 @@ class PlayGame(QtCore.QObject):
             self.client.send_info_about_bomb(y, x)
 
 
+
+

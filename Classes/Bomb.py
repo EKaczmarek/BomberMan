@@ -12,8 +12,8 @@ class Bomb(object):
         self.rect = pygame.Rect(self.x, self.y, 50, 50)
         self.whose_bomb = whose_bomb
 
-        # self.start_timer = pygame.time.get_ticks()
-        # print(self.start_timer)
+        self.start_timer = pygame.time.get_ticks()
+        print(self.start_timer)
 
     def get_bomb(self):
         return self

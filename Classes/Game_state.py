@@ -6,11 +6,16 @@ import Classes.Bomb as bomb
 import Classes.Button as btn
 import Classes.Player_object_board as Player_ob
 import json
+from PyQt5 import QtCore
+import time
+import pygame
+class Game_state(QtCore.QObject):
 
+    bomb_must_blow = QtCore.pyqtSignal(bool, int, int)
 
-class Game_state:
     level = []
     last_pos = ''
+    number_players = 0
 
     def __init__(self):
         print("Inicjalizacja stanu gry")
@@ -49,7 +54,6 @@ class Game_state:
         if(self.last_pos == ''):
             self.game[1][1] = Player_ob.Player_object_board((1,1), 1)
             self.last_pos = (1, 1)
-
 
     # from pixels to table dimenstion
     def table_dimension(self, x, y):
@@ -124,10 +128,52 @@ class Game_state:
         description_bomb = "player " + str(player_id)
         self.game[y][x] = bomb.Bomb(i, j, description_bomb)
 
+        self.handle_bombs(y, x)
         return x, y
 
-        #self.show_board()
-        #self.count_where_blow(y, x)
+
+    def check_is_any_player_dead(self):
+        list_of_dead = []
+        for i in self.list_to_destroy:
+            for j in range(0, self.number_players):
+                x, y = self.get_player_pos(j)
+                if i[0] == y and i[1] == x:
+                    list_of_dead.append(j)
+        return list_of_dead
+
+    def handle_bombs(self, x, y):
+        time.sleep(1.5)
+        self.count_where_blow(x, y)
+        self.
+        print("self.list_to_destroy ", self.list_to_destroy)
+        ans = self.check_is_any_player_dead()
+
+        if ans != []:
+            print("Zginal graczz o numerze: ", ans)
+        else:
+            print("Nikt nie zginal")
+
+        """seconds = (self.now - bomba.start_timer) / 1000
+        print(" czasss ", pygame.time.get_ticks() / 1000)
+        print(" lol czas ", bomba.start_timer / 1000)
+
+        if seconds >= 1.5:
+            print(" JESST!! ", seconds)
+            #ans = self.check_is_any_player_dead()
+            self.count_where_blow(x, y)
+            print("self.list_to_destroy ", self.list_to_destroy)
+            for i in self.board.list_to_destroy:
+                for x in range(8):
+                    posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
+                    self.board.screen.blit(self.images[x], (posy, posx))
+                    pygame.display.flip()
+                self.board.game[i[0]][i[1]] = 0
+            if (ans):
+                print("Gracz zginął")
+            else:
+                print("Nikt nie zginal")
+            return True
+        return False"""
 
     #count where is it about to blow and send list client
     def count_where_blow(self, xx, yy):

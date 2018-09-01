@@ -57,8 +57,6 @@ class Player(QtCore.QObject):
                 x_pixels_others, y_pixels_others = self.table_to_pixels(value["x"], value["y"])
                 self.other_players_rects.append({key: pygame.Rect(y_pixels_others, x_pixels_others, 50, 50)})
 
-        # self.handle_bombs()
-
     def handle_moves(self):
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN:
@@ -104,24 +102,6 @@ class Player(QtCore.QObject):
     def send_message_to_server(self, message):
         self.board.cl.sendMessage(message)
 
-
-    def handle_bombs(self):
-        # powUP = pygame.image.load(r"Classes/Pictures/wall.png").convert()
-
-        if self.bomb_key == True:
-            seconds = (pygame.time.get_ticks() - self.bomb.start_timer) / 1000
-            if (seconds >= 1.5):
-                self.bomb_key = False
-                ans = self.check_is_player_dead()
-                # print("self.list_to_destroy ", self.board.list_to_destroy)
-                for i in self.board.list_to_destroy:
-                    for x in range(8):
-                        posx, posy = self.board.table_to_pixels(int(i[0]), int(i[1]))
-                        self.board.screen.blit(self.images[x], (posy, posx))
-                        pygame.display.flip()
-                    self.board.game[i[0]][i[1]] = 0
-                if (ans):
-                    self.show_player = False
 
     def send_to_server_info_bomb(self):
         print(" w send info bomb player ", self.my_id)
