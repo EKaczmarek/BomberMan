@@ -2,13 +2,12 @@ import os.path
 import pygame
 import Classes.Wall as w
 import Classes.Brick as b
-import Classes.Bomb as bomb
 import Classes.Button as btn
 from Classes.Player_object import Player_object
 from Classes.Bomb import Bomb
-from Classes.Game_state import Game_state
-
+from Classes.Powerup import Powerup
 import ast
+
 
 class Board(object):
     level = None
@@ -20,7 +19,6 @@ class Board(object):
     show_player = True
     rect = None
 
-
     def __init__(self):
         self.load_images()
         self.screen = None
@@ -28,20 +26,20 @@ class Board(object):
         self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 600))
         self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 600))
 
-        self.powerups_array = [[0 for columns in range(15)] for rows in range(15)]
-
         self.game = [[0 for col in range(15)] for row in range(15)]
 
         self.game_state = None
 
     def set_player_number(self, answer):
         for key, value in answer.items():
-            # print(type(key))
+            # # print(type(key))
             if key.isdigit():
-                # print(key)
+                # # print(key)
                 self.my_id = key
 
     def set_map_level(self, map_level):
+        print("w set map level...")
+        print(map_level)
         lev = map_level
         self.level = map(''.join, zip(*[iter(lev)] * 15))
 
@@ -51,7 +49,7 @@ class Board(object):
         player_to_game = Player_object((x_pixels, y_pixels), self.my_id)
         self.game[y][x] = player_to_game.get_player()
         self.pos = x, y
-        print("player to same set player pos x y " + str(player_to_game.x) + " " + str(player_to_game.y))
+        # print("player to same set player pos x y " + str(player_to_game.x) + " " + str(player_to_game.y))
 
     def set_list_of_players(self, answer):
         for key, value in answer["players"].items():
@@ -61,7 +59,7 @@ class Board(object):
                 x_pixels, y_pixels = self.table_to_pixels(x, y)
                 player_to_game = Player_object((x_pixels, y_pixels), key)
                 self.game[y][x] = player_to_game.get_player()
-                print("list of players x y " + str(player_to_game.x) + " " + str(player_to_game.y))
+                # print("list of players x y " + str(player_to_game.x) + " " + str(player_to_game.y))
 
     def handle_serwer_ans_on_get(self, answer_on_get):
         # I know it's dangerous but on windows json.loads doesnt work here :(
@@ -72,34 +70,43 @@ class Board(object):
         self.set_player_position(answer)
         self.set_list_of_players(answer)
 
+    def remove_player_from_map(self, json_dead):
+        json_dead = ast.literal_eval(json_dead)
 
-        # print("..... KONIEC PRZETWARZANIA ODPOWIEDZI SERWERA NA GET .....")
-        # print("..... Plansza: ", self.level)
-        # print("..... Moja pozycja: ", self.pos)
-        # print("..... My id ", self.my_id)
-        # print("..... Inni gracze: " + str(self.list_of_players))
+        if json_dead["PLAYERS_POS"] != {}:
+            for k, v in json_dead["PLAYERS_POS"].items():
+                x, y = v[0], v[1]
+                self.game[x][y] = 0
+
+
+        self.display_all()
+
+    def show_efects_blow(self, json_bomb_blowing):
+
+        json_bomb_blowing = ast.literal_eval(json_bomb_blowing)
+        list_to_destroy = json_bomb_blowing["ELEMENTS_BLOW"]
+
+        for i in list_to_destroy:
+            for x in range(8):
+                posx, posy = self.table_to_pixels(int(i[0]), int(i[1]))
+                self.screen.blit(self.images[x], (posx, posy))
+                pygame.display.flip()
+            self.game[i[1]][i[0]] = 0
+
+        self.show_board()
+
+
 
     def set_bomb_on_map(self, json_bombs):
-        print("w set bomb on map")
         json_bombs = ast.literal_eval(json_bombs)
-
-        print(json_bombs)
-        for k, v in json_bombs.items():
-            print(k)
-            print(v)
-
         x, y = json_bombs["BOMB_POS"]["x"], json_bombs["BOMB_POS"]["y"]
-        print("x y " + str(x) + " " + str(y))
 
         x_pixels, y_pixels = self.table_to_pixels(x, y)
-        print("x y pikselowo " + str(x_pixels) + " " + str(y_pixels))
-
         bomb = Bomb(x_pixels, y_pixels, json_bombs["whose_bomb"])
-        print("x y " + str(x) + " " + str(y))
-
         self.game[y][x] = bomb.get_bomb()
 
         self.show_board()
+
 
     def find_last_position(self, player_id):
         a, b = '', ''
@@ -108,7 +115,7 @@ class Board(object):
                 if self.game[i][j] != 0:
                     player_desc = "player " + str(player_id)
                     if self.game[i][j].desc == player_desc:
-                        print(self.game[i][j].desc == player_desc)
+                        # print(self.game[i][j].desc == player_desc)
                         return j, i
                     elif self.game[i][j].desc == "bomb":
                         if str(self.game[i][j].whose_bomb) == player_id:
@@ -125,14 +132,12 @@ class Board(object):
         else:
             return a, b
 
-
-
     # position nowa pozycja garcza w tablicy
     def update_player_position(self, player_id, position):
         # to do
         last_pos = self.find_last_position(player_id)
         if last_pos[1] != position["y"] or last_pos[0] != position["x"]:
-            print("position before change " + str(last_pos) + " desc " + str(self.game[last_pos[1]][last_pos[0]].desc))
+            # print("position before change " + str(last_pos) + " desc " + str(self.game[last_pos[1]][last_pos[0]].desc))
 
             if self.game[last_pos[1]][last_pos[0]].desc == "bomb":
                  self.game[position["y"]][position["x"]] = Player_object(
@@ -145,14 +150,26 @@ class Board(object):
 
         self.show_board()
 
+    def get_last_lost_bomb_by_player(self, player_id):
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if self.game[i][j] != 0:
+                    if self.game[i][j].desc == "bomb":
+                        if self.game[i][j].whose_bomb == "player " + str(player_id):
+                            last_player_bomb = i, j
+        return last_player_bomb
+
     def get_player_position(self, player_id):
         player_desc = "player " + str(player_id)
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
                     if self.game[i][j].desc == player_desc:
-                        print(i, j)
+                        # print(i, j)
                         return i, j
+                    elif self.game[i][j].desc == "bomb":
+                        if self.game[i][j].whose_bomb == player_id:
+                            return i, j
 
     def init_map(self):
         pygame.init()
@@ -160,21 +177,10 @@ class Board(object):
         self.screen.fill((255, 255, 255))
         pygame.mixer.music.load(r"Classes/Music/music.wav")
 
-        # Powerups
-        for i in range(len(self.powerups_array)):
-            for j in range(len(self.powerups_array[i])):
-                self.powerups_array[i][j] = 0
-
         # game board
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
-            # print()
-
-        # TO DO
-        # dla pozostalych graczy na liscie
-
-        # print(" po init map")
 
     def set_objects_on_map(self):
         self.walls_bricks()
@@ -191,22 +197,22 @@ class Board(object):
         y = 0
         for row in self.level:
             for col in row:
+
                 if col == "W":
                     wal = w.Wall((x, y))
-                    # x is a multiply of 50 f.ex 450, y also
-                    # so it's easier to have element table[1][1] than table[50][50] etc
                     table_x, table_y = self.table_dimension(y, x)
                     self.game[table_x][table_y] = wal.get_wall()
-                elif col == "B":
-                        brick = b.Brick((x, y))
-                        #powerUP = p.Powerup((x, y))
-                        table_x, table_y = self.table_dimension(y, x)
-                        self.game[table_x][table_y] = brick.get_brick()
-                        # rand = random.randint(0, 100)
-                        # if (rand > 0):
 
-                        # table_x, table_y = self.table_dimension(y, x)
-                        # self.powerups_array[table_x][table_y] = powerUP.get_powerup()
+                elif col == "B":
+                    brick = b.Brick((x, y))
+                    table_x, table_y = self.table_dimension(y, x)
+                    self.game[table_x][table_y] = brick.get_brick()
+
+                elif col == "S" or col == "N" or col == "R":
+                    powerup = Powerup((x, y), col)
+                    table_x, table_y = self.table_dimension(y, x)
+                    self.game[table_x][table_y] = powerup.get_powerup()
+
                 x += 50
             y += 50
             x = 450
@@ -231,7 +237,7 @@ class Board(object):
         return image
 
     def check_if_player_is_beside(self, i, j):
-        print(" w checck if player is beside ")
+        # print(" w checck if player is beside ")
         table = [i, j + 1, i, j - 1, i - 1, j, i + 1, j]
         for k in range(0, 3):
             x = table[2 * k]
@@ -241,13 +247,7 @@ class Board(object):
                     return True
         return False
 
-
-
     def display_all(self):
-
-        print(" player " + self.my_id)
-        last_pos = self.find_last_position(self.my_id)
-        print("w display all last pos", last_pos)
 
         # Display screen
         wall = pygame.image.load(r"Classes/Pictures/wall.png").convert()
@@ -256,6 +256,11 @@ class Board(object):
         bomberman_left = pygame.image.load(r"Classes/Pictures/playerL.png").convert()
         bomberman_right = pygame.image.load(r"Classes/Pictures/playerR.png").convert()
         empty = pygame.image.load(r"Classes/Pictures/empty.png").convert()
+
+        players_speed = pygame.image.load(r"Classes/Pictures/Background.png").convert()
+        bombs_no = pygame.image.load(r"Classes/Pictures/obiekt.png").convert()
+        bombs_range = pygame.image.load(r"Classes/Pictures/bomb.png").convert()
+
 
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
@@ -267,12 +272,18 @@ class Board(object):
                     elif self.game[i][j].desc[0:6] == "player":
                         self.screen.blit(bomberman_right, self.game[i][j])
                     elif self.game[i][j].desc == "bomb":
-                        print("i ", i)
-                        print("j ", j)
                         is_player_beside = self.check_if_player_is_beside(i, j)
                         if is_player_beside is True:
                             self.screen.blit(empty, self.game[i][j])
                         self.screen.blit(bomba, self.game[i][j])
+
+                    elif self.game[i][j].desc == "powerup":
+                        if self.game[i][j].kind == "S":
+                            self.screen.blit(players_speed, self.game[i][j])
+                        elif self.game[i][j].kind == "N":
+                            self.screen.blit(bombs_no, self.game[i][j])
+                        elif self.game[i][j].kind == "R":
+                            self.screen.blit(bombs_no, self.game[i][j])
 
                 else:
                     x, y = self.table_to_pixels(j, i)

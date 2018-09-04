@@ -30,7 +30,7 @@ class InputBox:
         if event.type == pygame.KEYDOWN:
             if self.active:
                 if event.key == pygame.K_RETURN:
-                    print(self.text)
+                    # print(self.text)
                     self.text = ''
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
@@ -57,7 +57,7 @@ class InputBox:
         collection = db['Players']
 
         sha_signature = hashlib.sha256(password.encode()).hexdigest()
-        print(sha_signature)
+        # print(sha_signature)
 
         answer = (collection.find({"login": nick, "password": sha_signature}).count()) == 1
 

@@ -11,6 +11,7 @@ Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class Register(QDialog, Ui_Dialog):
 
+
     def __init__(self, parent = None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -30,22 +31,31 @@ class Register(QDialog, Ui_Dialog):
         password = self.lineEdit_password.text()
         repassword = self.lineEdit_repassword.text()
 
-        params = [{'nickname': nickname, 'email': email, 'password': password}]
-        params = json.dumps(params)
-        print(params)
-        headers = {'Content-type': 'application/json'}
+        if password == repassword:
+            URL = 'http://192.168.43.102:8080/api/users/'
+            # Add new player(s)
+            new_player = {
+                'nickname': nickname,
+                'email': email,
+                'password': password,
+            }
+            # new_player put into list, because POST accepts list of players
+            response = requests.post(URL, json=[new_player])
+            if response.ok:
+                print("player added: {}".format(new_player['nickname']))
+                print()
+            else:
+                print("Player not added")
 
-        if(password == repassword):
-            conn = http.client.HTTPConnection('localhost', 8080)
-            conn.request('POST', '/users', params, headers)
+            """conn.request('POST', '/users', params, headers)
             r1 = (conn.getresponse())
-            print(r1.status)
-            print(r1.read())
+            # print(r1.status)
+            # print(r1.read())
             if(r1.status == 201):
                 self.activ = Activation(nickname)
                 self.activ.show()
             if(r1.status == 409):
-                print("Dane juz istnieja w bazie")
+                print("Dane juz istnieja w bazie")"""
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):

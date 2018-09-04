@@ -29,12 +29,12 @@ class PlayGame(QtCore.QObject):
         self.client = client
 
     def run_game(self):
-        # print("In main game")
-        self.client.connect_to_serwer("192.168.0.102")
+        # # print("In main game")
+        self.client.connect_to_serwer("192.168.0.104")
 
         # get map from server
         self.get_map()
-        # print("after main game")
+        # # print("after main game")
 
         thread = Thread(target=self.client.listening, args=[])
         thread.start()
@@ -66,18 +66,30 @@ class PlayGame(QtCore.QObject):
             elif flag == "BOMB":
                 self.handle_info_bomb_from_server(params_json)
                 self.map_game.display_all()
+            elif flag == "PLAYER_DEAD":
+                self.handle_info_dead_players_from_server(params_json)
+                self.map_game.display_all()
+            elif flag == "BOMB_BLOW":
+                self.handle_blowing_bomb(params_json)
+                self.client.sendMessage({"type": "BOMB_BLOW_OK"})
+                self.map_game.display_all()
         else:
             pass
-            # print(".... have_map_params ", value)
+            # # print(".... have_map_params ", value)
 
     def handle_info_bomb_from_server(self, params_json):
-        print("Odebrano od serwera info o bomach ", params_json)
+        # print("Odebrano od serwera info o bomach ", params_json)
         self.map_game.set_bomb_on_map(params_json)
 
+    def handle_info_dead_players_from_server(self, params_json):
+        self.map_game.remove_player_from_map(params_json)
+
+    def handle_blowing_bomb(self, params_json):
+        self.map_game.show_efects_blow(params_json)
 
     def handle_get_from_server(self, params_json):
-        # print(".... have_map_params ", value)
-        # print("Odpowiedz serwera to : ", params_json)
+        # # print(".... have_map_params ", value)
+        # # print("Odpowiedz serwera to : ", params_json)
 
         self.map_game.init_map()
         self.map_game.handle_serwer_ans_on_get(params_json)
@@ -101,7 +113,7 @@ class PlayGame(QtCore.QObject):
 
     def handle_my_pos_from_server(self, params_json):
         answer = ast.literal_eval(params_json)
-        print(answer[self.player.my_id])
+        # print(answer[self.player.my_id])
         self.map_game.update_player_position(self.player.my_id, answer[self.player.my_id])
         self.map_game.display_all()
 
@@ -121,9 +133,10 @@ class PlayGame(QtCore.QObject):
     @pyqtSlot(bool, str)
     def player_has_left_bomb_response(self, value, player_id):
         if value:
+            print("w player left bomb response")
             x, y = self.map_game.get_player_position(player_id)
-            print("player id ", player_id)
-            print("player position x y " + str(x) + " " + str(y))
+            # print("player id ", player_id)
+            # print("player position x y " + str(x) + " " + str(y))
             self.client.send_info_about_bomb(y, x)
 
 

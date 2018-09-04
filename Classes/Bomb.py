@@ -13,7 +13,7 @@ class Bomb(object):
         self.whose_bomb = whose_bomb
 
         self.start_timer = pygame.time.get_ticks()
-        print(self.start_timer)
+        # print(self.start_timer)
 
     def get_bomb(self):
         return self

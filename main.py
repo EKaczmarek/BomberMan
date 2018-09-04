@@ -1,7 +1,5 @@
 import sys
 from Classes.Screen_codes.Application import Application
-from PyQt5 import QtCore
-from PyQt5.QtCore import pyqtSlot
 
 if __name__ == "__main__":
 
@@ -12,12 +10,15 @@ if __name__ == "__main__":
 
     application = Application(sys.argv)
     application.setup_all_windows()
-    application.show_login_window()
-
+    #application.show_login_window()
+    application.play_game.run_game()
+    # application.show_ranking_window()
 
     # signals from interfaces
     application.loginWindow.logging_signal.connect(application.logging_signal_response)
     application.loginWindow.activation_signal.connect(application.activation_signal_response)
+
+    application.loginWindow.to_register_window_signal.connect(application.to_register_window_signal_response)
 
     application.badDataWindow.bad_data_signal.connect(application.bad_data_signal_response)
 
@@ -39,8 +40,6 @@ if __name__ == "__main__":
 
     # signal when player has left bomb
     application.play_game.player.player_has_left_bomb.connect(application.play_game.player_has_left_bomb_response)
-
-
 
     sys.exit(application.exec_())
 

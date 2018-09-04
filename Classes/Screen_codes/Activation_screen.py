@@ -33,8 +33,8 @@ class Activation(QDialog, Ui_Dialog):
         conn.request('POST', '/', params, headers)
 
         r1 = (conn.getresponse())
-        print("r1", r1.status)
-        print("odp: ", r1.read())
+        # print("r1", r1.status)
+        # print("odp: ", r1.read())
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):

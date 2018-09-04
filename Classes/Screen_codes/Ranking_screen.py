@@ -4,7 +4,8 @@ from PyQt5.QtCore import Qt
 from PyQt5 import uic
 from pymongo import  MongoClient
 from functools import reduce
-
+import requests
+import json
 qtCreatorFile = "Classes/GUI/ranking.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
@@ -23,6 +24,8 @@ class Ranking(QDialog, Ui_Dialog):
         self.button_back.clicked.connect(self.on_button_back_clicked)
 
     def getFromMongo(self):
+
+
         client = MongoClient('localhost', 27017)
         db = client['BomberMan']
         collection = db['Players']
@@ -42,8 +45,19 @@ class Ranking(QDialog, Ui_Dialog):
 
     @pyqtSlot()
     def on_button_search_clicked(self):
-        nickname = self.lineEdit_nickname.text()
-        print(nickname)
+        AUTH = requests.auth.HTTPBasicAuth('ela', '12341234')
+
+        URL = 'http://192.168.43.102:8080/api/ranking/'
+        # response = requests.get(URL, auth=AUTH, params={'nickname': 'ela', 'scores': 'false'})
+        response = requests.get(URL, auth=AUTH)
+
+        if response.ok:
+            statistics = json.loads(response.content.decode())
+            print(json.dumps(statistics, indent=4))
+            print()
+
+        """nickname = self.lineEdit_nickname.text()
+        # print(nickname)
         lista = list(filter(lambda x: x['nickname'] == nickname, self.test))
 
         for i in reversed(range(self.tableWidget.rowCount())):
@@ -54,12 +68,12 @@ class Ranking(QDialog, Ui_Dialog):
         else:
             row = 0
             for i in lista:
-                print(i)
+                # print(i)
                 self.tableWidget.insertRow(row)
                 self.tableWidget.setItem(row, 0, QTableWidgetItem(i['nickname']))
                 self.tableWidget.setItem(row, 1, QTableWidgetItem(str(i['points'])))
                 self.tableWidget.setItem(row, 2, QTableWidgetItem(str(i['playedGames'])))
-                row += 1
+                row += 1"""
 
 
 

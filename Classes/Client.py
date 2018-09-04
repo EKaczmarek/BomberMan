@@ -6,14 +6,10 @@ from PyQt5.QtCore import pyqtSlot
 
 class Client(QtCore.QObject):
 
-    # str - packet
-    # str - flag
     get_info_from_server = QtCore.pyqtSignal(bool, str, str)
 
     def __init__(self):
         super(Client, self).__init__()
-
-        print("Konstruktor Klient")
         self.host = None
         self.port = None
         self.size = None
@@ -33,7 +29,7 @@ class Client(QtCore.QObject):
     def sendMessage(self, data):
         try:
             self.server.send(json.dumps(data).encode("utf-8"))
-            print("(*) Wyslano do serwera ", str(data))
+            # print("(*) Wyslano do serwera ", str(data))
         except ConnectionRefusedError as err:
             pass
 
@@ -45,17 +41,14 @@ class Client(QtCore.QObject):
         payload = {"type": "BOMB", "ME": {"x": bomb_x, "y": bomb_y}}
         self.sendMessage(payload)
 
-
     # wątek umożliwiający odbieranie wiadomosci o aktualizacji pozycji gracza/ bomby
     def listening(self):
         while 1:
             try:
-                print("Probuje odebrac ...")
                 packet, address = self.server.recvfrom(self.size)
                 if packet:
                     packet = packet.decode("utf-8")
                     packet = json.loads(packet)
-                    print("Odebrałem: ", packet)
                     if packet["type"] == "GET":
                         self.get_info_from_server.emit(True, str(packet), "GET")
                     elif packet["type"] == "POS":
@@ -64,8 +57,14 @@ class Client(QtCore.QObject):
                         self.get_info_from_server.emit(True, str(packet), "OTHERS_POS")
                     elif packet["type"] == "BOMB":
                         self.get_info_from_server.emit(True, str(packet), "BOMB")
+                    elif packet["type"] == "PLAYER_DEAD":
+                        self.get_info_from_server.emit(True, str(packet), "PLAYER_DEAD")
+                    elif packet["type"] == "BOMB_BLOW":
+                        self.get_info_from_server.emit(True, str(packet), "BOMB_BLOW")
             except ConnectionRefusedError:
                 pass
+            except ConnectionResetError:
+                print("Brak polaczenia z serwerem")
 
     def close_connection(self):
         self.server.close()

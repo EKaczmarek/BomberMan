@@ -69,6 +69,8 @@ class Player(QtCore.QObject):
                 if e.key == pygame.K_DOWN:
                     self.move(0, 50)
                 if e.key == pygame.K_b:
+                    bomb_explode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
+                    pygame.mixer.Sound.play(bomb_explode)
                     self.send_to_server_info_bomb()
 
 
@@ -102,31 +104,17 @@ class Player(QtCore.QObject):
     def send_message_to_server(self, message):
         self.board.cl.sendMessage(message)
 
-
     def send_to_server_info_bomb(self):
-        print(" w send info bomb player ", self.my_id)
         player_id = self.my_id
-        print(type(player_id))
         self.player_has_left_bomb.emit(True, player_id)
 
-        """bomb_pos = self.get_pos_to_bomb()
-        payload = {"type": "BOMB", "B": {"x": bomb_pos[0], "y": bomb_pos[1]}}
-        print("Wiadomosc o bombie do serwera: ", payload)
-        self.send_message_to_server(payload)"""
-        # # print("do serwera wyslano :" + str(payload))
 
-        # a = self.board.cl.wait4Response()
-        # print("odpowiedz serwera - lista do wybuchu: " + str(a))
-
-        # DODANIE DO LISTY DO WYBUCHU
-        # self.board.list_to_destroy = a
-        # # print(a)
 
     def leave_bomb(self):
         BombExplode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
         if (self.bomb_key == False):
             xx, yy = self.get_pos_to_bomb()
-            # # print("xx " + str(xx) + " yy " + str(yy))
+            # # # print("xx " + str(xx) + " yy " + str(yy))
 
             self.send_to_server_info_bomb()
             self.bomb = bom.Bomb(xx, yy)
@@ -138,4 +126,4 @@ class Player(QtCore.QObject):
 
             pygame.mixer.Sound.play(BombExplode)
 
-            # # print(self.board.list_to_destroy)
+            # # # print(self.board.list_to_destroy)

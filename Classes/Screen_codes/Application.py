@@ -29,10 +29,11 @@ class Application(QApplication):
 
         self.play_game = None
 
-    @pyqtSlot(bool)
-    def logging_signal_response(self, value):
+    @pyqtSlot(bool, str)
+    def logging_signal_response(self, value, login):
         if value:
             print(".... logging_signal_response ", value)
+            print("with login ", login)
             self.hide_login_window()
             self.show_game_window()
         else:
@@ -42,16 +43,25 @@ class Application(QApplication):
     @pyqtSlot(bool)
     def activation_signal_response(self, value):
         if value:
-            print(".... activation_signal_response ", value)
+            # print(".... activation_signal_response ", value)
             self.hide_login_window()
             self.show_activation_window()
         else:
             print(".... activation_signal_response ", value)
 
     @pyqtSlot(bool)
+    def to_register_window_signal_response(self, value):
+        if value:
+            # print(".... bad_data_signal_response ", value)
+            self.hide_login_window()
+            self.show_register_window()
+        else:
+            print(".... bad_data_signal_response ", value)
+
+    @pyqtSlot(bool)
     def bad_data_signal_response(self, value):
         if value:
-            print(".... bad_data_signal_response ", value)
+            # print(".... bad_data_signal_response ", value)
             self.hide_bad_data_window()
             self.show_login_window()
         else:
@@ -60,7 +70,7 @@ class Application(QApplication):
     @pyqtSlot(bool)
     def play_signal_response(self, value):
         if value:
-            print(".... play_signal_response ", value)
+            # print(".... play_signal_response ", value)
             self.hide_game_window()
             if self.play_game.is_running == False:
                 self.play_game.run_game()
@@ -70,7 +80,7 @@ class Application(QApplication):
     @pyqtSlot(bool)
     def ranking_service_signal_response(self, value):
         if value:
-            print(".... ranking_service_signal_response ", value)
+            # print(".... ranking_service_signal_response ", value)
             self.hide_game_window()
             self.show_ranking_window()
         else:
@@ -79,7 +89,7 @@ class Application(QApplication):
     @pyqtSlot(bool)
     def options_signal_response(self, value):
         if value:
-            print(".... options_signal_response ", value)
+            # print(".... options_signal_response ", value)
             self.hide_game_window()
             self.show_option_window()
         else:
@@ -88,7 +98,7 @@ class Application(QApplication):
     @pyqtSlot(bool)
     def exit_signal_response(self, value):
         if value:
-            print(".... exit_signal_response ", value)
+            # print(".... exit_signal_response ", value)
             self.closeAllWindows()
             # TO DO
             # close whole application
@@ -114,7 +124,7 @@ class Application(QApplication):
         ranking_window = Ranking()
         self.setup_ranking_window(ranking_window)
 
-        register_window = Ranking()
+        register_window = Register()
         self.setup_register_window(register_window)
 
         play_game = PlayGame()
@@ -179,7 +189,6 @@ class Application(QApplication):
 
     def show_ranking_window(self):
         self.rankingWindow.show()
-
 
     def setup_register_window(self, register_window):
         self.registerWindow = register_window

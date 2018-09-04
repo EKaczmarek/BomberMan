@@ -17,14 +17,13 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 class Login_screen(QMainWindow, Ui_MainWindow):
     URL = 'http://localhost:8080/api/users/'
 
-    logging_signal = QtCore.pyqtSignal(bool)
+    logging_signal = QtCore.pyqtSignal(bool, str)
     activation_signal = QtCore.pyqtSignal(bool)
+    to_register_window_signal = QtCore.pyqtSignal(bool)
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-
-        self.connectWithMongo()
 
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
@@ -33,22 +32,19 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         self.button_register.clicked.connect(self.on_register_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
-    def connectWithMongo(self):
-        os.startfile("C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe")
-        # pass
-
     def log_in(self, nick, password):
-        sha_signature = hashlib.sha256(password.encode()).hexdigest()
-        # print(sha_signature)
 
-        client = MongoClient('localhost', 27017)
-        db = client['bomberman']
-        collection = db['players']
-        answer = ((collection.find({"nickname": nick, "password": sha_signature}).count()) == 1)
-        # print("answer: ", answer)
+        AUTH = requests.auth.HTTPBasicAuth(nick, password)
+        URL = 'http://192.168.43.102:8080/api/users/'
 
-        if answer: return 1
-        else: return 0
+        response = requests.get(URL, auth=AUTH)
+        # Alternatively, more REST-like style:
+        # response = requests.get(requests.compat.urljoin(URL, PLAYER))
+        if response.ok:
+            player = json.loads(response.content.decode())
+            print(json.dumps(player, indent=4))
+            print()
+            return 1
 
     def get_players(self):
         self.all_players = ''
@@ -56,11 +52,11 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         response = requests.get(self.URL)
         if response.ok:
             self.all_players = json.loads(response.content.decode())
-            print(json.dumps(self.all_players, indent=4))
-            print()
+            # print(json.dumps(self.all_players, indent=4))
+            # print()
 
     def check_if_player_is_activated(self, player):
-        print("check if player activated")
+        # print("check if player activated")
         response = requests.get(self.URL, params={'nickname': player})
         # Alternatively, more REST-like style:
         # response = requests.get(requests.compat.urljoin(URL, PLAYER))
@@ -69,8 +65,8 @@ class Login_screen(QMainWindow, Ui_MainWindow):
             # TO DO
             # sprawdzenie atrybutu activated w jsonie
             player = json.loads(response.content.decode())
-            print(json.dumps(player, indent=4))
-            print()
+            # print(json.dumps(player, indent=4))
+            # print()
             return True
         else:
             return False
@@ -82,24 +78,22 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
-        print(nickname, ", ", password)
-        # print("all_player ", self.all_players)
+        # print(nickname, ", ", password)
+        # # print("all_player ", self.all_players)
 
         # TO DO
         # if self.check_if_player_is_activated(nickname):
         if True:
             if self.log_in(nickname, password):
-                self.logging_signal.emit(True)
+                self.logging_signal.emit(True, nickname)
             else:
-                self.logging_signal.emit(False)
+                self.logging_signal.emit(False, nickname)
         else:
             self.activation_signal.emit(True)
 
     @pyqtSlot()
     def on_register_button_clicked(self):
-        pass
-        # self.r = Register()
-        # self.r.show()
+        self.to_register_window_signal.emit(True)
 
     @pyqtSlot()
     def on_exit_button_clicked(self):
