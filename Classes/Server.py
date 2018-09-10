@@ -9,6 +9,10 @@ class Server(QtCore.QObject):
     dict_players = {}
     players_to_send = {}
     player_nr = 0
+    info_about_players = []
+
+    pl_number_name = {}
+    players_number_to_name = []
 
     set_bomb = QtCore.pyqtSignal(bool, tuple, str)
 
@@ -35,7 +39,7 @@ class Server(QtCore.QObject):
         while True:
             try:
                 data, addr = self.s.recvfrom(self.size*2)
-                print("Otrzymano: ", data)
+                # print("Otrzymano: ", data)
                 if data:
                      self.sending_to_client(data.decode("utf-8"), addr)
                 else:
@@ -50,8 +54,20 @@ class Server(QtCore.QObject):
                 # # print("id tego gracza to: ", key)
                 return key
 
-    def reaction_on_get(self, addr, lista_graczy):
+    def find_nickname(self, id):
+        nickname = ''
+        for i in self.players_number_to_name:
+            print(i)
+            for key, value in i.items():
+                if key == id:
+                    nickname = value
+        return nickname
+
+    def reaction_on_get(self, addr, lista_graczy, players_login):
             self.dict_players[self.player_nr] = addr
+
+            self.pl_number_name[self.player_nr] = players_login
+
             if self.player_nr == 0:
                 self.player_pos = {"x": 1, "y": 1}
             elif self.player_nr == 1:
@@ -64,6 +80,11 @@ class Server(QtCore.QObject):
             self.players_to_send[self.player_nr] = self.player_pos
             lista_graczy.append(self.dict_players)
 
+            # slownik numer gracza - nazxwa gracza
+            # lista self.players_number_to_name
+            self.players_number_to_name.append(self.pl_number_name)
+            print("Odwzorowowanie number gracza - login ", self.players_number_to_name)
+
             self.game_state.rand_board()
             board = self.game_state.board
 
@@ -71,20 +92,29 @@ class Server(QtCore.QObject):
 
             # TO DO
             self.player_nr += 1
-            # # print("player_nr ", self.player_nr)
-
 
             # ograniczenie tutaj max 1 graczy
             self.game_state.number_players = 1;
+            self.game_state.place = self.game_state.number_players
             if self.player_nr == 1:
                 for key, value in self.dict_players.items():
+
+                    nickname = self.find_nickname(key)
+
+                    data_player = {'id': key,
+                                   'nickname': nickname,
+                                   'bombs': 0,
+                                   'players_count': self.game_state.number_players,
+                                   'place': 0}
+
+                    print(data_player)
+                    self.info_about_players.append(data_player)
+
                     payload = {"type": "GET",
                                "status": 200, key: self.players_to_send[key],
                                "players": self.players_to_send,
                                "board": board}
-                    # # print("Do wyslania: ", self.players_to_send)
                     self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
-                    # # print("Wyslano")
                     x = self.players_to_send[key]["x"]
                     y = self.players_to_send[key]["y"]
                     self.game_state.update_player_position(key, (x, y))
@@ -92,13 +122,18 @@ class Server(QtCore.QObject):
     def reaction_on_pos(self, addr, data):
         id = self.get_player_id(addr)
         data = json.loads(data)
+
         dx, dy = int(data["ME"]["x"]), int(data["ME"]["y"])
 
         last_pos = self.game_state.get_player_pos(id)
-        new_pos = self.game_state.find_new_player_position(last_pos, dx, dy)
+        new_pos, opis = self.game_state.find_new_player_position(last_pos, dx, dy)
+
 
         # poniżej wymiar tablicy np x=1 y=2
         self.game_state.update_player_position(id, (new_pos[0], new_pos[1]))
+
+        if opis != "last" and opis != "empty":
+            self.game_state.set_player_powerup(id, opis)
 
         data = {"type": "POS", id: {"x": new_pos[0], "y": new_pos[1]}}
         self.s.sendto(json.dumps(data).encode("utf-8"), addr)
@@ -110,6 +145,28 @@ class Server(QtCore.QObject):
             if i != id:
                 self.s.sendto(json.dumps(data).encode("utf-8"), self.dict_players[i])
 
+    def add_bomb_to_player(self, player_id):
+        for i in self.info_about_players:
+            if i["id"] == player_id:
+                i["bombs"] += 1
+
+    def set_place_to_player(self, player_id, place):
+        for i in self.info_about_players:
+            if i["id"] == player_id:
+                i["place"] = place
+
+    def send_info_to_db(self, info_about_players):
+        for i in info_about_players:
+            payload = {i['nickname']: {'place': i['place'],
+                                       'bomb_set': i['bombs'],
+                                       'players_count': i['players_count']}}
+            print(payload)
+
+    def reaction_on_bomb(self, addr, data):
+        # sprawdzenie ile bomb zostawił gracz i ile może zostawić
+        self.set_bomb.emit(True, addr, data)
+
+
     # wysylanie informacji do klienta na podstawie otrzymanej wiadomosci
     def sending_to_client(self, data, addr):
         lista_graaczy = []
@@ -118,7 +175,7 @@ class Server(QtCore.QObject):
 
             # wyslanie informacji o planszy, jaka pozycje ma zajac gracz, o pozycjach inn
             if c == "GET":
-                self.reaction_on_get(addr, lista_graaczy)
+                self.reaction_on_get(addr, lista_graaczy, json.loads(data)['login'])
 
             # wysłanie informacji o pozycji:
             #   do gracza od ktorego przyszla zwrotnej informacji ze jest ok
@@ -128,17 +185,13 @@ class Server(QtCore.QObject):
 
             # wysłanie informacji o bombie
             elif c == "BOMB":
-                player_id = self.get_player_id(addr)
-                if self.game_state.check_if_player_left_bomb(player_id):
-                    self.set_bomb.emit(False, addr, data)
-                else:
-                    self.set_bomb.emit(True, addr, data)
+                self.reaction_on_bomb(addr, data)
 
             # opuszczenie gry przez gracza
             elif c == "EXIT":
                 pass
 
-            elif c =="BOMB_BLOW_OK":
+            elif c == "BOMB_BLOW_OK":
                 self.game_state.show_board()
 
         except UnicodeDecodeError:

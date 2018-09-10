@@ -17,7 +17,7 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 class Login_screen(QMainWindow, Ui_MainWindow):
     URL = 'http://localhost:8080/api/users/'
 
-    logging_signal = QtCore.pyqtSignal(bool, str)
+    logging_signal = QtCore.pyqtSignal(bool, str, str)
     activation_signal = QtCore.pyqtSignal(bool)
     to_register_window_signal = QtCore.pyqtSignal(bool)
 
@@ -34,7 +34,8 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
     def log_in(self, nick, password):
 
-        AUTH = requests.auth.HTTPBasicAuth(nick, password)
+        # below ok version
+        """AUTH = requests.auth.HTTPBasicAuth(nick, password)
         URL = 'http://192.168.43.102:8080/api/users/'
 
         response = requests.get(URL, auth=AUTH)
@@ -44,7 +45,10 @@ class Login_screen(QMainWindow, Ui_MainWindow):
             player = json.loads(response.content.decode())
             print(json.dumps(player, indent=4))
             print()
-            return 1
+            return 1"""
+
+        #for my tests
+        return 1
 
     def get_players(self):
         self.all_players = ''
@@ -78,6 +82,9 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
+
+        nickname = "Ela"
+        password = "Gfdsgfsg"
         # print(nickname, ", ", password)
         # # print("all_player ", self.all_players)
 
@@ -85,9 +92,9 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         # if self.check_if_player_is_activated(nickname):
         if True:
             if self.log_in(nickname, password):
-                self.logging_signal.emit(True, nickname)
+                self.logging_signal.emit(True, nickname, password)
             else:
-                self.logging_signal.emit(False, nickname)
+                self.logging_signal.emit(False, nickname, password)
         else:
             self.activation_signal.emit(True)
 

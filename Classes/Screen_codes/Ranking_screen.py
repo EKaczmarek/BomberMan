@@ -6,10 +6,14 @@ from pymongo import  MongoClient
 from functools import reduce
 import requests
 import json
+from PyQt5 import QtCore
+
 qtCreatorFile = "Classes/GUI/ranking.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class Ranking(QDialog, Ui_Dialog):
+
+    back_from_ranking_signal = QtCore.pyqtSignal(bool)
 
     def __init__(self, parent = None):
         QDialog.__init__(self, parent)
@@ -18,34 +22,8 @@ class Ranking(QDialog, Ui_Dialog):
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
 
-        #self.getFromMongo()
-
-        self.button_search.clicked.connect(self.on_button_search_clicked)
-        self.button_back.clicked.connect(self.on_button_back_clicked)
-
-    def getFromMongo(self):
-
-
-        client = MongoClient('localhost', 27017)
-        db = client['BomberMan']
-        collection = db['Players']
-
-        test = [list(db[collection].find({}, {"nickname": 1, "points": 1, "playedGames": 1, "_id": 0})) for collection
-                in
-                db.collection_names()]
-
-        self.test = reduce(lambda x, y: x + y, test)
-        row = 0
-        for i in self.test:
-            self.tableWidget.insertRow(row)
-            self.tableWidget.setItem(row, 0, QTableWidgetItem(i['nickname']))
-            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(i['points'])))
-            self.tableWidget.setItem(row, 2, QTableWidgetItem(str(i['playedGames'])))
-            row += 1
-
-    @pyqtSlot()
-    def on_button_search_clicked(self):
-        AUTH = requests.auth.HTTPBasicAuth('ela', '12341234')
+        # będzie to poniżej
+        """AUTH = requests.auth.HTTPBasicAuth('ela', '12341234')
 
         URL = 'http://192.168.43.102:8080/api/ranking/'
         # response = requests.get(URL, auth=AUTH, params={'nickname': 'ela', 'scores': 'false'})
@@ -54,30 +32,79 @@ class Ranking(QDialog, Ui_Dialog):
         if response.ok:
             statistics = json.loads(response.content.decode())
             print(json.dumps(statistics, indent=4))
-            print()
+            print()"""
 
-        """nickname = self.lineEdit_nickname.text()
+        self.statistics = {
+            'Alice': {
+                'players_count': 3,
+                'place': 1,
+            },
+            'Bob': {
+                'players_count': 3,
+                'place': 2,
+            },
+            'Charlie': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'A': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'B': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'C': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'D': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'F': {
+                'players_count': 3,
+                'place': 3,
+            },
+            'g': {
+                'players_count': 3,
+                'place': 3,
+            },
+        }
+        self.reload_all()
+
+    def reload_all(self):
+        row = 0
+        for k, v in self.statistics.items():
+            self.tableWidget.insertRow(row)
+            self.tableWidget.setItem(row, 0, QTableWidgetItem(str(k)))
+            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
+            self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
+            row += 1
+
+    @pyqtSlot()
+    def on_button_search_clicked(self):
+        nickname = self.lineEdit_nickname.text()
         # print(nickname)
-        lista = list(filter(lambda x: x['nickname'] == nickname, self.test))
+        if nickname != '':
+            to_insert = {}
+            for k, v in self.statistics.items():
+                if k == nickname:
+                    to_insert[k] = v
 
-        for i in reversed(range(self.tableWidget.rowCount())):
-            self.tableWidget.removeRow(i)
-
-        if(nickname == ''):
-            self.getFromMongo()
-        else:
             row = 0
-            for i in lista:
-                # print(i)
-                self.tableWidget.insertRow(row)
-                self.tableWidget.setItem(row, 0, QTableWidgetItem(i['nickname']))
-                self.tableWidget.setItem(row, 1, QTableWidgetItem(str(i['points'])))
-                self.tableWidget.setItem(row, 2, QTableWidgetItem(str(i['playedGames'])))
-                row += 1"""
-
-
-
+            if to_insert != {}:
+                self.tableWidget.setRowCount(0)
+                for k, v in to_insert.items():
+                    self.tableWidget.insertRow(row)
+                    self.tableWidget.setItem(row, 0, QTableWidgetItem(k))
+                    self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
+                    self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
+                    row += 1
+        else:
+            self.reload_all()
 
     @pyqtSlot()
     def on_button_back_clicked(self):
-        self.close()
+        self.back_from_ranking_signal.emit(True)

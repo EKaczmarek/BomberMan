@@ -3,15 +3,16 @@ from Classes.Screen_codes.Application import Application
 
 if __name__ == "__main__":
 
+    URL = 'http://192.168.43.102:8080/api/users/'
     # app = QApplication(sys.argv)
     # window = Login_screen()
     # window.show()
     # sys.exit(app.exec_())
 
     application = Application(sys.argv)
-    application.setup_all_windows()
-    #application.show_login_window()
-    application.play_game.run_game()
+    application.setup_all_windows(URL)
+    application.show_login_window()
+    #application.play_game.run_game("Ela")
     # application.show_ranking_window()
 
     # signals from interfaces
@@ -27,6 +28,10 @@ if __name__ == "__main__":
     application.gameWindow.options_signal.connect(application.options_signal_response)
     application.gameWindow.exit_signal.connect(application.exit_signal_response)
 
+    application.game_over.show_main_screen_signal.connect(application.show_main_screen_response)
+
+    application.rankingWindow.back_from_ranking_signal.connect(application.back_from_ranking_response)
+
 
     # signals from game
 
@@ -40,6 +45,9 @@ if __name__ == "__main__":
 
     # signal when player has left bomb
     application.play_game.player.player_has_left_bomb.connect(application.play_game.player_has_left_bomb_response)
+
+    application.play_game.game_over_for_player.connect(application.player_lost_game)
+
 
     sys.exit(application.exec_())
 

@@ -7,6 +7,8 @@ from Classes.Screen_codes.Game_screen import Game
 from Classes.Screen_codes.Login_screen import Login_screen
 from Classes.Screen_codes.Options_screen import Options
 from Classes.Screen_codes.Ranking_screen import Ranking
+from Classes.Screen_codes.Game_over_screen import Game_over
+
 # TO DO register
 from Classes.Screen_codes.Register_screen import Register
 
@@ -28,14 +30,20 @@ class Application(QApplication):
         self.registerWindow = None
 
         self.play_game = None
+        self.game_over = None
 
-    @pyqtSlot(bool, str)
-    def logging_signal_response(self, value, login):
+
+
+    @pyqtSlot(bool, str, str)
+    def logging_signal_response(self, value, login, password):
         if value:
             print(".... logging_signal_response ", value)
             print("with login ", login)
+            print("with password ", password)
+
             self.hide_login_window()
             self.show_game_window()
+            self.set_unvisible_login_on_game_window(login)
         else:
             self.hide_login_window()
             self.show_bad_data_window()
@@ -67,13 +75,13 @@ class Application(QApplication):
         else:
             print(".... bad_data_signal_response ", value)
 
-    @pyqtSlot(bool)
-    def play_signal_response(self, value):
+    @pyqtSlot(bool, str)
+    def play_signal_response(self, value, login):
         if value:
             # print(".... play_signal_response ", value)
             self.hide_game_window()
             if self.play_game.is_running == False:
-                self.play_game.run_game()
+                self.play_game.run_game(login)
         else:
             print(".... play_signal_response ", value)
 
@@ -85,6 +93,20 @@ class Application(QApplication):
             self.show_ranking_window()
         else:
             print(".... ranking_service_signal_response ", value)
+
+    @pyqtSlot(bool)
+    def back_from_ranking_response(self, value):
+        if value:
+            self.hide_ranking_window()
+            self.show_game_window()
+
+    @pyqtSlot(bool)
+    def player_lost_game(self, value):
+        if value:
+            print("player_lost_game_signal")
+            self.play_game.is_running = False
+            # self.play_game.map_game.quit_game()
+            self.show_game_over_window()
 
     @pyqtSlot(bool)
     def options_signal_response(self, value):
@@ -105,7 +127,21 @@ class Application(QApplication):
         else:
             print(".... exit_signal_response ", value)
 
-    def setup_all_windows(self):        
+    @pyqtSlot(bool)
+    def show_main_screen_response(self, value):
+        if value:
+            self.hide_game_over_window()
+            self.show_game_window()
+
+    @pyqtSlot(bool)
+    def show_ranking_screen_response(self, value):
+        if value:
+            self.hide_game_over_window()
+            self.show_ranking_window()
+
+    def setup_all_windows(self, URL):
+        self.URL = URL
+
         activation_window = Activation()
         self.setup_activation_window(activation_window)
         
@@ -130,6 +166,10 @@ class Application(QApplication):
         play_game = PlayGame()
         self.setup_play_game(play_game)
         self.play_game.setup_all()
+
+        game_over = Game_over()
+        self.setup_game_over_window(game_over)
+
 
     def setup_activation_window(self, activation_window):
         self.activationWindow = activation_window
@@ -159,6 +199,11 @@ class Application(QApplication):
 
     def show_game_window(self):
         self.gameWindow.show()
+
+    def set_unvisible_login_on_game_window(self, login):
+        # set login in screens
+        self.gameWindow.set_login(login)
+        self.game_over.set_login(login)
 
 
     def setup_login_window(self, login_window):
@@ -190,6 +235,7 @@ class Application(QApplication):
     def show_ranking_window(self):
         self.rankingWindow.show()
 
+
     def setup_register_window(self, register_window):
         self.registerWindow = register_window
 
@@ -198,6 +244,18 @@ class Application(QApplication):
 
     def show_register_window(self):
         self.registerWindow.show()
+
+
+    def setup_game_over_window(self, game_over):
+        self.game_over = game_over
+
+    def hide_game_over_window(self):
+        self.game_over.hide()
+
+    def show_game_over_window(self):
+        self.game_over.set_values()
+        self.game_over.show()
+
 
     def setup_play_game(self, play_game):
         self.play_game = play_game

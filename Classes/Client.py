@@ -40,6 +40,7 @@ class Client(QtCore.QObject):
     def send_info_about_bomb(self, bomb_x, bomb_y):
         payload = {"type": "BOMB", "ME": {"x": bomb_x, "y": bomb_y}}
         self.sendMessage(payload)
+        print(payload)
 
     # wątek umożliwiający odbieranie wiadomosci o aktualizacji pozycji gracza/ bomby
     def listening(self):

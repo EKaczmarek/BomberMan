@@ -7,7 +7,7 @@ from Classes.Player_object import Player_object
 from Classes.Bomb import Bomb
 from Classes.Powerup import Powerup
 import ast
-
+import sys
 
 class Board(object):
     level = None
@@ -22,13 +22,12 @@ class Board(object):
     def __init__(self):
         self.load_images()
         self.screen = None
-
         self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 600))
         self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 600))
-
         self.game = [[0 for col in range(15)] for row in range(15)]
 
         self.game_state = None
+
 
     def set_player_number(self, answer):
         for key, value in answer.items():
@@ -71,13 +70,12 @@ class Board(object):
         self.set_list_of_players(answer)
 
     def remove_player_from_map(self, json_dead):
-        json_dead = ast.literal_eval(json_dead)
-
+        print("json dead ", json_dead)
         if json_dead["PLAYERS_POS"] != {}:
             for k, v in json_dead["PLAYERS_POS"].items():
+                print("id gracza ", k)
                 x, y = v[0], v[1]
                 self.game[x][y] = 0
-
 
         self.display_all()
 
@@ -91,11 +89,20 @@ class Board(object):
                 posx, posy = self.table_to_pixels(int(i[0]), int(i[1]))
                 self.screen.blit(self.images[x], (posx, posy))
                 pygame.display.flip()
-            self.game[i[1]][i[0]] = 0
 
         self.show_board()
 
+        for i in list_to_destroy:
+            if self.game[i[1]][i[0]] != 0:
+                if self.game[i[1]][i[0]].desc != "powerup":
+                    self.game[i[1]][i[0]] = 0
+                else:
+                    if self.game[i[1]][i[0]].view == "brick":
+                        self.game[i[1]][i[0]].change_view("powerup")
+                    else:
+                        self.game[i[1]][i[0]] = 0
 
+        self.show_board()
 
     def set_bomb_on_map(self, json_bombs):
         json_bombs = ast.literal_eval(json_bombs)
@@ -106,7 +113,6 @@ class Board(object):
         self.game[y][x] = bomb.get_bomb()
 
         self.show_board()
-
 
     def find_last_position(self, player_id):
         a, b = '', ''
@@ -171,6 +177,8 @@ class Board(object):
                         if self.game[i][j].whose_bomb == player_id:
                             return i, j
 
+
+
     def init_map(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1200, 750))
@@ -184,7 +192,6 @@ class Board(object):
 
     def set_objects_on_map(self):
         self.walls_bricks()
-
 
     def table_dimension(self, x, y):
         return int(x/50), int((y-450)/50)
@@ -247,6 +254,9 @@ class Board(object):
                     return True
         return False
 
+    def quit_game(self):
+        pygame.quit()
+
     def display_all(self):
 
         # Display screen
@@ -260,7 +270,6 @@ class Board(object):
         players_speed = pygame.image.load(r"Classes/Pictures/Background.png").convert()
         bombs_no = pygame.image.load(r"Classes/Pictures/obiekt.png").convert()
         bombs_range = pygame.image.load(r"Classes/Pictures/bomb.png").convert()
-
 
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
@@ -278,13 +287,15 @@ class Board(object):
                         self.screen.blit(bomba, self.game[i][j])
 
                     elif self.game[i][j].desc == "powerup":
-                        if self.game[i][j].kind == "S":
-                            self.screen.blit(players_speed, self.game[i][j])
-                        elif self.game[i][j].kind == "N":
-                            self.screen.blit(bombs_no, self.game[i][j])
-                        elif self.game[i][j].kind == "R":
-                            self.screen.blit(bombs_no, self.game[i][j])
-
+                        if self.game[i][j].view == "powerup":
+                            if self.game[i][j].kind == "S":
+                                self.screen.blit(players_speed, self.game[i][j])
+                            elif self.game[i][j].kind == "N":
+                                self.screen.blit(bombs_range, self.game[i][j])
+                            elif self.game[i][j].kind == "R":
+                                self.screen.blit(bombs_no, self.game[i][j])
+                        elif self.game[i][j].view == "brick":
+                            self.screen.blit(box, self.game[i][j])
                 else:
                     x, y = self.table_to_pixels(j, i)
                     pygame.draw.rect(self.screen, (255, 255, 255), (x, y, 50, 50))
@@ -297,13 +308,13 @@ class Board(object):
 
     def show_board(self):
 
-        for i in range(len(self.game)):
+        """for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
                     print(self.game[i][j].desc, end="\t")
                 else:
                     print("\t", end="\t")
-            print(end='\n')
+            print(end='\n')"""
 
         print("\n")
 

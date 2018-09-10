@@ -11,7 +11,7 @@ Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class Game(QDialog, Ui_Dialog):
 
-    play_signal = QtCore.pyqtSignal(bool)
+    play_signal = QtCore.pyqtSignal(bool, str)
     ranking_service_signal = QtCore.pyqtSignal(bool)
     options_signal = QtCore.pyqtSignal(bool)
     exit_signal = QtCore.pyqtSignal(bool)
@@ -28,9 +28,12 @@ class Game(QDialog, Ui_Dialog):
         self.button_options.clicked.connect(self.on_options_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
+    def set_login(self, login):
+        self.login = login
+
     @pyqtSlot()
     def on_button_play_clicked(self):
-        self.play_signal.emit(True)
+        self.play_signal.emit(True, self.login)
 
     @pyqtSlot()
     def on_ranking_button_clicked(self):

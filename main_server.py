@@ -14,6 +14,8 @@ if __name__ == "__main__":
     application.setup()
 
     application.server.set_bomb.connect(application.set_bomb_response)
+    application.server.game_state.game_over.connect(application.game_over_response)
+
 
     sys.exit(application.exec_())
 

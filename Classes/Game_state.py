@@ -1,27 +1,26 @@
-import re
 import Classes.Wall as w
 import Classes.Brick as b
-import Classes.Powerup as p
 import Classes.Bomb as bomb
-import Classes.Button as btn
 import Classes.Player_object_board as Player_ob
 import json
 from PyQt5 import QtCore
-import time
-import pygame
 import random
 from Classes.Powerup import Powerup
+import time
+from threading import Thread
 
 class Game_state(QtCore.QObject):
 
     bomb_must_blow = QtCore.pyqtSignal(bool, int, int)
+    game_over = QtCore.pyqtSignal(bool, int, int)
 
     level = []
     last_pos = ''
     number_players = 0
 
+
     def __init__(self):
-        # print("Inicjalizacja stanu gry")
+        super(Game_state, self).__init__()
         self.game = [[0 for col in range(15)] for row in range(15)]
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
@@ -30,6 +29,15 @@ class Game_state(QtCore.QObject):
     def set_board(self, board):
         self.level = map(''.join, zip(*[iter(board)]*15))
         self.walls_bricks()
+
+    def how_many_players_left(self):
+        player_no = 0
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if self.game[i][j] != 0:
+                    if self.game[i][j].desc[0:6] == "player":
+                        player_no += 1
+        return player_no
 
     def walls_bricks(self):
         x = 450
@@ -58,8 +66,9 @@ class Game_state(QtCore.QObject):
             y += 50
             x = 450
 
-        if(self.last_pos == ''):
-            self.game[1][1] = Player_ob.Player_object_board((1,1), 1)
+        if self.last_pos == '':
+            print("\n tworzenie obiektu \n")
+            self.game[1][1] = Player_ob.Player_object_board((1, 1), "player 1", 1, 1, 1)
             self.last_pos = (1, 1)
 
     # from pixels to table dimenstion
@@ -67,23 +76,41 @@ class Game_state(QtCore.QObject):
         return int(x/50), int((y-450)/50)
 
     def show_board(self):
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~Ćala plansza~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        pass
+        """print("~~~~~~~~~~~~~~~~~~~~~~~~~~Ćala plansza~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
                     print(self.game[i][j].desc, end="\t")
                 else:
                     print("empty", end="\t")
-            print(end='\n')
+            print(end='\n')"""
+
+    def player_can_leave_bomb(self, player_id):
+
+        number_bombs_on_board = self.get_number_player_number_bombs_on_board(player_id)
+        print("number_bombs_on_board ", number_bombs_on_board)
+
+        time.sleep(.3)
+        k, w = self.get_player_pos(player_id)
+
+        print("Do sprawdzenia ile gracz moze zostawic bomb w serwer")
+        if self.game[w][k].desc[0:6] == "player":
+            player = self.game[w][k].get_player()
+            number_player_can_leave = player.bombs
+
+            print("number_player_can_leave ", number_player_can_leave)
+
+        if number_player_can_leave > number_bombs_on_board:
+            return True
 
     def find_last_position(self, player_id):
 
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
-                if(self.game[i][j] != 0):
+                if self.game[i][j] != 0:
                     player_desc = "player " + str(player_id)
-                    if(self.game[i][j].desc == player_desc):
-                        # print(self.game[i][j].desc == player_desc)
+                    if self.game[i][j].desc == player_desc:
                         return j, i
 
         if player_id == 0:
@@ -97,33 +124,52 @@ class Game_state(QtCore.QObject):
 
     # position nowa pozycja garcza w tablicy
     def update_player_position(self, player_id, position):
-
         x = position[0]
         y = position[1]
-        # print("position ", position)
 
-        # removing player from last position
-        # self.game[self.last_pos[0]][self.last_pos[1]] = 0
-        self.last_pos = self.find_last_position(player_id)
+        last_pos = self.find_last_position(player_id)
 
-        self.game[self.last_pos[1]][self.last_pos[0]] = 0
+        bombs = 1
+        range = 1
+        speed = 1
+
+        # attributes to powerups
+        if self.game[last_pos[1]][last_pos[0]] != 0:
+            if not isinstance(self.game[last_pos[1]][last_pos[0]].desc, int):
+                if self.game[last_pos[1]][last_pos[0]].desc[0:6] == "player":
+                    bombs = self.game[last_pos[1]][last_pos[0]].bombs
+                    range = self.game[last_pos[1]][last_pos[0]].range_bomb
+                    speed = self.game[last_pos[1]][last_pos[0]].speed
+
+        self.game[last_pos[1]][last_pos[0]] = 0
 
         # set current position of player
         player_desc = "player " + str(player_id)
-        # print(str(player_desc) + " pozycja " + str(x) + " " + str(y))
-        self.game[y][x] = Player_ob.Player_object_board(self.table_to_pixels(x, y), player_desc)
+        self.game[y][x] = Player_ob.Player_object_board(self.table_to_pixels(x, y), player_desc, bombs, range, speed)
         self.last_pos = (y, x)
 
-        #self.show_board()
+
+    def set_player_powerup(self, id, opis):
+        x, y = self.get_player_pos(id)
+        if opis == "S":
+            self.game[y][x].set_speed()
+            print(self.game[y][x].speed)
+        elif opis == "N":
+            self.game[y][x].set_range_bomb()
+            print("set_bombs ", self.game[y][x].range_bomb)
+        elif opis == "R":
+            self.game[y][x].set_bombs_number()
+            thread = Thread(target=self.game[y][x].start_timer, args=[])
+            thread.start()
+            print("number_bombs ", self.game[y][x].bombs)
+
+        print("Po funkcji: ", self.game[y][x].bombs)
 
     def table_to_pixels(self, x, y):
         return int(x * 50), int((y * 50) + 450)
 
     # bomb position 'B x1y2'
     def set_bomb(self, addr, position, player_id):
-        # print(" w set_bomb")
-        # print("position", position)
-        # print("typ: ", type(position))
         position = json.loads(position)
 
         x = position["ME"]["x"]
@@ -138,73 +184,76 @@ class Game_state(QtCore.QObject):
         return x, y
 
 
-    def check_is_any_player_dead(self):
-        list_of_dead = []
-        print("check is any player dead ", self.list_to_destroy)
-        print("self.number_players ", self.number_players)
-        for i in self.list_to_destroy:
-            for j in range(0, self.number_players):
-                x, y = self.get_player_pos(j)
-                if i[0] == y and i[1] == x:
-                    list_of_dead.append(j)
-        print("list of dead ", list_of_dead)
-        return list_of_dead
-
-    def rand_board(self):
-        board = "WWWWWWWWWWWWWWWW             WWSW W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
-
-        list_to_rand = []
+    
+    def board_ranges(self):
+        self.list_to_rand = []
         for i in range(18, 26):
-            list_to_rand.append(i)
+            self.list_to_rand.append(i)
         for i in range(33, 41, 2):
-            list_to_rand.append(i)
+            self.list_to_rand.append(i)
 
         for j in range(0, 3):
             for i in range(76, 88):
-                list_to_rand.append(i + (30 * j))
+                self.list_to_rand.append(i + (30 * j))
 
         for j in range(0, 2):
             for i in range(61, 73, 2):
-                list_to_rand.append(i + (30 * j))
+                self.list_to_rand.append(i + (30 * j))
 
         for i in range(166, 178):
-            list_to_rand.append(i)
+            self.list_to_rand.append(i)
         for i in range(183, 185, 2):
-            list_to_rand.append(i)
+            self.list_to_rand.append(i)
         for i in range(198, 206):
-            list_to_rand.append(i)
-        print(list_to_rand)
+            self.list_to_rand.append(i)
+        print(self.list_to_rand)
 
-        print(len(list_to_rand))
+    def rand_board(self):
+        board = "WWWWWWWWWWWWWWWW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WW W W W W W W WW             WWWWWWWWWWWWWWWW"
+
+        self.board_ranges()
+
+        print(len(self.list_to_rand))
         list_new = []
-        for i in range (0, 50):
-            a = random.choice(list_to_rand)
-            list_to_rand.remove(a)
+        # losowanie Brick
+        for i in range(0, 50):
+            a = random.choice(self.list_to_rand)
+            self.list_to_rand.remove(a)
             list_new.append(a)
 
-        print("list new  ")
+        #dodanie do planszy
         for i in list_new:
             new = list(board)
             new[i] = 'B'
             board = ''.join(new)
+        
 
-        print("ilosc wystapien ", board.count('B'))
-        print(list_new)
-        print(board)
-        self.board = board
+        list_powerup = []
+        for i in range(0, 30):
+        # losowanie Powerup'ow
+            a = random.choice(list_new)
+            list_new.remove(a)
+            list_powerup.append(a)
 
-    def handle_bombs(self, x, y):
-        time.sleep(1.5)
-        self.count_where_blow(x, y)
+        for i in list_powerup:
+            new = list(board)
+            new[i] = random.choice(['S', 'R', 'N'])
+            board = ''.join(new)
 
-        # print("self.list_to_destroy ", self.list_to_destroy)
-        ans = self.check_is_any_player_dead()
+        print("board", board)
+        self.board = "WWWWWWWWWWWWWWWW    R   SB   WW WSWNWBW W W WW             WWRWRW W W WSW WWBB N RBN  BR WWBW W WBW WNW WWRNS BNS BBN  WW W W W W W W WW B RR BB S B WW W W W W W W WWNB  SS BB SB WW W W W W W W WW  NS NBSS    WWWWWWWWWWWWWWWW"
 
-        if ans != []:
-            print("Zginal graczz o numerze: ", ans)
-        else:
-            print("Nikt nie zginal")
-        return ans
+    def handle_bombs(self, x_bomb, y_bomb, list_to_destroy):
+
+        list_of_dead = []
+
+        for i in list_to_destroy:
+            if self.game[i[1]][i[0]] != 0:
+                if self.game[i[1]][i[0]].desc[0:6] == "player":
+                    number = self.game[i[1]][i[0]].desc.split(" ")[1]
+                    list_of_dead.append(number)
+
+        return list_of_dead
 
     # count where is it about to blow and send list client
     def count_where_blow(self, xx, yy):
@@ -226,10 +275,20 @@ class Game_state(QtCore.QObject):
 
     def which_one(self, x_brick, y_brick):
         if self.game[x_brick][y_brick] != 0:
-            if self.game[x_brick][y_brick].desc == "brick" or self.game[x_brick][y_brick].desc[0:6] == "player":
+            if self.game[x_brick][y_brick].desc == "brick" or self.game[x_brick][y_brick].desc[0:6] == "player" or self.game[x_brick][y_brick].desc == "powerup":
                 self.list_to_destroy.append((x_brick, y_brick))
         else:
             self.list_to_destroy.append((x_brick, y_brick))
+
+    def get_number_player_number_bombs_on_board(self, player_id):
+        number_left_bomb = 0
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if self.game[i][j] != 0:
+                    if self.game[i][j].desc == "bomb":
+                        if self.game[i][j].whose_bomb == "player " + str(player_id):
+                            number_left_bomb += 1
+        return number_left_bomb
 
     def get_player_pos(self, player_id):
         a, b = '', ''
@@ -244,24 +303,16 @@ class Game_state(QtCore.QObject):
                                 a, b = j, i
         return a, b
 
-    def check_if_player_left_bomb(self, player_id):
-        left_bomb = False
-        for i in range(len(self.game)):
-            for j in range(len(self.game[i])):
-                if self.game[i][j] != 0:
-                    if self.game[i][j].desc == "bomb":
-                        if self.game[i][j].whose_bomb == "player " + str(player_id):
-                            left_bomb = True
-        return left_bomb
-
     def find_new_player_position(self, last_pos, dx, dy):
-        print("last_pos ", last_pos)
         x, y = int(last_pos[0] + dx), int(last_pos[1] + dy)
 
         if self.game[y][x] == 0:
-            return x, y
+            return (x, y), "empty"
         else:
-            return last_pos
+            if self.game[y][x].desc == "powerup" and self.game[y][x].view == "powerup":
+                return (x, y), self.game[y][x].kind
+            else:
+                return last_pos, "last"
 
 
 
