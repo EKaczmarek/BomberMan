@@ -162,6 +162,19 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>150</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nie można połączć sie z serwerem</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -89,12 +89,11 @@ class Game_state(QtCore.QObject):
     def player_can_leave_bomb(self, player_id):
 
         number_bombs_on_board = self.get_number_player_number_bombs_on_board(player_id)
-        print("number_bombs_on_board ", number_bombs_on_board)
+        print("\nnumber_bombs_on_board ", number_bombs_on_board)
 
-        time.sleep(.3)
+        time.sleep(.5)
         k, w = self.get_player_pos(player_id)
 
-        print("Do sprawdzenia ile gracz moze zostawic bomb w serwer")
         if self.game[w][k].desc[0:6] == "player":
             player = self.game[w][k].get_player()
             number_player_can_leave = player.bombs
@@ -103,6 +102,33 @@ class Game_state(QtCore.QObject):
 
         if number_player_can_leave > number_bombs_on_board:
             return True
+
+    def get_players_speed(self, player_id):
+        speed = 1
+
+        k, w = self.get_player_pos(player_id)
+
+        if self.game[w][k].desc[0:6] == "player":
+            player = self.game[w][k].get_player()
+            speed = player.speed
+
+            print("players_speed ", speed)
+        return speed
+
+    def get_range_of_bomb(self, player_id):
+        player_range_of_bombs = 1
+        k, w = self.get_player_pos(player_id)
+
+        if self.game[w][k].desc[0:6] == "player":
+            player = self.game[w][k].get_player()
+            player_range_of_bombs = player.range_bomb
+
+            print("player range of bombs ", player_range_of_bombs)
+
+        return player_range_of_bombs
+
+
+
 
     def find_last_position(self, player_id):
 
@@ -153,17 +179,20 @@ class Game_state(QtCore.QObject):
         x, y = self.get_player_pos(id)
         if opis == "S":
             self.game[y][x].set_speed()
+            thread = Thread(target=self.game[y][x].start_timer_speed, args=[])
+            thread.start()
             print(self.game[y][x].speed)
         elif opis == "N":
             self.game[y][x].set_range_bomb()
+            thread = Thread(target=self.game[y][x].start_timer_bombs_range, args=[])
+            thread.start()
             print("set_bombs ", self.game[y][x].range_bomb)
         elif opis == "R":
             self.game[y][x].set_bombs_number()
-            thread = Thread(target=self.game[y][x].start_timer, args=[])
+            thread = Thread(target=self.game[y][x].start_timer_bombs_no, args=[])
             thread.start()
             print("number_bombs ", self.game[y][x].bombs)
 
-        print("Po funkcji: ", self.game[y][x].bombs)
 
     def table_to_pixels(self, x, y):
         return int(x * 50), int((y * 50) + 450)
@@ -241,7 +270,8 @@ class Game_state(QtCore.QObject):
             board = ''.join(new)
 
         print("board", board)
-        self.board = "WWWWWWWWWWWWWWWW    R   SB   WW WSWNWBW W W WW             WWRWRW W W WSW WWBB N RBN  BR WWBW W WBW WNW WWRNS BNS BBN  WW W W W W W W WW B RR BB S B WW W W W W W W WWNB  SS BB SB WW W W W W W W WW  NS NBSS    WWWWWWWWWWWWWWWW"
+        self.board = board
+        #self.board = "WWWWWWWWWWWWWWWW    R   SB   WW WSWNWBW W W WW             WWRWRW W W WSW WWBB N RBN  BR WWBW W WBW WNW WWRNS BNS BBN  WW W W W W W W WW B RR BB S B WW W W W W W W WWNB  SS BB SB WW W W W W W W WW  NS NBSS    WWWWWWWWWWWWWWWW"
 
     def handle_bombs(self, x_bomb, y_bomb, list_to_destroy):
 
@@ -256,8 +286,10 @@ class Game_state(QtCore.QObject):
         return list_of_dead
 
     # count where is it about to blow and send list client
-    def count_where_blow(self, xx, yy):
+    def count_where_blow(self, xx, yy, range_of_bomb):
         self.list_to_destroy = []
+
+        self.list_to_destroy.append((xx, yy))
 
         x_brick_1, y_brick_1 = xx, yy + 1
         self.which_one(x_brick_1, y_brick_1)
@@ -271,7 +303,25 @@ class Game_state(QtCore.QObject):
         x_brick_4, y_brick_4 = xx + 1, yy
         self.which_one(x_brick_4, y_brick_4)
 
-        self.list_to_destroy.append((xx, yy))
+        if range_of_bomb != 1:
+            for j in range(1, range_of_bomb):
+                if (x_brick_1, y_brick_1) in self.list_to_destroy:
+                    x_brick_1, y_brick_1 = xx, yy + 1 + j
+                    self.which_one(x_brick_1, y_brick_1)
+
+                if (x_brick_2, y_brick_2) in self.list_to_destroy:
+                    x_brick_2, y_brick_2 = xx, yy - 1 - j
+                    self.which_one(x_brick_2, y_brick_2)
+
+                if (x_brick_3, y_brick_3) in self.list_to_destroy:
+                    x_brick_3, y_brick_3 = xx - 1 - j, yy
+                    self.which_one(x_brick_3, y_brick_3)
+
+                if (x_brick_4, y_brick_4) in self.list_to_destroy:
+                    x_brick_4, y_brick_4 = xx + 1 + j, yy
+                    self.which_one(x_brick_4, y_brick_4)
+
+        print(self.list_to_destroy)
 
     def which_one(self, x_brick, y_brick):
         if self.game[x_brick][y_brick] != 0:
@@ -305,7 +355,6 @@ class Game_state(QtCore.QObject):
 
     def find_new_player_position(self, last_pos, dx, dy):
         x, y = int(last_pos[0] + dx), int(last_pos[1] + dy)
-
         if self.game[y][x] == 0:
             return (x, y), "empty"
         else:

@@ -1,4 +1,3 @@
-
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import pyqtSlot
 from threading import Thread
@@ -17,18 +16,20 @@ class Application_server(QApplication):
     def game_over_response(self, value, player_id, place):
         if value:
             self.server.set_place_to_player(player_id, place)
+
             print("GAME OVER ")
             print(self.server.info_about_players)
-            self.server.send_info_to_db(self.server.info_about_players)
+            self.server.send_info_to_client_game_over(self.server.info_about_players, player_id)
+
+            # TO DO WITHOUT COMMENT
+            # self.server.send_info_to_db(self.server.info_about_players)
 
     def set_bomb_thread(self, addr, data):
-        print("begin set bomb response")
+        # print("begin set bomb response")
         player_id = self.server.get_player_id(addr)
-
         answer = self.server.game_state.player_can_leave_bomb(player_id)
 
         if answer is True:
-
             self.server.add_bomb_to_player(player_id)
 
             i, j = self.server.game_state.set_bomb(addr, data, player_id)
@@ -38,7 +39,8 @@ class Application_server(QApplication):
 
             time.sleep(2)
             # wybuch bomby, od czasu otrzymania tego komunikatu od serwera klient efekty wybuchu
-            self.server.game_state.count_where_blow(i, j)
+            range_of_bomb = self.server.game_state.get_range_of_bomb(player_id)
+            self.server.game_state.count_where_blow(i, j, range_of_bomb)
 
             # po wybuchu wyslanie info kto zginal
             list_dead_players = self.server.game_state.handle_bombs(j, i, self.server.game_state.list_to_destroy)
@@ -82,7 +84,7 @@ class Application_server(QApplication):
 
                 print("dictionary_dead_players ", dictionary_dead_players)
 
-        print("end set bomb response")
+        # print("end set bomb response")
 
     @pyqtSlot(bool, tuple, str)
     def set_bomb_response(self, value, addr, data):

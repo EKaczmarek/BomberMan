@@ -1,13 +1,14 @@
 
 from PyQt5.QtWidgets import QApplication
+import sys
 
-from Classes.Screen_codes.Activation_screen import Activation
 from Classes.Screen_codes.Bad_data_screen import Bad_data
 from Classes.Screen_codes.Game_screen import Game
 from Classes.Screen_codes.Login_screen import Login_screen
 from Classes.Screen_codes.Options_screen import Options
 from Classes.Screen_codes.Ranking_screen import Ranking
 from Classes.Screen_codes.Game_over_screen import Game_over
+from Classes.Screen_codes.Error_server import Error_server
 
 # TO DO register
 from Classes.Screen_codes.Register_screen import Register
@@ -21,7 +22,6 @@ class Application(QApplication):
     def __init__(self, *agrs, **kwargs):
         super(Application, self).__init__(*agrs, **kwargs)
 
-        self.activationWindow = None
         self.badDataWindow = None
         self.gameWindow = None
         self.loginWindow = None
@@ -32,10 +32,12 @@ class Application(QApplication):
         self.play_game = None
         self.game_over = None
 
+        self.error_server = None
 
+        self.URL = None
 
-    @pyqtSlot(bool, str, str)
-    def logging_signal_response(self, value, login, password):
+    @pyqtSlot(bool, str, str, str)
+    def logging_signal_response(self, value, login, password, description):
         if value:
             print(".... logging_signal_response ", value)
             print("with login ", login)
@@ -43,19 +45,11 @@ class Application(QApplication):
 
             self.hide_login_window()
             self.show_game_window()
-            self.set_unvisible_login_on_game_window(login)
+            self.set_login_on_game_window(login, password)
         else:
             self.hide_login_window()
-            self.show_bad_data_window()
+            self.show_bad_data_window(description)
 
-    @pyqtSlot(bool)
-    def activation_signal_response(self, value):
-        if value:
-            # print(".... activation_signal_response ", value)
-            self.hide_login_window()
-            self.show_activation_window()
-        else:
-            print(".... activation_signal_response ", value)
 
     @pyqtSlot(bool)
     def to_register_window_signal_response(self, value):
@@ -90,6 +84,8 @@ class Application(QApplication):
         if value:
             # print(".... ranking_service_signal_response ", value)
             self.hide_game_window()
+            self.rankingWindow.get_scores()
+            self.rankingWindow.get_left_bombs()
             self.show_ranking_window()
         else:
             print(".... ranking_service_signal_response ", value)
@@ -100,13 +96,27 @@ class Application(QApplication):
             self.hide_ranking_window()
             self.show_game_window()
 
+    @pyqtSlot(bool, str)
+    def connection_server_logging_response(self, value, response):
+        if value:
+            print(response)
+            self.error_server.set_label(response)
+            self.loginWindow.hide()
+            self.show_error_server()
+
     @pyqtSlot(bool)
-    def player_lost_game(self, value):
+    def error_server_signal_response(self, value):
+        if value:
+            self.error_server.hide()
+            self.loginWindow.show()
+
+    @pyqtSlot(bool, str)
+    def player_lost_game(self, value, scores):
         if value:
             print("player_lost_game_signal")
             self.play_game.is_running = False
             # self.play_game.map_game.quit_game()
-            self.show_game_over_window()
+            self.show_game_over_window(scores)
 
     @pyqtSlot(bool)
     def options_signal_response(self, value):
@@ -122,8 +132,8 @@ class Application(QApplication):
         if value:
             # print(".... exit_signal_response ", value)
             self.closeAllWindows()
-            # TO DO
-            # close whole application
+            #
+            sys.exit()
         else:
             print(".... exit_signal_response ", value)
 
@@ -139,12 +149,12 @@ class Application(QApplication):
             self.hide_game_over_window()
             self.show_ranking_window()
 
-    def setup_all_windows(self, URL):
-        self.URL = URL
+    def setup_all_windows(self, url):
+        self.URL = url
 
-        activation_window = Activation()
-        self.setup_activation_window(activation_window)
-        
+        # REST Requests:
+        # RANKING, REGISTER, LOGIN, GAME_OVER
+
         bad_data_window = Bad_data()
         self.setup_bad_data_window(bad_data_window)
 
@@ -153,15 +163,18 @@ class Application(QApplication):
         
         login_window = Login_screen()
         self.setup_login_window(login_window)
+        self.loginWindow.set_url(self.URL)
 
         option_window = Options()
         self.setup_option_window(option_window)
 
         ranking_window = Ranking()
         self.setup_ranking_window(ranking_window)
+        self.rankingWindow.set_url(self.URL)
 
         register_window = Register()
         self.setup_register_window(register_window)
+        self.registerWindow.set_url(self.URL)
 
         play_game = PlayGame()
         self.setup_play_game(play_game)
@@ -169,16 +182,10 @@ class Application(QApplication):
 
         game_over = Game_over()
         self.setup_game_over_window(game_over)
+        self.game_over.set_url(self.URL)
 
-
-    def setup_activation_window(self, activation_window):
-        self.activationWindow = activation_window
-
-    def hide_activation_window(self):
-        self.activationWindow.hide()
-
-    def show_activation_window(self):
-        self.activationWindow.show()
+        error_server = Error_server()
+        self.error_server = error_server
 
 
     def setup_bad_data_window(self, bad_data_window):
@@ -187,8 +194,10 @@ class Application(QApplication):
     def hide_bad_data_window(self):
         self.badDataWindow.hide()
 
-    def show_bad_data_window(self):
+    def show_bad_data_window(self, description):
         self.badDataWindow.show()
+        self.badDataWindow.label_what_incorrect.setText(description)
+        self.badDataWindow.label_what_incorrect.setStyleSheet('color: red')
 
 
     def setup_game_window(self, game_window):
@@ -200,10 +209,11 @@ class Application(QApplication):
     def show_game_window(self):
         self.gameWindow.show()
 
-    def set_unvisible_login_on_game_window(self, login):
+    def set_login_on_game_window(self, login, password):
         # set login in screens
-        self.gameWindow.set_login(login)
-        self.game_over.set_login(login)
+        self.gameWindow.set_login(login, password)
+        self.game_over.set_login_game_over(login, password)
+        self.rankingWindow.set_login_password_ranking(login, password)
 
 
     def setup_login_window(self, login_window):
@@ -236,6 +246,17 @@ class Application(QApplication):
         self.rankingWindow.show()
 
 
+    def setup_error_server(self, error_server):
+        self.error_server = error_server
+
+    def hide_error_server(self):
+        self.loginWindow.show()
+        self.error_server.hide()
+
+    def show_error_server(self):
+        self.error_server.show()
+
+
     def setup_register_window(self, register_window):
         self.registerWindow = register_window
 
@@ -245,15 +266,14 @@ class Application(QApplication):
     def show_register_window(self):
         self.registerWindow.show()
 
-
     def setup_game_over_window(self, game_over):
         self.game_over = game_over
 
     def hide_game_over_window(self):
         self.game_over.hide()
 
-    def show_game_over_window(self):
-        self.game_over.set_values()
+    def show_game_over_window(self, scores):
+        self.game_over.set_values(scores)
         self.game_over.show()
 
 

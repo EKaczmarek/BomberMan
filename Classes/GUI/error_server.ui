@@ -19,27 +19,6 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <widget class="QLabel" name="label_sign_in">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>30</y>
-     <width>271</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>DATA IS INCORRECT</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="button_ok">
    <property name="geometry">
     <rect>
@@ -74,11 +53,32 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_what_incorrect">
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>110</y>
+     <width>451</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Label</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>110</y>
+     <y>40</y>
      <width>311</width>
      <height>31</height>
     </rect>
@@ -89,7 +89,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Invalid username or password</string>
+    <string>ERROR</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

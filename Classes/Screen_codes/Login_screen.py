@@ -10,16 +10,17 @@ import hashlib
 import requests
 
 import json
+import sys
+
 qtCreatorFile = os.path.join("Classes", "GUI", "login.ui")
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
 class Login_screen(QMainWindow, Ui_MainWindow):
-    URL = 'http://localhost:8080/api/users/'
 
-    logging_signal = QtCore.pyqtSignal(bool, str, str)
-    activation_signal = QtCore.pyqtSignal(bool)
+    logging_signal = QtCore.pyqtSignal(bool, str, str, str)
     to_register_window_signal = QtCore.pyqtSignal(bool)
+    error_connection_server_logging = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
@@ -28,75 +29,45 @@ class Login_screen(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
 
+        self.url = None
+
         self.button_ok.clicked.connect(self.on_button_ok_clicked)
         self.button_register.clicked.connect(self.on_register_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
-    def log_in(self, nick, password):
+    def set_url(self, url):
+        self.url = url
 
-        # below ok version
-        """AUTH = requests.auth.HTTPBasicAuth(nick, password)
-        URL = 'http://192.168.43.102:8080/api/users/'
+    def log_in(self, nickname, password):
+        try:
+            AUTH = requests.auth.HTTPBasicAuth(nickname, password)
+            URL = str(self.url) + '/api/users/'
 
-        response = requests.get(URL, auth=AUTH)
-        # Alternatively, more REST-like style:
-        # response = requests.get(requests.compat.urljoin(URL, PLAYER))
-        if response.ok:
-            player = json.loads(response.content.decode())
-            print(json.dumps(player, indent=4))
-            print()
-            return 1"""
+            response = requests.get(URL, auth=AUTH, timeout=1)
+            if response.ok:
+                print('Request successful; cached credentials can be reused in the future requests')
+                self.logging_signal.emit(True, nickname, password, 'Request successful')
+            elif response.status_code == 401:
+                print('Invalid username or password (for details parse response.text)')
+                self.logging_signal.emit(False, nickname, password, 'Invalid username/password')
+            elif response.status_code == 403:
+                print('Account not activated')
+                self.logging_signal.emit(False, nickname, password, 'Account not activated')
+            else:
+                print('Error: {} {}'.format(response.status_code, response.reason))
+        except requests.exceptions.RequestException or requests.exceptions.Timeout\
+                or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
+            text = "Can't connect to management server"
+            self.error_connection_server_logging.emit(True, text)
+            print(text)
 
-        #for my tests
-        return 1
-
-    def get_players(self):
-        self.all_players = ''
-
-        response = requests.get(self.URL)
-        if response.ok:
-            self.all_players = json.loads(response.content.decode())
-            # print(json.dumps(self.all_players, indent=4))
-            # print()
-
-    def check_if_player_is_activated(self, player):
-        # print("check if player activated")
-        response = requests.get(self.URL, params={'nickname': player})
-        # Alternatively, more REST-like style:
-        # response = requests.get(requests.compat.urljoin(URL, PLAYER))
-
-        if response.ok:
-            # TO DO
-            # sprawdzenie atrybutu activated w jsonie
-            player = json.loads(response.content.decode())
-            # print(json.dumps(player, indent=4))
-            # print()
-            return True
-        else:
-            return False
 
     @pyqtSlot()
     def on_button_ok_clicked(self):
-        # TO DO
-        # self.get_players()
-
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
 
-        nickname = "Ela"
-        password = "Gfdsgfsg"
-        # print(nickname, ", ", password)
-        # # print("all_player ", self.all_players)
-
-        # TO DO
-        # if self.check_if_player_is_activated(nickname):
-        if True:
-            if self.log_in(nickname, password):
-                self.logging_signal.emit(True, nickname, password)
-            else:
-                self.logging_signal.emit(False, nickname, password)
-        else:
-            self.activation_signal.emit(True)
+        self.log_in(nickname, password)
 
     @pyqtSlot()
     def on_register_button_clicked(self):
@@ -104,5 +75,4 @@ class Login_screen(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_exit_button_clicked(self):
-        pass
-        # sys.exit(self.app.exec_())
+        sys.exit()

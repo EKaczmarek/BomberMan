@@ -28,8 +28,9 @@ class Game(QDialog, Ui_Dialog):
         self.button_options.clicked.connect(self.on_options_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
-    def set_login(self, login):
+    def set_login(self, login, password):
         self.login = login
+        self.password = password
 
     @pyqtSlot()
     def on_button_play_clicked(self):

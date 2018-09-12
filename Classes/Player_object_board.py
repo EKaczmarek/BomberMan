@@ -18,18 +18,28 @@ class Player_object_board(object):
         self.speed = speed
 
     def set_bombs_number(self):
-        self.bombs = 2
+        self.bombs += 1
 
-    def start_timer(self):
-        time.sleep(3)
+    def start_timer_bombs_no(self):
+        time.sleep(2)
         self.reset_bombs_number()
         print("Reset bombs number")
 
     def set_speed(self):
         self.speed = 2
 
+    def start_timer_speed(self):
+        time.sleep(2)
+        self.reset_speed()
+        print("Reset players speed")
+
     def set_range_bomb(self):
-        self.range_bomb = 2
+        self.range_bomb += 1
+
+    def start_timer_bombs_range(self):
+        time.sleep(2)
+        self.reset_range_bombs()
+        print("Reset range bombs")
 
     def reset_bombs_number(self):
         self.bombs = 1

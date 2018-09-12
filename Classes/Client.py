@@ -62,9 +62,14 @@ class Client(QtCore.QObject):
                         self.get_info_from_server.emit(True, str(packet), "PLAYER_DEAD")
                     elif packet["type"] == "BOMB_BLOW":
                         self.get_info_from_server.emit(True, str(packet), "BOMB_BLOW")
+                    elif packet["type"] == "END_GAME":
+                        self.get_info_from_server.emit(True, str(packet), "END_GAME")
+
+
             except ConnectionRefusedError:
                 pass
             except ConnectionResetError:
+                # TO DO
                 print("Brak polaczenia z serwerem")
 
     def close_connection(self):

@@ -1,23 +1,24 @@
 import sys
 from Classes.Screen_codes.Application import Application
+from Classes.CONFIG.config_services import services_config
+
 
 if __name__ == "__main__":
 
-    URL = 'http://192.168.43.102:8080/api/users/'
+    services_URL = 'http://' + str(services_config['IP'] + ':' + str(services_config['port']))
     # app = QApplication(sys.argv)
     # window = Login_screen()
     # window.show()
     # sys.exit(app.exec_())
 
     application = Application(sys.argv)
-    application.setup_all_windows(URL)
-    application.show_login_window()
-    #application.play_game.run_game("Ela")
+    application.setup_all_windows(services_URL)
+    # application.show_login_window()
+    application.play_game.run_game("Ela")
     # application.show_ranking_window()
 
     # signals from interfaces
     application.loginWindow.logging_signal.connect(application.logging_signal_response)
-    application.loginWindow.activation_signal.connect(application.activation_signal_response)
 
     application.loginWindow.to_register_window_signal.connect(application.to_register_window_signal_response)
 
@@ -32,6 +33,10 @@ if __name__ == "__main__":
 
     application.rankingWindow.back_from_ranking_signal.connect(application.back_from_ranking_response)
 
+    application.rankingWindow.error_connection_server_logging.connect(application.connection_server_logging_response)
+    application.loginWindow.error_connection_server_logging.connect(application.connection_server_logging_response)
+
+    application.error_server.error_server_signal.connect(application.error_server_signal_response)
 
     # signals from game
 

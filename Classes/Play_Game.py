@@ -9,7 +9,7 @@ import ast
 
 class PlayGame(QtCore.QObject):
 
-    game_over_for_player = QtCore.pyqtSignal(bool)
+    game_over_for_player = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
         super(PlayGame, self).__init__()
@@ -42,7 +42,6 @@ class PlayGame(QtCore.QObject):
         thread = Thread(target=self.client.listening, args=[])
         thread.start()
 
-
     def setup_player(self, player):
         self.player = player
 
@@ -59,7 +58,6 @@ class PlayGame(QtCore.QObject):
     @pyqtSlot(bool, str, str)
     def have_map_params_response(self, value, params_json, flag):
         if value:
-            print("Mam login klienta !!!!!", self.client.login)
             if flag == "GET":
                 self.handle_get_from_server(params_json)
             elif flag == "MY_POS":
@@ -78,6 +76,9 @@ class PlayGame(QtCore.QObject):
                 self.handle_blowing_bomb(params_json)
                 self.client.sendMessage({"type": "BOMB_BLOW_OK"})
                 self.map_game.display_all()
+            elif flag == "END_GAME":
+                self.game_over_for_player.emit(True, params_json)
+
         else:
             pass
             # # print(".... have_map_params ", value)
@@ -89,11 +90,11 @@ class PlayGame(QtCore.QObject):
     def handle_info_dead_players_from_server(self, params_json):
         json_dead = ast.literal_eval(params_json)
         self.map_game.remove_player_from_map(json_dead)
-        for k, v in json_dead.items():
+        """for k, v in json_dead.items():
             if k == 'PLAYERS_POS':
                 for key, value in v.items():
                     if key == self.map_game.my_id:
-                        self.game_over_for_player.emit(True)
+                        self.game_over_for_player.emit(True)"""
 
     def handle_blowing_bomb(self, params_json):
         self.map_game.show_efects_blow(params_json)

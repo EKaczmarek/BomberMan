@@ -14,73 +14,87 @@ Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 class Ranking(QDialog, Ui_Dialog):
 
     back_from_ranking_signal = QtCore.pyqtSignal(bool)
+    error_connection_server_logging = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
+        self.url = None
+        self.player = None
+        self.password = None
+
         self.setWindowTitle('Bomberman')
         self.setStyleSheet("background: white")
 
+    def set_url(self, url):
+        self.url = url
+
+    def get_scores(self):
         # będzie to poniżej
-        """AUTH = requests.auth.HTTPBasicAuth('ela', '12341234')
+        print("------RANKING------")
+        print(self.player)
+        print(self.password)
 
-        URL = 'http://192.168.43.102:8080/api/ranking/'
+        try:
+            AUTH = requests.auth.HTTPBasicAuth(self.player, self.password)
+            URL = str(self.url) + '/api/ranking/'
+            print(URL)
+            # response = requests.get(URL, auth=AUTH, params={'nickname': 'ela', 'scores': 'false'})
+            response = requests.get(URL, auth=AUTH, params={'scores': 'true'}, timeout=1)
+
+            if response.ok:
+                statistics_scores = json.loads(response.content.decode())
+                print(json.dumps(statistics_scores, indent=4))
+                print()
+                self.statistics_scores = statistics_scores
+        except requests.exceptions.RequestException or requests.exceptions.Timeout \
+                or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
+            text = "Can't connect to management server"
+            self.error_connection_server_logging.emit(True, text)
+            print(text)
+
+    def get_left_bombs(self):
+        AUTH = requests.auth.HTTPBasicAuth(self.player, self.password)
+
+        URL = str(self.url) + '/api/ranking/'
         # response = requests.get(URL, auth=AUTH, params={'nickname': 'ela', 'scores': 'false'})
-        response = requests.get(URL, auth=AUTH)
+        response = requests.get(URL, auth=AUTH, params={'scores': 'false'}, timeout=1)
+        try:
+            if response.ok:
+                statistics_others = json.loads(response.content.decode())
+                print(json.dumps(statistics_others, indent=4))
+                print()
+                self.statistics_others = statistics_others
+                self.reload_all()
+            else:
+                text = "Can't connect to logging server"
+                self.error_connection_server_logging.emit(True, text)
 
-        if response.ok:
-            statistics = json.loads(response.content.decode())
-            print(json.dumps(statistics, indent=4))
-            print()"""
+        except requests.exceptions.RequestException or requests.exceptions.Timeout \
+               or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
+            text = "Can't connect to management server"
+            self.error_connection_server_logging.emit(True, text)
+            print(text)
 
-        self.statistics = {
-            'Alice': {
-                'players_count': 3,
-                'place': 1,
-            },
-            'Bob': {
-                'players_count': 3,
-                'place': 2,
-            },
-            'Charlie': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'A': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'B': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'C': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'D': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'F': {
-                'players_count': 3,
-                'place': 3,
-            },
-            'g': {
-                'players_count': 3,
-                'place': 3,
-            },
-        }
-        self.reload_all()
+    def set_login_password_ranking(self, player, password):
+        self.player = player
+        self.password = password
 
     def reload_all(self):
         row = 0
-        for k, v in self.statistics.items():
+        print(self.statistics_scores)
+        for k, v in self.statistics_scores.items():
             self.tableWidget.insertRow(row)
             self.tableWidget.setItem(row, 0, QTableWidgetItem(str(k)))
-            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
-            self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
+            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v)))
+            row += 1
+
+        row = 0
+        for k, v in self.statistics_others.items():
+            print("value ", v)
+            if len(v):
+                self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v[0]['players_count'])))
             row += 1
 
     @pyqtSlot()
@@ -89,7 +103,7 @@ class Ranking(QDialog, Ui_Dialog):
         # print(nickname)
         if nickname != '':
             to_insert = {}
-            for k, v in self.statistics.items():
+            for k, v in self.statistics_scores.items():
                 if k == nickname:
                     to_insert[k] = v
 
@@ -99,11 +113,13 @@ class Ranking(QDialog, Ui_Dialog):
                 for k, v in to_insert.items():
                     self.tableWidget.insertRow(row)
                     self.tableWidget.setItem(row, 0, QTableWidgetItem(k))
-                    self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
-                    self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
+                    if len(v) is not 0:
+                        self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
+                        self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
                     row += 1
         else:
-            self.reload_all()
+            pass
+            # self.reload_all()
 
     @pyqtSlot()
     def on_button_back_clicked(self):
