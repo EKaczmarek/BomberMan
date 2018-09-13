@@ -5,7 +5,6 @@ import os
 
 class InputBox:
 
-    pygame.init()
     COLOR_INACTIVE = pygame.Color('antiquewhite4')
     COLOR_ACTIVE = pygame.Color('black')
     FONT = pygame.font.Font(None, 32)

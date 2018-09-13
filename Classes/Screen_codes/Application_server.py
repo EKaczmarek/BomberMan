@@ -21,8 +21,7 @@ class Application_server(QApplication):
             print(self.server.info_about_players)
             self.server.send_info_to_client_game_over(self.server.info_about_players, player_id)
 
-            # TO DO WITHOUT COMMENT
-            # self.server.send_info_to_db(self.server.info_about_players)
+            self.server.send_info_to_db(self.server.info_about_players)
 
     def set_bomb_thread(self, addr, data):
         # print("begin set bomb response")

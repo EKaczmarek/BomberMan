@@ -78,6 +78,7 @@ class Server(QtCore.QObject):
                 if k == 'id':
                     res_info_about_player = i
                     break
+
         print(res_info_about_player)
         data = {"type": "END_GAME", 'SCORES': res_info_about_player}
         print("wyslano ", res_info_about_player)
@@ -125,7 +126,7 @@ class Server(QtCore.QObject):
 
                     nickname = self.find_nickname(key)
 
-                    data_player = {'id': key,
+                    data_player = {     'id': key,
                                        'nickname': nickname,
                                        'bombs': 0,
                                        'players_count': self.game_state.number_players,
@@ -192,6 +193,7 @@ class Server(QtCore.QObject):
 
         for i in info_about_players:
             name = i.pop('nickname')
+            name = i.pop('id')
             new_statistics[name] = i
         print(new_statistics)
 

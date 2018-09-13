@@ -5,7 +5,19 @@
     <bookmark url="file://$PROJECT_DIR$/Classes/Game_state.py" line="160" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9039ec18-2fc5-4cad-aa0a-c94839a12fe1" name="Default" comment="" />
+    <list default="true" id="9039ec18-2fc5-4cad-aa0a-c94839a12fe1" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Classes/CONFIG/server_config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Classes/InputBox.py" afterPath="$PROJECT_DIR$/Classes/InputBox.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Play_Game.py" afterPath="$PROJECT_DIR$/Classes/Play_Game.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Application.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Server.py" afterPath="$PROJECT_DIR$/Classes/Server.py" />
+      <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change beforePath="$PROJECT_DIR$/main_server.py" afterPath="$PROJECT_DIR$/main_server.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,41 +27,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Game_state.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Game_state.py">
+      <file leaf-file-name="main_server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7266">
-              <caret line="355" column="32" lean-forward="false" selection-start-line="355" selection-start-column="8" selection-end-line="355" selection-end-column="32" />
+            <state relative-caret-position="493">
+              <caret line="40" column="19" lean-forward="true" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ranking_screen.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="970">
+              <caret line="124" column="16" lean-forward="true" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Application_server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application_server.py">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="29" column="62" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="74">
+              <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player_object_board.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Player_object_board.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/requests/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="30" column="32" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="16" column="41" lean-forward="false" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
+            <state relative-caret-position="53">
+              <caret line="824" column="0" lean-forward="false" selection-start-line="824" selection-start-column="0" selection-end-line="824" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -58,29 +72,65 @@
       <file leaf-file-name="Application.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="86">
+              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game_over_screen.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_over_screen.py">
+      <file leaf-file-name="Game_screen.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="819">
-              <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+            <state relative-caret-position="86">
+              <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Application_server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application_server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="151">
+              <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1671">
-              <caret line="117" column="41" lean-forward="false" selection-start-line="117" selection-start-column="41" selection-end-line="117" selection-end-column="41" />
+            <state relative-caret-position="100">
+              <caret line="195" column="29" lean-forward="false" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Label.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Label.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,36 +146,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>send_info_to_db</find>
-      <find>player_lost_game</find>
-      <find>game_over_for_player</find>
-      <find>show_game_over_window</find>
-      <find>set_login_game_over</find>
-      <find>get_players</find>
-      <find>print(&quot;Can't connect to logging server&quot;)</find>
-      <find>Can't connect to logging server</find>
-      <find>requests.get(URL, auth=AUTH</find>
-      <find>auth=AUTH</find>
-      <find>auth=AUT</find>
-      <find>api</find>
-      <find>reset</find>
-      <find>start_timer</find>
-      <find>request.</find>
-      <find>requests.exceptions.TooManyRedirects:</find>
-      <find>error_ser</find>
-      <find>self.error_server.hi</find>
-      <find>error_server_signal</find>
-      <find>error_server.sho</find>
-      <find>timeout</find>
-      <find>timeout=3</find>
-      <find>start_timer_bombs_range</find>
-      <find>range_bomb</find>
-      <find>count_whe</find>
-      <find>player_can_leave_bomb</find>
-      <find>get_players_speed</find>
-      <find>find_new_player_position</find>
-      <find>\n</find>
-      <find>print()</find>
+      <find>game over</find>
+      <find>post</find>
+      <find>/api/user</find>
+      <find>api/user</find>
+      <find>api/us</find>
+      <find>privi</find>
+      <find>api/users</find>
+      <find>requ</find>
+      <find>game_window</find>
+      <find>show_game_window</find>
+      <find>POST</find>
+      <find>gameWind</find>
+      <find>api/</find>
+      <find>requests.get</find>
+      <find>set_login</find>
+      <find>get_servers</find>
+      <find>192.16</find>
+      <find>place</find>
+      <find>GAME OVER</find>
+      <find>id</find>
+      <find>statisti</find>
+      <find>wyslano</find>
+      <find>GAME OVE</find>
+      <find>END_GAME</find>
+      <find>TO_DB</find>
+      <find>players_cou</find>
+      <find>/api/ranki</find>
+      <find>scores</find>
+      <find>statistics_scores</find>
+      <find>setRowCount</find>
     </findStrings>
     <replaceStrings>
       <replace>self.rect[&quot;ME&quot;]</replace>
@@ -173,24 +223,24 @@
         <option value="$PROJECT_DIR$/Classes/Powerup.py" />
         <option value="$PROJECT_DIR$/Classes/Player.py" />
         <option value="$PROJECT_DIR$/Classes/Board.py" />
-        <option value="$PROJECT_DIR$/main_server.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/server_config" />
         <option value="$PROJECT_DIR$/Classes/config_services" />
         <option value="$PROJECT_DIR$/Classes/config_services.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" />
         <option value="$PROJECT_DIR$/Classes/Client.py" />
-        <option value="$PROJECT_DIR$/Classes/Play_Game.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py" />
         <option value="$PROJECT_DIR$/Classes/Player_object_board.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Error_server.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Classes/Game_state.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Game_over_screen.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
+        <option value="$PROJECT_DIR$/main_server.py" />
+        <option value="$PROJECT_DIR$/Classes/Play_Game.py" />
         <option value="$PROJECT_DIR$/Classes/Server.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" />
       </list>
     </option>
   </component>
@@ -214,6 +264,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -230,25 +281,12 @@
               <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
               <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
               <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="CONFIG" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen_codes" type="462c0819:PsiDirectoryNode" />
+              <item name="Pictures" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -283,6 +321,24 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="Game_screen" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Classes/Screen_codes" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BomberMan" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="Server" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -427,7 +483,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <list size="8">
+    <list size="9">
       <item index="0" class="java.lang.String" itemvalue="Python.Server" />
       <item index="1" class="java.lang.String" itemvalue="Python.main" />
       <item index="2" class="java.lang.String" itemvalue="Python.UserActivation" />
@@ -436,11 +492,13 @@
       <item index="5" class="java.lang.String" itemvalue="Python.main_server" />
       <item index="6" class="java.lang.String" itemvalue="Python.main_server (1)" />
       <item index="7" class="java.lang.String" itemvalue="Python.file" />
+      <item index="8" class="java.lang.String" itemvalue="Python.Game_screen" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.main_server (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.file" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.Game_screen" />
+        <item index="1" class="java.lang.String" itemvalue="Python.main_server (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.file" />
       </list>
     </recent_temporary>
   </component>
@@ -472,22 +530,22 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2544643" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21279761" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14967105" sideWeight="0.18303572" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14967105" sideWeight="0.81696427" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15460527" sideWeight="0.20535715" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298611" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32730263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15460527" sideWeight="0.79464287" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2911184" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.088815786" sideWeight="0.6354167" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.013157895" sideWeight="0.62053573" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.117803834" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298611" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
@@ -545,11 +603,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Classes/Server.py</url>
-          <line>84</line>
-          <option name="timeStamp" value="555" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Classes/Player_object_board.py</url>
           <line>44</line>
           <option name="timeStamp" value="562" />
@@ -558,6 +611,31 @@
           <url>file://$PROJECT_DIR$/Classes/Game_state.py</url>
           <line>185</line>
           <option name="timeStamp" value="563" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Game_over_screen.py</url>
+          <line>38</line>
+          <option name="timeStamp" value="564" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="565" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="569" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="570" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py</url>
+          <line>67</line>
+          <option name="timeStamp" value="571" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -570,7 +648,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="564" />
+      <option name="time" value="572" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -584,22 +662,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Classes/main_server.py" />
-    <entry file="file://$PROJECT_DIR$/Classes/Application.py" />
-    <entry file="file://$PROJECT_DIR$/Classes/GUI/bad_data.ui">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="34" lean-forward="false" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-2131893080/PyQt5/QtWidgets/QApplication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="85" column="8" lean-forward="false" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Bomb.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -684,27 +746,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/requests/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="813" column="0" lean-forward="false" selection-start-line="813" selection-start-column="0" selection-end-line="813" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/CONFIG/server_config">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -717,42 +758,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/config_services.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Board.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="263" column="0" lean-forward="false" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="65" column="83" lean-forward="false" selection-start-line="65" selection-start-column="75" selection-end-line="65" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Play_Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -840,13 +845,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="65" column="56" lean-forward="false" selection-start-line="65" selection-start-column="56" selection-end-line="65" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -875,58 +873,170 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="29" column="62" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Player_object_board.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="30" column="32" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="16" column="41" lean-forward="false" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
+        <state relative-caret-position="231">
+          <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Game_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7266">
+        <state relative-caret-position="21">
           <caret line="355" column="32" lean-forward="false" selection-start-line="355" selection-start-column="8" selection-end-line="355" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/InputBox.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-523">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Board.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="82" column="0" lean-forward="true" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-2131893080/PyQt5/QtWidgets/QApplication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="37" column="33" lean-forward="true" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/config_services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/xml/etree/ElementTree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="588" column="30" lean-forward="true" selection-start-line="588" selection-start-column="30" selection-end-line="588" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_over_screen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="819">
-          <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+        <state relative-caret-position="107">
+          <caret line="36" column="33" lean-forward="true" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Play_Game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="45" column="35" lean-forward="true" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Label.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="40" column="19" lean-forward="true" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1671">
-          <caret line="117" column="41" lean-forward="false" selection-start-line="117" selection-start-column="41" selection-end-line="117" selection-end-column="41" />
+        <state relative-caret-position="100">
+          <caret line="195" column="29" lean-forward="false" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/requests/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="824" column="0" lean-forward="false" selection-start-line="824" selection-start-column="0" selection-end-line="824" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="970">
+          <caret line="124" column="16" lean-forward="true" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
           <folding />
         </state>
       </provider>

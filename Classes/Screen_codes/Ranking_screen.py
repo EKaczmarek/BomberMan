@@ -31,7 +31,6 @@ class Ranking(QDialog, Ui_Dialog):
         self.url = url
 
     def get_scores(self):
-        # będzie to poniżej
         print("------RANKING------")
         print(self.player)
         print(self.password)
@@ -44,10 +43,10 @@ class Ranking(QDialog, Ui_Dialog):
             response = requests.get(URL, auth=AUTH, params={'scores': 'true'}, timeout=1)
 
             if response.ok:
-                statistics_scores = json.loads(response.content.decode())
-                print(json.dumps(statistics_scores, indent=4))
+                self.statistics_others = json.loads(response.content.decode())
+                print(json.dumps(self.statistics_others, indent=4))
                 print()
-                self.statistics_scores = statistics_scores
+
         except requests.exceptions.RequestException or requests.exceptions.Timeout \
                 or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
             text = "Can't connect to management server"
@@ -83,8 +82,8 @@ class Ranking(QDialog, Ui_Dialog):
 
     def reload_all(self):
         row = 0
-        print(self.statistics_scores)
-        for k, v in self.statistics_scores.items():
+        print(self.statistics_others)
+        for k, v in self.statistics_others.items():
             self.tableWidget.insertRow(row)
             self.tableWidget.setItem(row, 0, QTableWidgetItem(str(k)))
             self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v)))
@@ -100,22 +99,27 @@ class Ranking(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_button_search_clicked(self):
         nickname = self.lineEdit_nickname.text()
-        # print(nickname)
+        print("self.statisctics_others ", self.statistics_others)
         if nickname != '':
             to_insert = {}
-            for k, v in self.statistics_scores.items():
+            for k, v in self.statistics_others.items():
                 if k == nickname:
                     to_insert[k] = v
 
             row = 0
+            print("to insert ", to_insert)
             if to_insert != {}:
                 self.tableWidget.setRowCount(0)
                 for k, v in to_insert.items():
+                    print("k ", k)
+                    print("v ", v)
                     self.tableWidget.insertRow(row)
                     self.tableWidget.setItem(row, 0, QTableWidgetItem(k))
-                    if len(v) is not 0:
-                        self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v['players_count'])))
-                        self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v['place'])))
+                    for j in v:
+                        if j is not []:
+                            print("value ", j)
+                            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(j['players_count'])))
+                            self.tableWidget.setItem(row, 2, QTableWidgetItem(str(j['place'])))
                     row += 1
         else:
             pass

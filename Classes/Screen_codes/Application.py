@@ -1,6 +1,7 @@
 
 from PyQt5.QtWidgets import QApplication
 import sys
+import pygame
 
 from Classes.Screen_codes.Bad_data_screen import Bad_data
 from Classes.Screen_codes.Game_screen import Game
@@ -44,12 +45,16 @@ class Application(QApplication):
             print("with password ", password)
 
             self.hide_login_window()
+
+            self.gameWindow.get_servers(login, password)
             self.show_game_window()
+
+            # GET
+
             self.set_login_on_game_window(login, password)
         else:
             self.hide_login_window()
             self.show_bad_data_window(description)
-
 
     @pyqtSlot(bool)
     def to_register_window_signal_response(self, value):
@@ -114,7 +119,7 @@ class Application(QApplication):
     def player_lost_game(self, value, scores):
         if value:
             print("player_lost_game_signal")
-            self.play_game.is_running = False
+            # self.player.is_running = False
             # self.play_game.map_game.quit_game()
             self.show_game_over_window(scores)
 
@@ -256,7 +261,6 @@ class Application(QApplication):
     def show_error_server(self):
         self.error_server.show()
 
-
     def setup_register_window(self, register_window):
         self.registerWindow = register_window
 
@@ -275,7 +279,6 @@ class Application(QApplication):
     def show_game_over_window(self, scores):
         self.game_over.set_values(scores)
         self.game_over.show()
-
 
     def setup_play_game(self, play_game):
         self.play_game = play_game
