@@ -58,35 +58,38 @@ class Player(QtCore.QObject):
                 self.other_players_rects.append({key: pygame.Rect(y_pixels_others, x_pixels_others, 50, 50)})
 
     def handle_moves(self):
-        while self.is_running is True:
-            for e in pygame.event.get():
-                if e.type == pygame.KEYDOWN:
-                    if e.key == pygame.K_LEFT:
-                        self.move(-50, 0)
-                    if e.key == pygame.K_RIGHT:
-                        self.move(50, 0)
-                    if e.key == pygame.K_UP:
-                        self.move(0, -50)
-                    if e.key == pygame.K_DOWN:
-                        self.move(0, 50)
-                    if e.key == pygame.K_b:
-                        bomb_explode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
-                        pygame.mixer.Sound.play(bomb_explode)
-                        self.send_to_server_info_bomb()
+        try:
+            while self.is_running is True:
+                for e in pygame.event.get():
+                    if e.type == pygame.KEYDOWN:
+                        if e.key == pygame.K_LEFT:
+                            self.move(-50, 0)
+                        if e.key == pygame.K_RIGHT:
+                            self.move(50, 0)
+                        if e.key == pygame.K_UP:
+                            self.move(0, -50)
+                        if e.key == pygame.K_DOWN:
+                            self.move(0, 50)
+                        if e.key == pygame.K_b:
+                            bomb_explode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
+                            pygame.mixer.Sound.play(bomb_explode)
+                            self.send_to_server_info_bomb()
 
-                # actions = clicking Exit, Menu
-                if e.type == pygame.QUIT:
-                    break
+                    # actions = clicking Exit, Menu
+                    if e.type == pygame.QUIT:
+                        self.is_running = False
 
-                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                    self.exit_key = True
-                    self.send_message_to_server("EXIT")
-                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                    mouse = pygame.mouse.get_pos()
-                    """if self.board.exitBtn.button.collidepoint(mouse):
+                    if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                        self.exit_key = True
                         self.send_message_to_server("EXIT")
-                        self.exit_key = True"""
-
+                    if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                        mouse = pygame.mouse.get_pos()
+                        """if self.board.exitBtn.button.collidepoint(mouse):
+                            self.send_message_to_server("EXIT")
+                            self.exit_key = True"""
+            pygame.quit()
+        except:
+            pygame.quit()
 
 
     def move(self, dx, dy):

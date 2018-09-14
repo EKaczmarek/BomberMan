@@ -32,7 +32,7 @@ class PlayGame(QtCore.QObject):
 
     def run_game(self, login):
         # # print("In main game")
-        self.client.connect_to_serwer("192.168.43.75")
+        self.client.connect_to_serwer("192.168.0.101")
 
         self.client.login = login
         # get map from server

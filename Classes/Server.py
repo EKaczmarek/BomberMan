@@ -4,6 +4,7 @@ import json
 from PyQt5 import QtCore
 import time
 import requests
+from threading import Thread
 
 class Server(QtCore.QObject):
 
@@ -32,6 +33,11 @@ class Server(QtCore.QObject):
             self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.s.bind((self.host, self.port))
             self.game_state = gs.Game_state()
+
+            self.game_state.rand_board()
+            board = self.game_state.board
+            self.game_state.set_board(board)
+
         except ConnectionRefusedError as err:
             self.s.close()
 
@@ -106,11 +112,7 @@ class Server(QtCore.QObject):
             # lista self.players_number_to_name
             self.players_number_to_name.append(self.pl_number_name)
             print("Odwzorowowanie number gracza - login ", self.players_number_to_name)
-
-            self.game_state.rand_board()
-            board = self.game_state.board
-
-            self.game_state.set_board(board)
+            self.to_send = {}
 
             # TO DO
             self.player_nr += 1
@@ -119,34 +121,44 @@ class Server(QtCore.QObject):
             # TO DO oczekiwanie na graczy
             self.game_state.number_players = self.player_nr + 1
             print(self.game_state.number_players)
-            if self.game_state.number_players > 1:
+
+            if self.game_state.number_players > 1: # >
                 self.game_state.place = self.game_state.number_players
 
                 for key, value in self.dict_players.items():
-
-                    nickname = self.find_nickname(key)
-
-                    data_player = {     'id': key,
-                                       'nickname': nickname,
-                                       'bombs': 0,
-                                       'players_count': self.game_state.number_players,
-                                       'place': 0}
-
-                    print(data_player)
-                    self.info_about_players.append(data_player)
-
-                    payload = {"type": "GET",
-                                   "status": 200, key: self.players_to_send[key],
-                                   "players": self.players_to_send,
-                                   "board": board}
-                    self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
-                    x = self.players_to_send[key]["x"]
-                    y = self.players_to_send[key]["y"]
-                    self.game_state.update_player_position(key, (x, y))
+                    self.send_info_players_game(key, value)
             else:
                 print("No one to play :(")
                 # TO DO
                 # send info to client that no one to play
+
+            for k, v in self.to_send.items():
+                self.s.sendto((json.dumps(self.to_send[k])).encode("utf-8"), k)
+
+    def send_info_players_game(self, key, value):
+        nickname = self.find_nickname(key)
+
+        data_player = {'id': key,
+                       'nickname': nickname,
+                       'bombs': 0,
+                       'players_count': self.game_state.number_players,
+                       'place': 0}
+
+        print(data_player)
+        self.info_about_players.append(data_player)
+
+        payload = {"type": "GET",
+                   "status": 200, key: self.players_to_send[key],
+                   "players": self.players_to_send,
+                   "board": self.game_state.board}
+
+        # self.s.sendto((json.dumps(payload)).encode("utf-8"), value)
+
+        self.to_send[value] = payload
+
+        x = self.players_to_send[key]["x"]
+        y = self.players_to_send[key]["y"]
+        self.game_state.update_player_position(key, (x, y))
 
     def reaction_on_pos(self, addr, data):
         id = self.get_player_id(addr)

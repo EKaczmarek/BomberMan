@@ -124,7 +124,9 @@ class Application(QApplication):
         if value:
             print("player_lost_game_signal")
             # self.player.is_running = False
+
             # self.play_game.map_game.quit_game()
+            pygame.quit()
             self.show_game_over_window(scores)
 
     @pyqtSlot(bool)

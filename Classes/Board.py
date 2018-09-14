@@ -7,8 +7,6 @@ from Classes.Player_object import Player_object
 from Classes.Bomb import Bomb
 from Classes.Powerup import Powerup
 import ast
-import sys
-
 class Board(object):
     level = None
     my_id = 0
@@ -254,8 +252,6 @@ class Board(object):
                     return True
         return False
 
-    def quit_game(self):
-        pygame.quit()
 
     def display_all(self):
 
