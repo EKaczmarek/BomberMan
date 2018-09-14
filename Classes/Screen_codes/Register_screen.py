@@ -6,12 +6,17 @@ import http.client
 import json
 import requests
 import time
+import sys
+
+from PyQt5 import QtCore
 
 qtCreatorFile = "Classes/GUI/register.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class Register(QDialog, Ui_Dialog):
 
+    back_to_login_window = QtCore.pyqtSignal(bool)
+    error_connection_server_logging = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
         QDialog.__init__(self, parent)
@@ -69,8 +74,8 @@ class Register(QDialog, Ui_Dialog):
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):
-        self.close()
+        self.back_to_login_window.emit(True)
 
     @pyqtSlot()
     def on_button_exit_clicked(self):
-        sys.exit(self.app.exec_())
+        sys.exit(0)

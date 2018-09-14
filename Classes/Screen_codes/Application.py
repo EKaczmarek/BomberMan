@@ -101,19 +101,23 @@ class Application(QApplication):
             self.hide_ranking_window()
             self.show_game_window()
 
+    @pyqtSlot(bool)
+    def back_from_register_response(self, value):
+        if value:
+            self.hide_register_window()
+            self.show_login_window()
+
     @pyqtSlot(bool, str)
     def connection_server_logging_response(self, value, response):
         if value:
             print(response)
             self.error_server.set_label(response)
-            self.loginWindow.hide()
             self.show_error_server()
 
     @pyqtSlot(bool)
     def error_server_signal_response(self, value):
         if value:
             self.error_server.hide()
-            self.loginWindow.show()
 
     @pyqtSlot(bool, str)
     def player_lost_game(self, value, scores):

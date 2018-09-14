@@ -43,6 +43,7 @@ class Login_screen(QMainWindow, Ui_MainWindow):
             AUTH = requests.auth.HTTPBasicAuth(nickname, password)
             URL = str(self.url) + '/api/users/'
 
+            print("URL ", URL)
             response = requests.get(URL, auth=AUTH, timeout=1)
             if response.ok:
                 print('Request successful; cached credentials can be reused in the future requests')
@@ -66,7 +67,6 @@ class Login_screen(QMainWindow, Ui_MainWindow):
     def on_button_ok_clicked(self):
         nickname = self.lineEdit_nickname.text()
         password = self.lineEdit_password.text()
-
         self.log_in(nickname, password)
 
     @pyqtSlot()

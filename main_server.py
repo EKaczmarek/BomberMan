@@ -19,7 +19,7 @@ if __name__ == "__main__":
     services_URL = 'http://' + str(services_config['IP'] + ':' + str(services_config['port']))
 
     new_server = {
-        "name": "foo23",
+        "name": "foo123",
         "ip": "192.168.43.75",
         "port": random.randint(8888, 9999),
         "max_players_count": 20

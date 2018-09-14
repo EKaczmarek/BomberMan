@@ -6,14 +6,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9039ec18-2fc5-4cad-aa0a-c94839a12fe1" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/management_server/email_sender.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/management_server/management_server.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/management_server/user_activation.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Classes/CONFIG/server_config" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Classes/InputBox.py" afterPath="$PROJECT_DIR$/Classes/InputBox.py" />
-      <change beforePath="$PROJECT_DIR$/Classes/Play_Game.py" afterPath="$PROJECT_DIR$/Classes/Play_Game.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/CONFIG/config_services.py" afterPath="$PROJECT_DIR$/Classes/CONFIG/config_services.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/GUI/login.ui" afterPath="$PROJECT_DIR$/Classes/GUI/login.ui" />
+      <change beforePath="$PROJECT_DIR$/Classes/GUI/register.ui" afterPath="$PROJECT_DIR$/Classes/GUI/register.ui" />
       <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Application.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
-      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" />
-      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
-      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
+      <change beforePath="$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py" afterPath="$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py" />
       <change beforePath="$PROJECT_DIR$/Classes/Server.py" afterPath="$PROJECT_DIR$/Classes/Server.py" />
       <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change beforePath="$PROJECT_DIR$/main_server.py" afterPath="$PROJECT_DIR$/main_server.py" />
@@ -27,43 +29,63 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main_server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_server.py">
+      <file leaf-file-name="Register_screen.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="40" column="19" lean-forward="true" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
+            <state relative-caret-position="89">
+              <caret line="76" column="44" lean-forward="false" selection-start-line="76" selection-start-column="44" selection-end-line="76" selection-end-column="44" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#61#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ranking_screen.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Login_screen.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="61" column="48" lean-forward="false" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Error_server.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Error_server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="management_server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/management_server/management_server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="116">
+              <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server_config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/CONFIG/server_config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="42">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ranking_screen.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="970">
-              <caret line="124" column="16" lean-forward="true" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
-              <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/requests/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="53">
-              <caret line="824" column="0" lean-forward="false" selection-start-line="824" selection-start-column="0" selection-end-line="824" selection-end-column="0" />
+            <state relative-caret-position="-47">
+              <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="8" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -72,53 +94,9 @@
       <file leaf-file-name="Application.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+            <state relative-caret-position="316">
+              <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Game_screen.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Application_server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application_server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="195" column="29" lean-forward="false" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Label.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Label.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -126,8 +104,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+            <state relative-caret-position="92">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -146,15 +124,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>game over</find>
-      <find>post</find>
-      <find>/api/user</find>
-      <find>api/user</find>
-      <find>api/us</find>
-      <find>privi</find>
-      <find>api/users</find>
-      <find>requ</find>
-      <find>game_window</find>
       <find>show_game_window</find>
       <find>POST</find>
       <find>gameWind</find>
@@ -172,10 +141,19 @@
       <find>END_GAME</find>
       <find>TO_DB</find>
       <find>players_cou</find>
-      <find>/api/ranki</find>
       <find>scores</find>
       <find>statistics_scores</find>
       <find>setRowCount</find>
+      <find>/api/ranki</find>
+      <find>send info about game over client</find>
+      <find>'id</find>
+      <find>pop</find>
+      <find>lineEdit_password</find>
+      <find>error_server_signal</find>
+      <find>error_server_signal_respons</find>
+      <find>error_server_signal_response</find>
+      <find>reg</find>
+      <find>error_connection_server_logging</find>
     </findStrings>
     <replaceStrings>
       <replace>self.rect[&quot;ME&quot;]</replace>
@@ -228,19 +206,21 @@
         <option value="$PROJECT_DIR$/Classes/config_services.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Application_server.py" />
         <option value="$PROJECT_DIR$/Classes/Client.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py" />
         <option value="$PROJECT_DIR$/Classes/Player_object_board.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Error_server.py" />
         <option value="$PROJECT_DIR$/Classes/Game_state.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Game_over_screen.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py" />
-        <option value="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
-        <option value="$PROJECT_DIR$/main_server.py" />
         <option value="$PROJECT_DIR$/Classes/Play_Game.py" />
-        <option value="$PROJECT_DIR$/Classes/Server.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py" />
+        <option value="$PROJECT_DIR$/main_server.py" />
+        <option value="$PROJECT_DIR$/Classes/Server.py" />
+        <option value="$PROJECT_DIR$/management_server/management_server.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py" />
+        <option value="$PROJECT_DIR$/Classes/CONFIG/config_services.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Error_server.py" />
+        <option value="$PROJECT_DIR$/Classes/Screen_codes/Application.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -264,7 +244,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -281,31 +261,49 @@
               <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
               <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
               <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Pictures" type="462c0819:PsiDirectoryNode" />
+              <item name="CONFIG" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+              <item name="GUI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+              <item name="Screen_codes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BomberMan-master" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BomberMan-master" type="462c0819:PsiDirectoryNode" />
+              <item name="management_server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rafal\Desktop\BomberMan-master\management_server" />
+      <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes\Screen_codes" />
+      <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes" />
+      <recent name="C:\Users\Ela\OneDrive\Sem6\PZ\BomberMan\Classes" />
+      <recent name="C:\Users\Ela\OneDrive\Sem6\PZ\BomberMan\Classes\Screen_codes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes\CONFIG" />
       <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes\Screen_codes" />
       <recent name="C:\Users\rafal\Desktop\BomberMan-master" />
       <recent name="C:\Users\Ela\OneDrive\Sem6\PZ\BomberMan\Classes" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes\Screen_codes" />
-      <recent name="C:\Users\rafal\Desktop\BomberMan-master\Classes" />
-      <recent name="C:\Users\Ela\OneDrive\Sem6\PZ\BomberMan\Classes" />
-      <recent name="C:\Users\Ela\OneDrive\Sem6\PZ\BomberMan\Classes\Screen_codes" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -375,19 +373,19 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="file" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="email_sender" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Classes/Screen_codes" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/management_server" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="BomberMan" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Screen_codes/file.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/management_server/email_sender.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -447,6 +445,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="management_server (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/management_server" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BomberMan" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/management_server/management_server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="management_server" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -460,6 +476,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="BomberMan" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Classes/Management_server/management_server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="user_activation (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/management_server" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BomberMan" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/management_server/user_activation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -483,7 +517,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <list size="9">
+    <list size="11">
       <item index="0" class="java.lang.String" itemvalue="Python.Server" />
       <item index="1" class="java.lang.String" itemvalue="Python.main" />
       <item index="2" class="java.lang.String" itemvalue="Python.UserActivation" />
@@ -491,14 +525,18 @@
       <item index="4" class="java.lang.String" itemvalue="Python.user_activation" />
       <item index="5" class="java.lang.String" itemvalue="Python.main_server" />
       <item index="6" class="java.lang.String" itemvalue="Python.main_server (1)" />
-      <item index="7" class="java.lang.String" itemvalue="Python.file" />
-      <item index="8" class="java.lang.String" itemvalue="Python.Game_screen" />
+      <item index="7" class="java.lang.String" itemvalue="Python.Game_screen" />
+      <item index="8" class="java.lang.String" itemvalue="Python.email_sender" />
+      <item index="9" class="java.lang.String" itemvalue="Python.management_server (1)" />
+      <item index="10" class="java.lang.String" itemvalue="Python.user_activation (1)" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.Game_screen" />
-        <item index="1" class="java.lang.String" itemvalue="Python.main_server (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.file" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.management_server (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.user_activation (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.email_sender" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Game_screen" />
+        <item index="4" class="java.lang.String" itemvalue="Python.main_server (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -529,14 +567,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21279761" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30059522" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15460527" sideWeight="0.20535715" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27302632" sideWeight="0.11383928" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298611" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32730263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15460527" sideWeight="0.79464287" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27302632" sideWeight="0.88616073" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2911184" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -637,6 +676,10 @@
           <line>67</line>
           <option name="timeStamp" value="571" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py</url>
+          <option name="timeStamp" value="572" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -648,7 +691,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="572" />
+      <option name="time" value="573" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -662,48 +705,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Classes/Bomb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="42" lean-forward="true" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Activation_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="20" column="65" lean-forward="true" selection-start-line="20" selection-start-column="65" selection-end-line="20" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/encoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="198" column="0" lean-forward="false" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/decoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="340" column="0" lean-forward="false" selection-start-line="340" selection-start-column="0" selection-end-line="340" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="863" column="0" lean-forward="false" selection-start-line="863" selection-start-column="0" selection-end-line="863" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="331" column="0" lean-forward="false" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/file.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -746,13 +747,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/server_config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/server_config" />
     <entry file="file://$PROJECT_DIR$/Classes/config_services" />
     <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-2131893080/PyQt5/QtCore/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -838,27 +833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="45" column="50" lean-forward="false" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Error_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="11" column="23" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharmCE2017.3/system/python_stubs/-2131893080/PyQt5/QtWidgets/QGraphicsItem.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -893,7 +867,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-523">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -921,14 +894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/config_services.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/xml/etree/ElementTree.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
@@ -949,7 +914,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="45" column="35" lean-forward="true" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -957,9 +921,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -967,59 +928,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
           <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="40" column="19" lean-forward="true" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="195" column="29" lean-forward="false" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="15" column="35" lean-forward="true" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Game_screen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
+        <state relative-caret-position="1176">
           <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/requests/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="53">
+        <state relative-caret-position="16611">
           <caret line="824" column="0" lean-forward="false" selection-start-line="824" selection-start-column="0" selection-end-line="824" selection-end-column="0" />
           <folding />
         </state>
@@ -1027,16 +951,136 @@
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/json/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
+        <state relative-caret-position="4725">
           <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="30" lean-forward="false" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#10#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="81" column="36" lean-forward="false" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/management_server/user_activation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-308">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/management_server/email_sender.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-575">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Ranking_screen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="970">
-          <caret line="124" column="16" lean-forward="true" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
+        <state relative-caret-position="-47">
+          <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="8" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/management_server/management_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/server_config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/CONFIG/config_services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="20" lean-forward="false" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Register_screen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="76" column="44" lean-forward="false" selection-start-line="76" selection-start-column="44" selection-end-line="76" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/pymongo/topology.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/Lib/site-packages/cherrypy/_cprequest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="686" column="0" lean-forward="false" selection-start-line="686" selection-start-column="0" selection-end-line="686" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Login_screen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="61" column="48" lean-forward="false" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Application.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Screen_codes/Error_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
           <folding />
         </state>
       </provider>

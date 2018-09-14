@@ -193,9 +193,9 @@ class Server(QtCore.QObject):
 
         for i in info_about_players:
             name = i.pop('nickname')
-            name = i.pop('id')
+            id = i.pop('id')
             new_statistics[name] = i
-        print(new_statistics)
+        print("new statistics ", new_statistics)
 
         try:
             URL = 'http://192.168.43.102:8080/api/privileged/ranking/'

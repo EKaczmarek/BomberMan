@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
     application = Application(sys.argv)
     application.setup_all_windows(services_URL)
-    application.show_login_window()
-    # application.play_game.run_game("Ela")
+    # application.show_login_window()
+    application.play_game.run_game("Ela")
     # application.show_ranking_window()
 
     # signals from interfaces
@@ -35,9 +35,10 @@ if __name__ == "__main__":
 
     application.rankingWindow.error_connection_server_logging.connect(application.connection_server_logging_response)
     application.loginWindow.error_connection_server_logging.connect(application.connection_server_logging_response)
-
+    application.registerWindow.error_connection_server_logging.connect(application.connection_server_logging_response)
     application.error_server.error_server_signal.connect(application.error_server_signal_response)
 
+    application.registerWindow.back_to_login_window.connect(application.back_from_register_response)
     # signals from game
 
     # client received information from server

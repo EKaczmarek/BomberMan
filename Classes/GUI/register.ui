@@ -120,26 +120,6 @@
     <string>Registration</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_nickname">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>140</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_password">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>190</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="button_exit">
    <property name="geometry">
     <rect>
@@ -172,16 +152,6 @@
    </property>
    <property name="flat">
     <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_email">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>90</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label_email">
@@ -220,16 +190,6 @@
     <string>Re-password</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_repassword">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>240</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -241,6 +201,52 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_email">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>90</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_nickname">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>140</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_password">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>190</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_repassword">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>240</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
  </widget>
