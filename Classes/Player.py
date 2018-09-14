@@ -14,7 +14,7 @@ from PyQt5.QtCore import pyqtSlot
 
 
 class Player(QtCore.QObject):
-
+    button_clicked_on_pygame = QtCore.pyqtSignal(bool, tuple)
     # client to connect with server
 
     walls = []  # List to hold walls
@@ -84,9 +84,10 @@ class Player(QtCore.QObject):
                         self.send_message_to_server("EXIT")
                     if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                         mouse = pygame.mouse.get_pos()
-                        """if self.board.exitBtn.button.collidepoint(mouse):
-                            self.send_message_to_server("EXIT")
-                            self.exit_key = True"""
+                        print("typ mouse ", type(mouse))
+                        self.button_clicked_on_pygame.emit(True, mouse)
+
+
             pygame.quit()
         except:
             pygame.quit()

@@ -44,11 +44,12 @@ if __name__ == "__main__":
     # client received information from server
     # GET - map from server
     # POS - position of player
+    application.play_game.player.button_clicked_on_pygame.connect(application.play_game.button_clicked_on_pygame_response)
     application.play_game.client.get_info_from_server.connect(application.play_game.have_map_params_response)
 
     # signal when player has moved
     application.play_game.player.player_has_moved.connect(application.play_game.player_has_moved_response)
-
+    application.play_game.error_connection_server_logging.connect(application.error_server_signal_response)
     # signal when player has left bomb
     application.play_game.player.player_has_left_bomb.connect(application.play_game.player_has_left_bomb_response)
 

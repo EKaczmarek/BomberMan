@@ -189,6 +189,7 @@ class Application(QApplication):
 
         play_game = PlayGame()
         self.setup_play_game(play_game)
+        self.play_game.set_url(self.URL)
         self.play_game.setup_all()
 
         game_over = Game_over()

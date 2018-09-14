@@ -5,11 +5,15 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtCore
 from threading import Thread
 import ast
-
+import pygame
+import requests
+import json
 
 class PlayGame(QtCore.QObject):
 
     game_over_for_player = QtCore.pyqtSignal(bool, str)
+
+    error_connection_server_logging = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
         super(PlayGame, self).__init__()
@@ -19,6 +23,9 @@ class PlayGame(QtCore.QObject):
         self.client = None
 
         self.is_running = False
+
+    def set_url(self, url):
+        self.url = url
 
     def setup_all(self):
         player = Player()
@@ -55,6 +62,44 @@ class PlayGame(QtCore.QObject):
     def get_map(self, login):
         self.is_running = True
         self.client.sendMessage({"type": "GET", "login": login})
+
+    @pyqtSlot(bool, tuple)
+    def button_clicked_on_pygame_response(self, value, mouse_pos):
+        if value:
+            print("in signaln button_clicked_on_pygame_response")
+
+            if self.map_game.exitBtn.button.collidepoint(mouse_pos):
+                print("Kliknieto na exit")
+                self.client.sendMessage({"type": "EXIT"})
+                pygame.quit()
+
+            elif self.map_game.menuBtn.button.collidepoint(mouse_pos):
+                print("Kliknieto na back ")
+                self.client.sendMessage({"type": "EXIT"})
+                print("login ", self.client.login)
+
+                pygame.quit()
+
+                # TO DO
+                """try:
+                    URL = str(self.url) + '/api/ranking/'
+
+                    response = requests.get(URL, params={'nickname': self.client.login, 'scores': 'true'})
+                    if response.ok:
+                        statistics = json.loads(response.content.decode())
+                        print(json.dumps(statistics, indent=4))
+                        print()
+    
+                    # TO DO statistics for specific player
+                    self.game_over_for_player.emit(True)
+                except requests.exceptions.RequestException or requests.exceptions.Timeout \
+                           or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
+                    text = "Can't connect to management server"
+                    self.error_connection_server_logging.emit(True, text)
+                    print(text)"""
+            else:
+                pass
+
 
     @pyqtSlot(bool, str, str)
     def have_map_params_response(self, value, params_json, flag):
