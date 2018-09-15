@@ -64,6 +64,8 @@ class Client(QtCore.QObject):
                         self.get_info_from_server.emit(True, str(packet), "BOMB_BLOW")
                     elif packet["type"] == "END_GAME":
                         self.get_info_from_server.emit(True, str(packet), "END_GAME")
+                    elif packet["type"] == "WINNER":
+                        self.get_info_from_server.emit(True, str(packet), "WINNER")
 
 
             except ConnectionRefusedError:

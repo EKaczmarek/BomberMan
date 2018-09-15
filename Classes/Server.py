@@ -5,6 +5,7 @@ from PyQt5 import QtCore
 import time
 import requests
 from threading import Thread
+from Classes.CONFIG.config_services import services_config
 
 class Server(QtCore.QObject):
 
@@ -24,6 +25,8 @@ class Server(QtCore.QObject):
         self.host = None
         self.port = None
         self.size = None
+
+        self.url = 'http://' + str(services_config['IP'] + ':' + str(services_config['port']))
 
     def connectWithClient(self):
         self.host = ''
@@ -69,6 +72,28 @@ class Server(QtCore.QObject):
                 if key == id:
                     nickname = value
         return nickname
+
+    def send_info_to_client_winner(self, info_about_players, player_id ):
+
+        addr = ('', '')
+        for k, v in self.dict_players.items():
+            if k == player_id:
+                addr = v[0], v[1]
+
+        print(addr)
+        res_info_about_player = ''
+        for i in info_about_players:
+            for k, v in i.items():
+                if k == 'id':
+                    res_info_about_player = i
+                    break
+
+        data = {"type": "WINNER", 'SCORES': res_info_about_player}
+
+        print("wyslano ", res_info_about_player)
+        print("addr ", addr)
+        self.s.sendto(json.dumps(data).encode("utf-8"), addr)
+
 
     def send_info_to_client_game_over(self, info_about_players, player_id):
         print("send info about game over client ", info_about_players)
@@ -116,14 +141,14 @@ class Server(QtCore.QObject):
         # TO DO
         self.player_nr += 1
 
-        # time.sleep(10)
+        time.sleep(10)
 
 
         # TO DO oczekiwanie na graczy
         self.game_state.number_players = self.player_nr + 1
         print(self.game_state.number_players)
 
-        self.can_send = True
+        #self.can_send = True
 
         if self.game_state.number_players > 1: # >
             self.game_state.place = self.game_state.number_players - 1
@@ -206,14 +231,16 @@ class Server(QtCore.QObject):
     def send_info_to_db(self, info_about_players):
         new_statistics = {}
 
+        print("info_about players ", info_about_players)
+
         for i in info_about_players:
             name = i.pop('nickname')
             id = i.pop('id')
             new_statistics[name] = i
-        print("new statistics ", new_statistics)
+        print("new statistics send to server", new_statistics)
 
-        try:
-            URL = 'http://192.168.43.102:8080/api/privileged/ranking/'
+        """try:
+            URL = str(self.url) + '/api/privileged/ranking/'
             AUTH = requests.auth.HTTPBasicAuth('game_server', 'game_server123')
             response = requests.post(URL, auth=AUTH, json=new_statistics)
             if response.ok:
@@ -223,7 +250,7 @@ class Server(QtCore.QObject):
                 or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
             text = "Can't connect to management server"
             self.error_connection_server_logging.emit(True, text)
-            print(text)
+            print(text)"""
 
 
     def reaction_on_bomb(self, addr, data):
@@ -252,6 +279,7 @@ class Server(QtCore.QObject):
             # wysłanie informacji o bombie
             elif c == "BOMB":
                 self.reaction_on_bomb(addr, data)
+
 
             # opuszczenie gry przez gracza
             elif c == "EXIT":

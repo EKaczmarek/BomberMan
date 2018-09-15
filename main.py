@@ -14,8 +14,8 @@ if __name__ == "__main__":
     application = Application(sys.argv)
     application.setup_all_windows(services_URL)
     # application.show_login_window()
-    # application.play_game.run_game("Rafał")
-    application.show_ranking_window()
+    application.play_game.run_game("Rafał")
+    # application.show_ranking_window()
 
     # signals from interfaces
     application.loginWindow.logging_signal.connect(application.logging_signal_response)

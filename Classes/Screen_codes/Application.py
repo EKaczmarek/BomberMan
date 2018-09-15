@@ -122,12 +122,13 @@ class Application(QApplication):
     @pyqtSlot(bool, str)
     def player_lost_game(self, value, scores):
         if value:
-            print("player_lost_game_signal")
+            print("player_lost_game_signal", scores)
             # self.player.is_running = False
 
             # self.play_game.map_game.quit_game()
             pygame.quit()
             self.show_game_over_window(scores)
+            print("po pokazaniu game over")
 
     @pyqtSlot(bool)
     def options_signal_response(self, value):

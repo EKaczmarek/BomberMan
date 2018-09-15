@@ -23,6 +23,15 @@ class Application_server(QApplication):
 
             self.server.send_info_to_db(self.server.info_about_players)
 
+            answer = self.server.game_state.how_many_players_left()
+            print("players left ", answer)
+
+            if answer == 1:
+                id_winner = self.server.game_state.get_winner_id()
+                self.server.send_info_to_client_winner(self.server.info_about_players, player_id)
+
+
+
     def set_bomb_thread(self, addr, data):
         # print("begin set bomb response")
         player_id = self.server.get_player_id(addr)
@@ -70,18 +79,24 @@ class Application_server(QApplication):
 
             if list_dead_players != []:
                 self.server.game_state.game_over.emit(True, player_id, self.server.game_state.place)
-
                 self.server.game_state.place -= 1
 
                 dictionary_dead_players = {}
                 for k in list_dead_players:
                     dictionary_dead_players[k] = self.server.game_state.get_player_pos(k)
 
+
                 payload = {"type": "PLAYER_DEAD", "PLAYERS_POS": dictionary_dead_players}
                 for key, value in self.server.dict_players.items():
                     self.server.s.sendto(json.dumps(payload).encode("utf-8"), value)
 
                 print("dictionary_dead_players ", dictionary_dead_players)
+
+                self.server.game_state.remove_player_from_map(dictionary_dead_players)
+                print("Usunieto gracza z planszy ")
+
+                answer = self.server.game_state.how_many_players_left()
+                print(answer)
 
         # print("end set bomb response")
 

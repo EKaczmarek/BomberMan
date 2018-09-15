@@ -30,14 +30,26 @@ class Game_state(QtCore.QObject):
         self.level = map(''.join, zip(*[iter(board)]*15))
         self.walls_bricks()
 
-    def how_many_players_left(self):
-        player_no = 0
+    def get_winner_id(self):
+        id = ''
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:
                     if self.game[i][j].desc[0:6] == "player":
-                        player_no += 1
-        return player_no
+                        name, id = self.game[i][j].desc.split(" ")
+                        print("wygral ", id)
+        return id
+
+
+
+    def how_many_players_left(self):
+        player_ammount = 0
+        for i in range(len(self.game)):
+            for j in range(len(self.game[i])):
+                if self.game[i][j] != 0:
+                    if self.game[i][j].desc[0:6] == "player":
+                        player_ammount += 1
+        return player_ammount
 
     def walls_bricks(self):
         x = 450
@@ -85,6 +97,19 @@ class Game_state(QtCore.QObject):
                 else:
                     print("empty", end="\t")
             print(end='\n')"""
+
+    def remove_player_from_map(self, json_dead):
+        print("json dead ", json_dead)
+        if json_dead != {}:
+            for k, v in json_dead.items():
+                print("id gracza ", k)
+                x, y = v[0], v[1]
+                self.game[y][x] = 0
+                print("X ", x)
+                print("y ", y)
+
+        print("Po usunieciu gracza na serwerze")
+
 
     def player_can_leave_bomb(self, player_id):
 

@@ -67,15 +67,6 @@ class Board(object):
         self.set_player_position(answer)
         self.set_list_of_players(answer)
 
-    def remove_player_from_map(self, json_dead):
-        print("json dead ", json_dead)
-        if json_dead["PLAYERS_POS"] != {}:
-            for k, v in json_dead["PLAYERS_POS"].items():
-                print("id gracza ", k)
-                x, y = v[0], v[1]
-                self.game[x][y] = 0
-
-        self.display_all()
 
     def show_efects_blow(self, json_bomb_blowing):
 
@@ -187,7 +178,10 @@ class Board(object):
         self.myfont = pygame.font.Font(None, 30)
         self.font = pygame.font.SysFont("monospace", 40)
 
-        pygame.mixer.music.load(r"Classes/Music/music.wav")
+        # pygame.mixer.music.load(r"Classes/Music/music.wav")
+
+        pygame.mixer.music.load(r"Classes/Music/whole_game.mp3")
+        pygame.mixer.music.play(-1,0.0)
 
         # game board
         for i in range(len(self.game)):
@@ -270,9 +264,9 @@ class Board(object):
         bomberman_right = pygame.image.load(r"Classes/Pictures/playerR.png").convert()
         empty = pygame.image.load(r"Classes/Pictures/empty.png").convert()
 
-        players_speed = pygame.image.load(r"Classes/Pictures/Background.png").convert()
-        bombs_no = pygame.image.load(r"Classes/Pictures/obiekt.png").convert()
-        bombs_range = pygame.image.load(r"Classes/Pictures/bomb.png").convert()
+        players_speed = pygame.image.load(r"Classes/Pictures/speed.png").convert()
+        bombs_no = pygame.image.load(r"Classes/Pictures/powerup_bomba.png").convert()
+        bombs_range = pygame.image.load(r"Classes/Pictures/powerup_zasieg.png").convert()
 
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
@@ -304,10 +298,8 @@ class Board(object):
                     pygame.draw.rect(self.screen, (255, 255, 255), (x, y, 50, 50))
 
         self.label = self.myfont.render(self.login, 1, (0, 0, 0))
-        self.label_bombs = self.myfont.render("BOMBY:", 1, (0, 0, 0))
 
         self.screen.blit(self.label, (75, 100))
-        self.screen.blit(self.label_bombs, (100, 150))
 
         self.exitBtn.show(self.screen)
         self.menuBtn.show(self.screen)
