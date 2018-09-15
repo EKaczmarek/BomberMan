@@ -20,12 +20,12 @@ class Board(object):
     def __init__(self):
         self.load_images()
         self.screen = None
-        self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 600))
-        self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 600))
+        self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 400))
+        self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 400))
         self.game = [[0 for col in range(15)] for row in range(15)]
 
         self.game_state = None
-
+        self.login = None
 
     def set_player_number(self, answer):
         for key, value in answer.items():
@@ -58,7 +58,7 @@ class Board(object):
                 self.game[y][x] = player_to_game.get_player()
                 # print("list of players x y " + str(player_to_game.x) + " " + str(player_to_game.y))
 
-    def handle_serwer_ans_on_get(self, answer_on_get):
+    def handle_serwer_ans_on_get(self, answer_on_get, login):
         # I know it's dangerous but on windows json.loads doesnt work here :(
         answer = ast.literal_eval(answer_on_get)
 
@@ -87,7 +87,6 @@ class Board(object):
                 posx, posy = self.table_to_pixels(int(i[0]), int(i[1]))
                 self.screen.blit(self.images[x], (posx, posy))
                 pygame.display.flip()
-
         self.show_board()
 
         for i in list_to_destroy:
@@ -103,8 +102,10 @@ class Board(object):
         self.show_board()
 
     def set_bomb_on_map(self, json_bombs):
+
         json_bombs = ast.literal_eval(json_bombs)
         x, y = json_bombs["BOMB_POS"]["x"], json_bombs["BOMB_POS"]["y"]
+
 
         x_pixels, y_pixels = self.table_to_pixels(x, y)
         bomb = Bomb(x_pixels, y_pixels, json_bombs["whose_bomb"])
@@ -177,16 +178,22 @@ class Board(object):
 
 
 
-    def init_map(self):
+    def init_map(self, login):
         pygame.init()
+        self.login = login
+
         self.screen = pygame.display.set_mode((1200, 750))
         self.screen.fill((255, 255, 255))
+        self.myfont = pygame.font.Font(None, 30)
+        self.font = pygame.font.SysFont("monospace", 40)
+
         pygame.mixer.music.load(r"Classes/Music/music.wav")
 
         # game board
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 self.game[i][j] = 0
+
 
     def set_objects_on_map(self):
         self.walls_bricks()
@@ -296,6 +303,12 @@ class Board(object):
                     x, y = self.table_to_pixels(j, i)
                     pygame.draw.rect(self.screen, (255, 255, 255), (x, y, 50, 50))
 
+        self.label = self.myfont.render(self.login, 1, (0, 0, 0))
+        self.label_bombs = self.myfont.render("BOMBY:", 1, (0, 0, 0))
+
+        self.screen.blit(self.label, (75, 100))
+        self.screen.blit(self.label_bombs, (100, 150))
+
         self.exitBtn.show(self.screen)
         self.menuBtn.show(self.screen)
 
@@ -312,7 +325,6 @@ class Board(object):
                     print("\t", end="\t")
             print(end='\n')"""
 
-        print("\n")
 
 
 

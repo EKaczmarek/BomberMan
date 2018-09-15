@@ -92,48 +92,51 @@ class Server(QtCore.QObject):
         self.s.sendto(json.dumps(data).encode("utf-8"), addr)
 
     def reaction_on_get(self, addr, lista_graczy, players_login):
-            self.dict_players[self.player_nr] = addr
+        self.dict_players[self.player_nr] = addr
 
-            self.pl_number_name[self.player_nr] = players_login
+        self.pl_number_name[self.player_nr] = players_login
 
-            if self.player_nr == 0:
-                self.player_pos = {"x": 1, "y": 1}
-            elif self.player_nr == 1:
-                self.player_pos = {"x": 13, "y": 1}
-            elif self.player_nr == 2:
-                self.player_pos = {"x": 1, "y": 13}
-            elif self.player_nr == 3:
-                self.player_pos = {"x": 13, "y": 13}
+        if self.player_nr == 0:
+            self.player_pos = {"x": 1, "y": 1}
+        elif self.player_nr == 1:
+            self.player_pos = {"x": 13, "y": 1}
+        elif self.player_nr == 2:
+            self.player_pos = {"x": 1, "y": 13}
+        elif self.player_nr == 3:
+            self.player_pos = {"x": 13, "y": 13}
+        self.players_to_send[self.player_nr] = self.player_pos
+        lista_graczy.append(self.dict_players)
 
-            self.players_to_send[self.player_nr] = self.player_pos
-            lista_graczy.append(self.dict_players)
+        # slownik numer gracza - nazxwa gracza
+        # lista self.players_number_to_name
+        self.players_number_to_name.append(self.pl_number_name)
+        print("Odwzorowowanie number gracza - login ", self.players_number_to_name)
+        self.to_send = {}
 
-            # slownik numer gracza - nazxwa gracza
-            # lista self.players_number_to_name
-            self.players_number_to_name.append(self.pl_number_name)
-            print("Odwzorowowanie number gracza - login ", self.players_number_to_name)
-            self.to_send = {}
+        # TO DO
+        self.player_nr += 1
 
-            # TO DO
-            self.player_nr += 1
+        # time.sleep(10)
 
-            time.sleep(10)
-            # TO DO oczekiwanie na graczy
-            self.game_state.number_players = self.player_nr + 1
-            print(self.game_state.number_players)
 
-            if self.game_state.number_players > 1: # >
-                self.game_state.place = self.game_state.number_players
+        # TO DO oczekiwanie na graczy
+        self.game_state.number_players = self.player_nr + 1
+        print(self.game_state.number_players)
 
-                for key, value in self.dict_players.items():
-                    self.send_info_players_game(key, value)
-            else:
-                print("No one to play :(")
-                # TO DO
-                # send info to client that no one to play
+        self.can_send = True
 
-            for k, v in self.to_send.items():
-                self.s.sendto((json.dumps(self.to_send[k])).encode("utf-8"), k)
+        if self.game_state.number_players > 1: # >
+            self.game_state.place = self.game_state.number_players - 1
+
+            for key, value in self.dict_players.items():
+                self.send_info_players_game(key, value)
+                self.can_send = True
+        else:
+            print("No one to play :(")
+
+
+        # TO DO
+       # send info to client that no one to play
 
     def send_info_players_game(self, key, value):
         nickname = self.find_nickname(key)
@@ -235,8 +238,11 @@ class Server(QtCore.QObject):
 
             # wyslanie informacji o planszy, jaka pozycje ma zajac gracz, o pozycjach inn
             if c == "GET":
+                self.can_send = False
                 self.reaction_on_get(addr, lista_graaczy, json.loads(data)['login'])
-
+                if self.can_send == True:
+                    for k, v in self.to_send.items():
+                        self.s.sendto((json.dumps(self.to_send[k])).encode("utf-8"), k)
             # wysłanie informacji o pozycji:
             #   do gracza od ktorego przyszla zwrotnej informacji ze jest ok
             #   do pozostałych informacji o tym że inny gracz wykonał ruch

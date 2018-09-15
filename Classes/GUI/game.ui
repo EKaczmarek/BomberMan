@@ -172,7 +172,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Nie można połączć sie z serwerem</string>
+    <string/>
    </property>
   </widget>
  </widget>

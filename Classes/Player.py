@@ -10,7 +10,7 @@ import re
 import json
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
-
+from threading import Thread
 
 
 class Player(QtCore.QObject):
@@ -71,14 +71,11 @@ class Player(QtCore.QObject):
                         if e.key == pygame.K_DOWN:
                             self.move(0, 50)
                         if e.key == pygame.K_b:
-                            bomb_explode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
-                            pygame.mixer.Sound.play(bomb_explode)
-                            self.send_to_server_info_bomb()
-
+                            thread = Thread(target=self.set_bomb_board, args=[])
+                            thread.start()
                     # actions = clicking Exit, Menu
                     if e.type == pygame.QUIT:
                         self.is_running = False
-
                     if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                         self.exit_key = True
                         self.send_message_to_server("EXIT")
@@ -86,12 +83,15 @@ class Player(QtCore.QObject):
                         mouse = pygame.mouse.get_pos()
                         print("typ mouse ", type(mouse))
                         self.button_clicked_on_pygame.emit(True, mouse)
-
-
             pygame.quit()
         except:
             pygame.quit()
 
+    def set_bomb_board(self):
+        self.send_to_server_info_bomb()
+        bomb_explode = pygame.mixer.Sound('Classes/Music/TimeBomb.wav')
+        time.sleep(1)
+        pygame.mixer.Sound.play(bomb_explode)
 
     def move(self, dx, dy):
 

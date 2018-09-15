@@ -53,6 +53,8 @@ class Ranking(QDialog, Ui_Dialog):
             self.error_connection_server_logging.emit(True, text)
             print(text)
 
+
+
     def get_left_bombs(self):
         AUTH = requests.auth.HTTPBasicAuth(self.player, self.password)
 
@@ -76,6 +78,9 @@ class Ranking(QDialog, Ui_Dialog):
             self.error_connection_server_logging.emit(True, text)
             print(text)
 
+
+
+
     def set_login_password_ranking(self, player, password):
         self.player = player
         self.password = password
@@ -86,18 +91,29 @@ class Ranking(QDialog, Ui_Dialog):
         for k, v in self.statistics_others.items():
             self.tableWidget.insertRow(row)
             self.tableWidget.setItem(row, 0, QTableWidgetItem(str(k)))
-            self.tableWidget.setItem(row, 1, QTableWidgetItem(str(v)))
+            for i in v:
+                self.tableWidget.setItem(row, 1, QTableWidgetItem(str(i['players_count'])))
+                self.tableWidget.setItem(row, 2, QTableWidgetItem(str(i['place'])))
             row += 1
 
-        row = 0
+    def check_repeated(self):
+        list_keys = []
         for k, v in self.statistics_others.items():
-            print("value ", v)
-            if len(v):
-                self.tableWidget.setItem(row, 2, QTableWidgetItem(str(v[0]['players_count'])))
-            row += 1
+            if list_keys is not []:
+                if k in list_keys:
+                    del self.statistics_others[k]
+                else:
+                    list_keys.append(k)
+        print("po check_repeated ", self.statistics_others)
 
     @pyqtSlot()
     def on_button_search_clicked(self):
+        self.tableWidget.setRowCount(0)
+
+        self.statistics_others = {}
+        self.statistics_others = {'toreno96': [{'id': 1, 'bombs': 11, 'players_count': 3, 'place': 3}], 'Ela': [{'place': 1, 'bomb_set': 2, 'players_count': 1}, {'id': 1, 'bombs': 3, 'players_count': 3, 'place': 3}, {'id': 0, 'bombs': 0, 'players_count': 3, 'place': 0}], 'Alice': [{'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}], 'Bob': [{'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}], 'Charlie': [{'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}], 'ELaaa': []}
+
+        self.check_repeated()
         nickname = self.lineEdit_nickname.text()
         print("self.statisctics_others ", self.statistics_others)
         if nickname != '':
@@ -122,8 +138,7 @@ class Ranking(QDialog, Ui_Dialog):
                             self.tableWidget.setItem(row, 2, QTableWidgetItem(str(j['place'])))
                     row += 1
         else:
-            pass
-            # self.reload_all()
+            self.reload_all()
 
     @pyqtSlot()
     def on_button_back_clicked(self):

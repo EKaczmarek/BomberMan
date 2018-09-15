@@ -6,8 +6,6 @@ from PyQt5 import QtCore
 from threading import Thread
 import ast
 import pygame
-import requests
-import json
 
 class PlayGame(QtCore.QObject):
 
@@ -39,7 +37,7 @@ class PlayGame(QtCore.QObject):
 
     def run_game(self, login):
         # # print("In main game")
-        self.client.connect_to_serwer("192.168.0.101")
+        self.client.connect_to_serwer("192.168.0.103")
 
         self.client.login = login
         # get map from server
@@ -152,8 +150,8 @@ class PlayGame(QtCore.QObject):
         # # print("Odpowiedz serwera to : ", params_json)
         self.is_running = True
 
-        self.map_game.init_map()
-        self.map_game.handle_serwer_ans_on_get(params_json)
+        self.map_game.init_map(self.client.login)
+        self.map_game.handle_serwer_ans_on_get(params_json, self.client.login)
 
         self.map_game.set_objects_on_map()
         self.player.set_players_pos(self.map_game.pos,
