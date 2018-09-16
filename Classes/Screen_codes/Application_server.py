@@ -28,7 +28,7 @@ class Application_server(QApplication):
 
             if answer == 1:
                 id_winner = self.server.game_state.get_winner_id()
-                self.server.send_info_to_client_winner(self.server.info_about_players, player_id)
+                self.server.send_info_to_client_winner(self.server.info_about_players, id_winner)
 
 
 
@@ -97,6 +97,10 @@ class Application_server(QApplication):
 
                 answer = self.server.game_state.how_many_players_left()
                 print(answer)
+
+                if answer == 1:
+                    id_winner = self.server.game_state.get_winner_id()
+                    self.server.send_info_to_client_winner(self.server.info_about_players, id_winner)
 
         # print("end set bomb response")
 

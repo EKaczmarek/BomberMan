@@ -31,7 +31,9 @@ class Game_state(QtCore.QObject):
         self.walls_bricks()
 
     def get_winner_id(self):
+
         id = ''
+
         for i in range(len(self.game)):
             for j in range(len(self.game[i])):
                 if self.game[i][j] != 0:

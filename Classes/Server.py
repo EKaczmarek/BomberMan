@@ -77,13 +77,16 @@ class Server(QtCore.QObject):
 
         addr = ('', '')
         for k, v in self.dict_players.items():
-            if k == player_id:
+            if str(k) == player_id:
                 addr = v[0], v[1]
 
         print(addr)
         res_info_about_player = ''
+        print("info about players ", res_info_about_player)
         for i in info_about_players:
             for k, v in i.items():
+                print(k)
+                print(v)
                 if k == 'id':
                     res_info_about_player = i
                     break
@@ -91,6 +94,7 @@ class Server(QtCore.QObject):
         data = {"type": "WINNER", 'SCORES': res_info_about_player}
 
         print("wyslano ", res_info_about_player)
+        print("DO usera nr  ", player_id)
         print("addr ", addr)
         self.s.sendto(json.dumps(data).encode("utf-8"), addr)
 

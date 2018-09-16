@@ -11,6 +11,7 @@ global URL
 global AUTH
 global SERVER_CONFIG
 global SERVICES_URL
+
 SERVICES_URL = 'http://' + str(services_config['IP'] + ':' + str(services_config['port']))
 URL = str(SERVICES_URL) + '/api/privileged/game_servers/'
 AUTH = requests.auth.HTTPBasicAuth('game_server', 'game_server123')

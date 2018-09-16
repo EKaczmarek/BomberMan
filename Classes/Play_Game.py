@@ -136,6 +136,7 @@ class PlayGame(QtCore.QObject):
     def handle_info_dead_players_from_server(self, params_json):
         json_dead = ast.literal_eval(params_json)
         # self.map_game.remove_player_from_map(json_dead)
+        print("w handle info dead players from server")
 
         """for k, v in json_dead.items():
             if k == 'PLAYERS_POS':
