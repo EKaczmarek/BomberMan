@@ -7,8 +7,8 @@ if __name__ == "__main__":
 
     services_URL = 'http://' + str(services_config['IP'] + ':' + str(services_config['port']))
     # app = QApplication(sys.argv)
-    # window = Login_screen()
-    # window.show()
+        # window = Login_screen()
+        # window.show()
     # sys.exit(app.exec_())
 
     application = Application(sys.argv)

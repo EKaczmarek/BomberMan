@@ -155,7 +155,7 @@ class Server(QtCore.QObject):
         #self.can_send = True
 
         if self.game_state.number_players > 1: # >
-            self.game_state.place = self.game_state.number_players - 1
+            self.game_state.place = self.game_state.number_players
 
             for key, value in self.dict_players.items():
                 self.send_info_players_game(key, value)
@@ -226,7 +226,7 @@ class Server(QtCore.QObject):
         print(self.info_about_players)
         for i in self.info_about_players:
             if i['id'] == player_id:
-                i['bombs"'] += 1
+                i['bombs'] += 1
 
     def set_place_to_player(self, player_id, place):
         for i in self.info_about_players:
@@ -244,7 +244,7 @@ class Server(QtCore.QObject):
             new_statistics[name] = i
         print("new statistics send to server", new_statistics)
 
-        """try:
+        try:
             URL = str(self.url) + '/api/privileged/ranking/'
             AUTH = requests.auth.HTTPBasicAuth('game_server', 'game_server123')
             response = requests.post(URL, auth=AUTH, json=new_statistics)
@@ -255,7 +255,7 @@ class Server(QtCore.QObject):
                 or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
             text = "Can't connect to management server"
             self.error_connection_server_logging.emit(True, text)
-            print(text)"""
+            print(text)
 
 
     def reaction_on_bomb(self, addr, data):
