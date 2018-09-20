@@ -43,6 +43,7 @@ class Ranking(QDialog, Ui_Dialog):
             response = requests.get(URL, auth=AUTH, params={'scores': 'true'}, timeout=1)
 
             if response.ok:
+                self.statistics_others = {}
                 self.statistics_others = json.loads(response.content.decode())
                 print(json.dumps(self.statistics_others, indent=4))
                 print()
@@ -52,7 +53,6 @@ class Ranking(QDialog, Ui_Dialog):
             text = "Can't connect to management server"
             self.error_connection_server_logging.emit(True, text)
             print(text)
-
 
 
     def get_left_bombs(self):
@@ -110,8 +110,8 @@ class Ranking(QDialog, Ui_Dialog):
     def on_button_search_clicked(self):
         self.tableWidget.setRowCount(0)
 
-        self.statistics_others = {}
-        self.statistics_others = {'toreno96': [{'id': 1, 'bombs': 11, 'players_count': 3, 'place': 3}], 'Ela': [{'place': 1, 'bomb_set': 2, 'players_count': 1}, {'id': 1, 'bombs': 3, 'players_count': 3, 'place': 3}, {'id': 0, 'bombs': 0, 'players_count': 3, 'place': 0}], 'Alice': [{'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}], 'Bob': [{'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}], 'Charlie': [{'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}], 'ELaaa': []}
+        # self.statistics_others = {}
+        # self.statistics_others = {'toreno96': [{'id': 1, 'bombs': 11, 'players_count': 3, 'place': 3}], 'Ela': [{'place': 1, 'bomb_set': 2, 'players_count': 1}, {'id': 1, 'bombs': 3, 'players_count': 3, 'place': 3}, {'id': 0, 'bombs': 0, 'players_count': 3, 'place': 0}], 'Alice': [{'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}, {'players_count': 3, 'place': 1}], 'Bob': [{'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}, {'players_count': 3, 'place': 2}], 'Charlie': [{'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}, {'players_count': 3, 'place': 3}], 'ELaaa': []}
 
         self.check_repeated()
         nickname = self.lineEdit_nickname.text()

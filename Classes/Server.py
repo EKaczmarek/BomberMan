@@ -154,7 +154,7 @@ class Server(QtCore.QObject):
 
         #self.can_send = True
 
-        if self.game_state.number_players > 1: # >
+        if self.game_state.number_players > 1:
             self.game_state.place = self.game_state.number_players
 
             for key, value in self.dict_players.items():
