@@ -34,7 +34,7 @@ class Register(QDialog, Ui_Dialog):
     def set_url(self, url):
         self.url = url
 
-
+    a = ''
     @pyqtSlot()
     def on_button_ok_clicked(self):
         email = self.lineEdit_email.text()
@@ -42,35 +42,36 @@ class Register(QDialog, Ui_Dialog):
         password = self.lineEdit_password.text()
         repassword = self.lineEdit_repassword.text()
 
-        if password == repassword:
-            try:
-                URL = str(self.url) + '/api/users/'
-                # Add new player(s)
-                new_player = {
-                    'nickname': nickname,
-                    'email': email,
-                    'password': password,
-                }
-                # new_player put into list, because POST accepts list of players
-                response = requests.post(URL, json=[new_player], timeout=1)
-                if response.ok:
-                    print("player added: {}".format(new_player['nickname']))
-                    print()
+        if self.a == '':
+            if password == repassword:
+                try:
+                    URL = str(self.url) + '/api/users/'
+                    # Add new player(s)
+                    new_player = {
+                        'nickname': nickname,
+                        'email': email,
+                        'password': password,
+                    }
+                    # new_player put into list, because POST accepts list of players
+                    response = requests.post(URL, json=[new_player])
+                    if response.ok:
+                        print("player added: {}".format(new_player['nickname']))
+                        print()
+                        a = 'player_added'
+                        if self.label.text() is "":
+                            self.label.setText("Player added")
+                            self.label.setStyleSheet('color: green')
+                    else:
+                        print("Player not added")
+                        if self.label.text() is "":
+                            self.label.setText("Player not added")
+                            self.label.setStyleSheet('color: red')
 
-                    if self.label.text() is "":
-                        self.label.setText("Player added")
-                        self.label.setStyleSheet('color: green')
-                else:
-                    print("Player not added")
-                    if self.label.text() is "":
-                        self.label.setText("Player not added")
-                        self.label.setStyleSheet('color: red')
-
-            except requests.exceptions.RequestException or requests.exceptions.Timeout \
-                   or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
-                text = "Can't connect to management server"
-                self.error_connection_server_logging.emit(True, text)
-                print(text)
+                except requests.exceptions.RequestException or requests.exceptions.Timeout \
+                       or requests.exceptions.HTTPError or requests.exceptions.TooManyRedirects:
+                    text = "Can't connect to management server"
+                    self.error_connection_server_logging.emit(True, text)
+                    print(text)
 
     @pyqtSlot()
     def on_button_cancel_clicked(self):
