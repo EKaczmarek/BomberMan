@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
     application = Application(sys.argv)
     application.setup_all_windows(services_URL)
-    # application.show_login_window()
-    application.play_game.run_game("Rafał")
+    application.show_login_window()
+    # application.play_game.run_game("Ela")
     # application.show_ranking_window()
 
     # signals from interfaces
