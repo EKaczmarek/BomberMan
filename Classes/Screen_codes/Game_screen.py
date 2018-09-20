@@ -28,7 +28,6 @@ class Game(QDialog, Ui_Dialog):
 
         self.button_play.clicked.connect(self.on_button_play_clicked)
         self.button_ranking.clicked.connect(self.on_ranking_button_clicked)
-        self.button_options.clicked.connect(self.on_options_button_clicked)
         self.button_exit.clicked.connect(self.on_exit_button_clicked)
 
     def set_login(self, login, password):

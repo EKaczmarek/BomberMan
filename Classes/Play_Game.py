@@ -124,6 +124,7 @@ class PlayGame(QtCore.QObject):
                 self.game_over_for_player.emit(True, params_json)
             elif flag == "WINNER":
                 print("wygralesm ", self.client.login)
+                #self.game_over_for_player.emit(True, params_json)
 
         else:
             pass
@@ -138,11 +139,12 @@ class PlayGame(QtCore.QObject):
         # self.map_game.remove_player_from_map(json_dead)
         print("w handle info dead players from server")
 
-        """for k, v in json_dead.items():
+        for k, v in json_dead.items():
             if k == 'PLAYERS_POS':
                 for key, value in v.items():
-                    if key == self.map_game.my_id:
-                        self.game_over_for_player.emit(True)"""
+                    if key == str(self.map_game.my_id):
+                        print("koniec gry")
+
 
     def handle_blowing_bomb(self, params_json):
         self.map_game.show_efects_blow(params_json)

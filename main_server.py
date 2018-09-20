@@ -17,7 +17,7 @@ URL = str(SERVICES_URL) + '/api/privileged/game_servers/'
 AUTH = requests.auth.HTTPBasicAuth('game_server', 'game_server123')
 SERVER_CONFIG = {
     "name": "foo123",
-    "ip": "192.168.1.1",
+    "ip": "192.168.1.103",
     "port": random.randint(8888, 9999),
     "max_players_count": 20
 }
@@ -71,7 +71,6 @@ if __name__ == "__main__":
     application.server.set_bomb.connect(application.set_bomb_response)
     application.server.game_state.game_over.connect(application.game_over_response)
 
-    print("jifsdfdsf")
     sys.exit(application.exec_())
 
 

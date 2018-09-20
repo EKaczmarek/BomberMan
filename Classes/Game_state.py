@@ -42,8 +42,6 @@ class Game_state(QtCore.QObject):
                         print("wygral ", id)
         return id
 
-
-
     def how_many_players_left(self):
         player_ammount = 0
         for i in range(len(self.game)):

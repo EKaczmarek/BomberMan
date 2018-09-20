@@ -103,22 +103,22 @@ class Server(QtCore.QObject):
         print("send info about game over client ", info_about_players)
         addr = ('', '')
         for k, v in self.dict_players.items():
-            if k == player_id:
-                addr = v[0], v[1]
+            print("k ", k)
+            print("self.dict_platyers ", self.dict_players)
+            addr = v[0], v[1]
 
-        print(addr)
-        res_info_about_player = ''
-        for i in info_about_players:
-            for k, v in i.items():
-                if k == 'id':
-                    res_info_about_player = i
-                    break
+            print(addr)
+            res_info_about_player = ''
+            for i in info_about_players:
+                for key, value in i.items():
+                    print("value ", value)
+                    if key == 'id' and str(value) == str(k):
+                        res_info_about_player = i
+                        break
 
-        print(res_info_about_player)
-        data = {"type": "END_GAME", 'SCORES': res_info_about_player}
-        print("wyslano ", res_info_about_player)
-        print("addr ", addr)
-        self.s.sendto(json.dumps(data).encode("utf-8"), addr)
+            data = {"type": "END_GAME", 'SCORES': res_info_about_player}
+            print("wyslano ", res_info_about_player)
+            self.s.sendto(json.dumps(data).encode("utf-8"), addr)
 
     def reaction_on_get(self, addr, lista_graczy, players_login):
         self.dict_players[self.player_nr] = addr
@@ -149,7 +149,7 @@ class Server(QtCore.QObject):
 
 
         # TO DO oczekiwanie na graczy
-        self.game_state.number_players = self.player_nr + 1
+        self.game_state.number_players = self.player_nr
         print(self.game_state.number_players)
 
         #self.can_send = True
@@ -223,9 +223,10 @@ class Server(QtCore.QObject):
                     self.s.sendto(json.dumps(data).encode("utf-8"), self.dict_players[i])
 
     def add_bomb_to_player(self, player_id):
+        print(self.info_about_players)
         for i in self.info_about_players:
-            if i["id"] == player_id:
-                i["bombs"] += 1
+            if i['id'] == player_id:
+                i['bombs"'] += 1
 
     def set_place_to_player(self, player_id, place):
         for i in self.info_about_players:
