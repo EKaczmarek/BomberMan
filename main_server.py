@@ -56,7 +56,7 @@ if __name__ == "__main__":
     new_server = SERVER_CONFIG
     # json file to run main_server.py
     try:
-        response = requests.post(URL, auth=AUTH, json=[new_server], timeout=1 )
+        response = requests.post(URL, auth=AUTH, json=[new_server], timeout=1)
         if response.ok:
             print("Server created: {}".format(new_server['name']))
             print()
@@ -65,7 +65,6 @@ if __name__ == "__main__":
 
     except requests.exceptions.RequestException:
         text = "Can't connect to management server"
-        #self.error_connection_server_logging.emit(True, text)
         print(text)
 
     application.server.set_bomb.connect(application.set_bomb_response)

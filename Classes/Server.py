@@ -262,6 +262,8 @@ class Server(QtCore.QObject):
         # sprawdzenie ile bomb zostawił gracz i ile może zostawić
         self.set_bomb.emit(True, addr, data)
 
+
+
     # wysylanie informacji do klienta na podstawie otrzymanej wiadomosci
     def sending_to_client(self, data, addr):
         lista_graaczy = []

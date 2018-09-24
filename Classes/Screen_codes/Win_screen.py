@@ -7,11 +7,11 @@ from PyQt5 import QtCore
 import requests
 import ast
 
-qtCreatorFile = "Classes/GUI/game_over.ui"
+qtCreatorFile = "Classes/GUI/win.ui"
 Ui_Dialog, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
-class Game_over(QDialog, Ui_Dialog):
+class Win(QDialog, Ui_Dialog):
 
     show_main_screen_signal = QtCore.pyqtSignal(bool)
     player = None
@@ -34,12 +34,12 @@ class Game_over(QDialog, Ui_Dialog):
         self.player = player
         self.password = password
 
-    def set_values(self, scores):
+    def set_values_win(self, scores):
         print("answer ", scores)
 
-        self.NAME_VALUE.setText("Daniel")
+        self.NAME_VALUE.setText("Ela")
         self.LEFT_BOMBS_VALUE.setText(str(scores['SCORES']['bombs']))
-        self.PLACE_VALUE.setText(str(scores['SCORES']['place']))
+        self.PLACE_VALUE.setText(str(scores['SCORES']['place'] + 1))
 
     @pyqtSlot()
     def on_button_main_clicked(self):

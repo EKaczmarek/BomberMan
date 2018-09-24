@@ -1,8 +1,7 @@
 import socket
 from PyQt5 import QtCore
 import json
-from PyQt5.QtCore import pyqtSlot
-
+import datetime
 
 class Client(QtCore.QObject):
 
@@ -42,6 +41,9 @@ class Client(QtCore.QObject):
         self.sendMessage(payload)
         print(payload)
 
+    def set_time_ping(self):
+        self.time_ping = datetime.datetime.time(datetime.datetime.now())
+
     # wątek umożliwiający odbieranie wiadomosci o aktualizacji pozycji gracza/ bomby
     def listening(self):
         while 1:
@@ -66,13 +68,17 @@ class Client(QtCore.QObject):
                         self.get_info_from_server.emit(True, str(packet), "END_GAME")
                     elif packet["type"] == "WINNER":
                         self.get_info_from_server.emit(True, str(packet), "WINNER")
-
-
+                    elif packet["type"] == "PING":
+                        self.set_time_ping()
+                        print("ping ", self.time_ping)
+            except ConnectionError:
+                print("Brak polaczenia z serwerem ConnectionError")
+            except ConnectionAbortedError:
+                print("Brak polaczenia z serwerem ConnectionAbortedError")
             except ConnectionRefusedError:
-                pass
+                print("Brak polaczenia z serwerem ConnectionRefusedError")
             except ConnectionResetError:
-                # TO DO
-                print("Brak polaczenia z serwerem")
+                print("Brak polaczenia z serwerem ConnectionResetError")
 
     def close_connection(self):
         self.server.close()

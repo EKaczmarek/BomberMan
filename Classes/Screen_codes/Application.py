@@ -2,7 +2,7 @@
 from PyQt5.QtWidgets import QApplication
 import sys
 import pygame
-
+import ast
 from Classes.Screen_codes.Bad_data_screen import Bad_data
 from Classes.Screen_codes.Game_screen import Game
 from Classes.Screen_codes.Login_screen import Login_screen
@@ -10,7 +10,7 @@ from Classes.Screen_codes.Options_screen import Options
 from Classes.Screen_codes.Ranking_screen import Ranking
 from Classes.Screen_codes.Game_over_screen import Game_over
 from Classes.Screen_codes.Error_server import Error_server
-
+from Classes.Screen_codes.Win_screen import Win
 # TO DO register
 from Classes.Screen_codes.Register_screen import Register
 
@@ -32,6 +32,7 @@ class Application(QApplication):
 
         self.play_game = None
         self.game_over = None
+        self.win = None
 
         self.error_server = None
 
@@ -124,11 +125,36 @@ class Application(QApplication):
         if value:
             print("player_lost_game_signal", scores)
             # self.player.is_running = False
+            scores = ast.literal_eval(scores)
+            for k, v in scores.items():
+                if k == 'SCORES':
+                    for key, value in v.items():
+                        if key == 'place':
+                            if value == 0:
+                                print(value)
+                                print(type(value))
+                                pygame.quit()
+                                self.show_win_window(scores)
+                                print("po pokazaniu winner")
+                            else:
+                                # self.play_game.map_game.quit_game()
+                                pygame.quit()
+                                self.show_game_over_window(scores)
+                                print("po pokazaniu game over")
 
-            # self.play_game.map_game.quit_game()
-            pygame.quit()
-            self.show_game_over_window(scores)
-            print("po pokazaniu game over")
+    @pyqtSlot(bool, str)
+    def player_win_response(self, value, scores):
+        if value:
+            print("player_win_signal", scores)
+            # self.player.is_running = False
+            scores = ast.literal_eval(scores)
+
+            for k, v in scores.items():
+                if k == 'type' and v == 'WINNER':
+                    # self.play_game.map_game.quit_game()
+                    pygame.quit()
+                    self.show_win_window(scores)
+                    print("po pokazaniu winner")
 
     @pyqtSlot(bool)
     def options_signal_response(self, value):
@@ -196,6 +222,11 @@ class Application(QApplication):
         game_over = Game_over()
         self.setup_game_over_window(game_over)
         self.game_over.set_url(self.URL)
+
+
+        win = Win()
+        self.setup_win_window(win)
+        self.win.set_url(self.URL)
 
         error_server = Error_server()
         self.error_server = error_server
@@ -287,6 +318,17 @@ class Application(QApplication):
     def show_game_over_window(self, scores):
         self.game_over.set_values(scores)
         self.game_over.show()
+
+
+    def setup_win_window(self, win):
+        self.win = win
+
+    def hide_win_window(self):
+        self.win.hide()
+
+    def show_win_window(self, scores):
+        self.win.set_values_win(scores)
+        self.win.show()
 
     def setup_play_game(self, play_game):
         self.play_game = play_game

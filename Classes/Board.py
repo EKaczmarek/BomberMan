@@ -22,6 +22,8 @@ class Board(object):
         self.screen = None
         self.exitBtn = btn.Button(os.path.join("Pictures", "exit.png"), (200, 400))
         self.menuBtn = btn.Button(os.path.join("Pictures", "menu.png"), (400, 400))
+        self.musicBtn = btn.Button(os.path.join("Pictures", "muzyka.png"), (400, 100))
+
         self.game = [[0 for col in range(15)] for row in range(15)]
 
         self.game_state = None
@@ -181,7 +183,7 @@ class Board(object):
         # pygame.mixer.music.load(r"Classes/Music/music.wav")
 
         pygame.mixer.music.load(r"Classes/Music/whole_game.mp3")
-        pygame.mixer.music.play(-1,0.0)
+        pygame.mixer.music.play(-1, 0.0)
 
         # game board
         for i in range(len(self.game)):
@@ -303,6 +305,8 @@ class Board(object):
 
         self.exitBtn.show(self.screen)
         self.menuBtn.show(self.screen)
+
+        self.musicBtn.show(self.screen)
 
         pygame.display.flip()
         pygame.display.update()

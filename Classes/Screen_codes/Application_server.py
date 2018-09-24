@@ -116,6 +116,7 @@ class Application_server(QApplication):
         thread = Thread(target=self.server.listening, args=[])
         thread.start()
 
+
     def setup_server(self):
         server = Server.Server()
         self.server = server

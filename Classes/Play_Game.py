@@ -10,7 +10,7 @@ import pygame
 class PlayGame(QtCore.QObject):
 
     game_over_for_player = QtCore.pyqtSignal(bool, str)
-
+    player_win = QtCore.pyqtSignal(bool, str)
     error_connection_server_logging = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent = None):
@@ -19,6 +19,7 @@ class PlayGame(QtCore.QObject):
         self.player = None
         self.map_game = None
         self.client = None
+        self.music = 1
 
         self.is_running = False
 
@@ -37,7 +38,7 @@ class PlayGame(QtCore.QObject):
 
     def run_game(self, login):
         # # print("In main game")
-        self.client.connect_to_serwer("192.168.43.75")
+        self.client.connect_to_serwer("192.168.0.100")
 
         self.client.login = login
         # get map from server
@@ -46,7 +47,6 @@ class PlayGame(QtCore.QObject):
 
         thread = Thread(target=self.client.listening, args=[])
         thread.start()
-
 
     def setup_player(self, player):
         self.player = player
@@ -75,8 +75,18 @@ class PlayGame(QtCore.QObject):
                 print("Kliknieto na back ")
                 self.client.sendMessage({"type": "EXIT"})
                 print("login ", self.client.login)
-
                 pygame.quit()
+
+            elif self.map_game.musicBtn.button.collidepoint(mouse_pos):
+                if self.music == 1:
+                    print("Kliknieto aby wylaczyc muzyke ")
+                    pygame.mixer.music.stop()
+                    self.music = 2
+                elif self.music == 2:
+                    pygame.mixer.music.load(r"Classes/Music/whole_game.mp3")
+                    pygame.mixer.music.play(-1, 0.0)
+                    self.music = 1
+
 
                 # TO DO
                 """try:
@@ -123,7 +133,8 @@ class PlayGame(QtCore.QObject):
             elif flag == "END_GAME":
                 self.game_over_for_player.emit(True, params_json)
             elif flag == "WINNER":
-                print("wygralesm ", self.client.login)
+                print("wygralesm ", params_json)
+                self.player_win.emit(True, params_json)
                 #self.game_over_for_player.emit(True, params_json)
 
         else:

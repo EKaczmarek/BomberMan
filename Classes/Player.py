@@ -70,7 +70,7 @@ class Player(QtCore.QObject):
                             self.move(0, -50)
                         if e.key == pygame.K_DOWN:
                             self.move(0, 50)
-                        if e.key == pygame.K_b:
+                        if e.key == pygame.K_SPACE:
                             thread = Thread(target=self.set_bomb_board, args=[])
                             thread.start()
                     # actions = clicking Exit, Menu
