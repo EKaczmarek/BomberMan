@@ -111,5 +111,4 @@ class Player(QtCore.QObject):
         self.board.cl.sendMessage(message)
 
     def send_to_server_info_bomb(self):
-        player_id = self.my_id
-        self.player_has_left_bomb.emit(True, player_id)
+        self.player_has_left_bomb.emit(True, self.my_id)

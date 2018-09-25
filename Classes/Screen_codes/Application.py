@@ -308,6 +308,8 @@ class Application(QApplication):
 
     def show_register_window(self):
         self.registerWindow.show()
+        self.registerWindow.label.setText("Player added")
+        self.registerWindow.label.setStyleSheet('color: green')
 
     def setup_game_over_window(self, game_over):
         self.game_over = game_over

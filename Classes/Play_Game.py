@@ -206,14 +206,11 @@ class PlayGame(QtCore.QObject):
         if value:
             self.client.send_position_update(dx/50, dy/50)
 
-
     @pyqtSlot(bool, str)
     def player_has_left_bomb_response(self, value, player_id):
         if value:
             print("w player left bomb response")
             x, y = self.map_game.get_player_position(player_id)
-            # print("player id ", player_id)
-            # print("player position x y " + str(x) + " " + str(y))
             self.client.send_info_about_bomb(y, x)
 
 
